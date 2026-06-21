@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://dvgdgi3jrhrvt"]
+
+[ext_resource type="Script" uid="uid://dvklekqgmq23f" path="res://player.gd" id="1_ig7tw"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_kus3t"]
+size = Vector3(20, 0.2, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kus3t"]
+size = Vector3(20, 0.2, 20)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_kus3t"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mcm6f"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8t50h"]
+sky_top_color = Color(0.15294118, 0.14509805, 0.76862746, 1)
+sky_horizon_color = Color(0.52713996, 0.6674572, 0.7481964, 1)
+
+[sub_resource type="Sky" id="Sky_mcm6f"]
+sky_material = SubResource("ProceduralSkyMaterial_8t50h")
+
+[sub_resource type="Environment" id="Environment_kus3t"]
+background_mode = 2
+sky = SubResource("Sky_mcm6f")
+ambient_light_source = 3
+ambient_light_energy = 0.67
+
+[node name="Main" type="Node3D" unique_id=147114746]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=480581205]
+transform = Transform3D(0.85716736, 0.3928032, -0.33312136, -4.656613e-10, 0.6467898, 0.7626684, 0.515038, -0.6537344, 0.55440706, -3, 3.0369086, -0.01238355)
+light_color = Color(1, 1, 0.7058824, 1)
+
+[node name="Ground" type="StaticBody3D" parent="." unique_id=1152015460]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=976442100]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_kus3t")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=2128547441]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("BoxShape3D_kus3t")
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1189924292]
+script = ExtResource("1_ig7tw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player" unique_id=47329624]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+mesh = SubResource("CapsuleMesh_kus3t")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=1587327740]
+shape = SubResource("CapsuleShape3D_mcm6f")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1944998629]
+transform = Transform3D(1, 0, 0, 0, 0.9396926, 0.34202012, 0, -0.34202012, 0.9396926, 0, 5, 8)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1526688121]
+environment = SubResource("Environment_kus3t")
