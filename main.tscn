@@ -51,6 +51,8 @@ mesh = SubResource("CapsuleMesh_mcm6f")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=1587327740]
 shape = SubResource("CapsuleShape3D_mcm6f")
 
+[node name="Skeleton3D" type="Skeleton3D" parent="Player" unique_id=1012056889]
+
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1944998629]
 transform = Transform3D(1, 0, 0, 0, 0.9396926, 0.34202012, 0, -0.34202012, 0.9396926, 0, 5, 8)
 
