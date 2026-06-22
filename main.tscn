@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dvklekqgmq23f" path="res://player.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://dym42y1g7fi70" path="res://assets/character/idle.tscn" id="2_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://tc25hs8ht8yl" path="res://assets/character/fast_run.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://ccd2qwj0jylxd" path="res://assets/character/jump.tscn" id="4_1bvp3"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_kus3t"]
 size = Vector3(20, 0.2, 20)
@@ -52,6 +53,8 @@ script = ExtResource("1_ig7tw")
 shape = SubResource("CapsuleShape3D_mcm6f")
 
 [node name="Skeleton3D" type="Skeleton3D" parent="Player" unique_id=1012056889]
+
+[node name="JumpModel" parent="Player" unique_id=1706862951 instance=ExtResource("4_1bvp3")]
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1944998629]
 transform = Transform3D(1, 0, 0, 0, 0.9396926, 0.34202012, 0, -0.34202012, 0.9396926, 0, 5, 8)
