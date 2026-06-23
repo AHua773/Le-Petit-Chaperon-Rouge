@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://ccd2qwj0jylxd"]
+
+[ext_resource type="PackedScene" uid="uid://b3wgokbx51u0o" path="res://assets/character/Jump.fbx" id="1_d7dbh"]
+
+[node name="Jump" unique_id=1706862951 instance=ExtResource("1_d7dbh")]
