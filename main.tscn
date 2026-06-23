@@ -1,14 +1,15 @@
 [gd_scene format=3 uid="uid://dvgdgi3jrhrvt"]
 
 [ext_resource type="Script" uid="uid://dvklekqgmq23f" path="res://player.gd" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://dym42y1g7fi70" path="res://assets/character/idle.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://tc25hs8ht8yl" path="res://assets/character/fast_run.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://ccd2qwj0jylxd" path="res://assets/character/jump.tscn" id="4_1bvp3"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_kus3t"]
 size = Vector3(20, 0.2, 20)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kus3t"]
 size = Vector3(20, 0.2, 20)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_mcm6f"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mcm6f"]
 
@@ -34,7 +35,7 @@ light_color = Color(1, 1, 0.7058824, 1)
 [node name="Ground" type="StaticBody3D" parent="." unique_id=1152015460]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=976442100]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 1, -0.02580309, 0.0063769817, -0.005312681)
 mesh = SubResource("BoxMesh_kus3t")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=2128547441]
@@ -44,14 +45,16 @@ shape = SubResource("BoxShape3D_kus3t")
 [node name="Player" type="CharacterBody3D" parent="." unique_id=1189924292]
 script = ExtResource("1_ig7tw")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Player" unique_id=47329624]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
-mesh = SubResource("CapsuleMesh_mcm6f")
+[node name="RunModel" parent="Player" unique_id=1392810359 instance=ExtResource("3_h2yge")]
+
+[node name="IdleModel" parent="Player" unique_id=1974997972 instance=ExtResource("2_0xm2m")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=1587327740]
 shape = SubResource("CapsuleShape3D_mcm6f")
 
 [node name="Skeleton3D" type="Skeleton3D" parent="Player" unique_id=1012056889]
+
+[node name="JumpModel" parent="Player" unique_id=1706862951 instance=ExtResource("4_1bvp3")]
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1944998629]
 transform = Transform3D(1, 0, 0, 0, 0.9396926, 0.34202012, 0, -0.34202012, 0.9396926, 0, 5, 8)
