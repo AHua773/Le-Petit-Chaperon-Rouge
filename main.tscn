@@ -1,15 +1,16 @@
 [gd_scene format=3 uid="uid://dvgdgi3jrhrvt"]
 
+[ext_resource type="PackedScene" uid="uid://cie0c5gowwpd2" path="res://assets/scene/KayKit_HalloweenBits_1.0_FREE/Assets/gltf/crypt.gltf" id="1_efxa6"]
 [ext_resource type="Script" uid="uid://dvklekqgmq23f" path="res://player.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://dym42y1g7fi70" path="res://assets/character/idle.tscn" id="2_0xm2m"]
+[ext_resource type="MeshLibrary" uid="uid://m5c0ogrbeekx" path="res://scene/MashLibrary/road.tres" id="3_dg77c"]
 [ext_resource type="PackedScene" uid="uid://tc25hs8ht8yl" path="res://assets/character/fast_run.tscn" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://ccd2qwj0jylxd" path="res://assets/character/jump.tscn" id="4_1bvp3"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_kus3t"]
-size = Vector3(20, 0.2, 20)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_kus3t"]
-size = Vector3(20, 0.2, 20)
+[ext_resource type="MeshLibrary" uid="uid://c52s5nqax363c" path="res://scene/MashLibrary/floor.tres" id="5_floor"]
+[ext_resource type="PackedScene" uid="uid://bmjacfq5ohr6y" path="res://assets/scene/Free Forest Nature Pack/Trees/Spruce/Flat_Tree_Spruce_medium.glb" id="6_5vw27"]
+[ext_resource type="PackedScene" uid="uid://cvh2rovu6u1pm" path="res://assets/scene/Free Forest Nature Pack/Trees/Spruce/Flat_Tree_Spruce_small.glb" id="7_kek77"]
+[ext_resource type="PackedScene" uid="uid://den6co0owfriw" path="res://assets/scene/Free Forest Nature Pack/Extras/Flat_Fallen_Log.glb" id="7_ycdy4"]
+[ext_resource type="PackedScene" uid="uid://js34a0ro843s" path="res://assets/scene/Free Forest Nature Pack/Trees/Pine/Flat_Tree_Pine_small.glb" id="8_4c57u"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mcm6f"]
 
@@ -28,26 +29,115 @@ ambient_light_energy = 0.67
 
 [node name="Main" type="Node3D" unique_id=147114746]
 
+[node name="Scene" type="Node3D" parent="." unique_id=1659452923]
+
+[node name="House" parent="Scene" unique_id=86634453 instance=ExtResource("1_efxa6")]
+transform = Transform3D(0.0008508861, 0, -0.9999997, 0, 1, 0, 0.9999997, 0, 0.0008508861, 0.05314529, 0.1, -26.982)
+
+[node name="Ground" type="GridMap" parent="Scene" unique_id=932189024]
+mesh_library = ExtResource("5_floor")
+cell_size = Vector3(4, 0.1, 4)
+data = {
+"cells": PackedInt32Array(65534, 4, 0, 65535, 0, 0, 65535, 1, 0, 65535, 2, 0, 65535, 3, 0, 65535, 4, 0, 65535, 5, 0, 65535, 6, 0, 65535, 7, 0, 65532, 7, 0, 65533, 7, 0, 65534, 7, 0, 0, 7, 0, 1, 7, 0, 2, 7, 0, 3, 7, 0, 65532, 6, 0, 65532, 5, 0, 65532, 4, 0, 65532, 3, 0, 65532, 2, 0, 65532, 1, 0, 65532, 0, 0, 65533, 0, 0, 65534, 0, 0, 65534, 3, 0, 65534, 2, 0, 65534, 1, 0, 65533, 1, 0, 65533, 2, 0, 65533, 3, 0, 65533, 4, 0, 65533, 5, 0, 65533, 6, 0, 65534, 6, 0, 65534, 5, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 3, 1, 0, 3, 2, 0, 3, 3, 0, 3, 4, 0, 3, 5, 0, 3, 6, 0, 2, 6, 0, 2, 5, 0, 2, 4, 0, 1, 4, 0, 1, 3, 0, 1, 2, 0, 1, 1, 0, 2, 1, 0, 2, 2, 0, 2, 3, 0, 1, 5, 0, 1, 6, 0, 0, 5, 0, 0, 4, 0, 0, 3, 0, 0, 2, 0, 0, 6, 0, 65532, 65535, 0, 65532, 65534, 0, 65532, 65533, 0, 65532, 65532, 0, 65532, 65531, 0, 65532, 65530, 0, 65532, 65529, 0, 65532, 65528, 0, 65533, 65528, 0, 65534, 65528, 0, 65535, 65528, 0, 0, 65528, 0, 1, 65528, 0, 2, 65528, 0, 3, 65528, 0, 3, 65529, 0, 3, 65530, 0, 3, 65531, 0, 3, 65532, 0, 3, 65533, 0, 3, 65534, 0, 3, 65535, 0, 2, 65535, 0, 2, 65534, 0, 2, 65533, 0, 2, 65532, 0, 2, 65531, 0, 2, 65530, 0, 2, 65529, 0, 1, 65529, 0, 0, 65530, 0, 1, 65530, 0, 1, 65531, 0, 1, 65532, 0, 1, 65533, 0, 1, 65534, 0, 1, 65535, 0, 0, 65535, 0, 0, 65534, 0, 0, 65533, 0, 0, 65532, 0, 0, 65531, 0, 0, 65529, 0, 65535, 65529, 0, 65534, 65529, 0, 65533, 65529, 0, 65533, 65530, 0, 65534, 65530, 0, 65535, 65530, 0, 65535, 65531, 0, 65535, 65532, 0, 65535, 65533, 0, 65534, 65532, 0, 65534, 65531, 0, 65533, 65531, 0, 65533, 65532, 0, 65533, 65533, 0, 65533, 65534, 0, 65533, 65535, 0, 65534, 65535, 0, 65534, 65534, 0, 65534, 65533, 0, 65535, 65534, 0, 65535, 65535, 0)
+}
+
+[node name="Road" type="GridMap" parent="Scene" unique_id=545945398]
+mesh_library = ExtResource("3_dg77c")
+cell_size = Vector3(2, 0.1, 2)
+data = {
+"cells": PackedInt32Array(65535, 14, 3, 0, 14, 2, 0, 12, 2, 0, 13, 1, 65535, 13, 1, 65535, 12, 0, 0, 11, 0, 65535, 11, 3, 1, 11, 2, 1, 10, 1, 0, 10, 3, 0, 9, 1, 1, 9, 2, 65535, 9, 3, 1, 8, 3, 1, 7, 0, 0, 6, 0, 0, 4, 1, 65535, 3, 1, 65535, 4, 1, 0, 1, 1, 65534, 1, 1, 65534, 0, 1, 65532, 65534, 1, 65533, 65535, 1, 65533, 65532, 1, 65534, 65532, 1, 1, 0, 1, 2, 0, 1, 1, 1, 1, 65533, 65530, 1, 65534, 65529, 1, 65533, 65528, 1, 65534, 65526, 1, 65533, 65527, 1, 65535, 65525, 1, 0, 65525, 1, 65535, 65524, 1, 3, 65535, 1, 65530, 65533, 1, 65531, 65533, 1, 4, 65535, 1, 4, 65534, 2, 65535, 0, 2, 65534, 2, 3, 65535, 2, 3, 65535, 1, 3, 65532, 65535, 3, 65533, 65534, 3, 65533, 65531, 3, 65533, 65529, 3, 65533, 65526, 3, 0, 65526, 3, 65534, 65524, 3, 65532, 65524, 3, 65532, 65532, 3, 65532, 65533, 3, 65533, 65533, 2, 3, 65534, 2, 65535, 5, 2, 0, 7, 2, 2, 65535, 3, 65535, 6, 3, 65535, 7, 1, 65534, 65535, 1, 0, 65523, 1)
+}
+
+[node name="Trees" type="Node3D" parent="Scene" unique_id=19859661]
+transform = Transform3D(1, -2.9802322e-08, 0, 2.9802322e-08, 1.0000001, 2.9802322e-08, 1.4901161e-08, 2.9802322e-08, 1, 4.7683716e-07, -3.8146973e-06, -1.9073486e-06)
+
+[node name="Flat_Tree_Spruce_medium" parent="Scene/Trees" unique_id=1407013088 instance=ExtResource("6_5vw27")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -3.058, 0.1, 27.498)
+
+[node name="Flat_Tree_Spruce_medium3" parent="Scene/Trees" unique_id=2061984233 instance=ExtResource("6_5vw27")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -3.058, 0.1, 8.129583)
+
+[node name="Flat_Tree_Spruce_medium8" parent="Scene/Trees" unique_id=398117240 instance=ExtResource("6_5vw27")]
+transform = Transform3D(0.3, -7.9409334e-24, 0, -1.3322676e-16, 0.3, 0, 0, 0, 0.3, 1.7688937, 0.09999993, 5.9617767)
+
+[node name="Flat_Tree_Spruce_medium4" parent="Scene/Trees" unique_id=1548769966 instance=ExtResource("6_5vw27")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 3.1045346, 0.1, -1.0586395)
+
+[node name="Flat_Tree_Spruce_medium5" parent="Scene/Trees" unique_id=652400853 instance=ExtResource("6_5vw27")]
+transform = Transform3D(0.3, -7.9409334e-24, 0, -1.3322676e-16, 0.3, 0, 0, 0, 0.3, -10.006809, 0.10000008, -10.090468)
+
+[node name="Flat_Tree_Spruce_medium6" parent="Scene/Trees" unique_id=1057118120 instance=ExtResource("6_5vw27")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 6.8628, 0.1, -10.090468)
+
+[node name="Flat_Tree_Spruce_medium7" parent="Scene/Trees" unique_id=809496222 instance=ExtResource("6_5vw27")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -10.3719635, 0.1, -24.501564)
+
+[node name="Flat_Tree_Spruce_medium2" parent="Scene/Trees" unique_id=237313888 instance=ExtResource("6_5vw27")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 3.0118585, 0.1, 27.498)
+
+[node name="Flat_Tree_Spruce_small" parent="Scene/Trees" unique_id=85776584 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, -1.3234888e-23, 0, -2.2204458e-16, 0.5, 0, 4.440892e-16, 0, 0.5, -4, 0.100000285, 16.479404)
+
+[node name="Flat_Tree_Spruce_small13" parent="Scene/Trees" unique_id=1084602569 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, -1.3234888e-23, 0, -2.2204458e-16, 0.5, 0, 4.440892e-16, 0, 0.5, -4, 0.10000044, 11.166605)
+
+[node name="Flat_Tree_Spruce_small11" parent="Scene/Trees" unique_id=1264850332 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, -1.3234888e-23, 0, -2.2204458e-16, 0.5, 0, 4.440892e-16, 0, 0.5, 4.818962, 0.09999983, 23.002295)
+
+[node name="Flat_Tree_Spruce_small12" parent="Scene/Trees" unique_id=588575161 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, -1.3234888e-23, 0, -2.2204458e-16, 0.5, 0, 4.440892e-16, 0, 0.5, -7.87405, 0.1000002, 23.002295)
+
+[node name="Flat_Tree_Spruce_small2" parent="Scene/Trees" unique_id=1585023138 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 6.981658, 0.1, 26)
+
+[node name="Flat_Tree_Spruce_small3" parent="Scene/Trees" unique_id=1893079973 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 6.981658, 0.1, 14.259605)
+
+[node name="Flat_Tree_Spruce_small4" parent="Scene/Trees" unique_id=287217106 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -9.231259, 0.1, 14.259605)
+
+[node name="Flat_Tree_Spruce_small5" parent="Scene/Trees" unique_id=1754815014 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -5.637265, 0.1, 3.4376783)
+
+[node name="Flat_Tree_Spruce_small6" parent="Scene/Trees" unique_id=1531738256 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -10.754963, 0.1, -14.886189)
+
+[node name="Flat_Tree_Spruce_small7" parent="Scene/Trees" unique_id=1034335779 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, -1.3234888e-23, 0, -2.2204458e-16, 0.5, 0, 4.440892e-16, 0, 0.5, 0.46076298, 0.100000106, -8.6727915)
+
+[node name="Flat_Tree_Spruce_small8" parent="Scene/Trees" unique_id=385002142 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 7.2063484, 0.1, -18.750113)
+
+[node name="Flat_Tree_Spruce_small9" parent="Scene/Trees" unique_id=298603931 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -6.527588, 0.1, -18.750113)
+
+[node name="Flat_Tree_Pine_small" parent="Scene/Trees" unique_id=1363160579 instance=ExtResource("8_4c57u")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -6.062, 0.1, 27.877)
+
+[node name="Flat_Tree_Pine_small2" parent="Scene/Trees" unique_id=608591017 instance=ExtResource("8_4c57u")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 8.977364, 0.1, 8.6617775)
+
+[node name="Flat_Tree_Pine_small3" parent="Scene/Trees" unique_id=999736060 instance=ExtResource("8_4c57u")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 4.171932, 0.1, -15.878933)
+
+[node name="Flat_Tree_Pine_small4" parent="Scene/Trees" unique_id=830231239 instance=ExtResource("8_4c57u")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 8.871835, 0.1, -26.373806)
+
+[node name="Flat_Fallen_Log" parent="Scene/Trees" unique_id=2007071116 instance=ExtResource("7_ycdy4")]
+transform = Transform3D(0.7608277, 9.103568e-09, 0.24726747, -1.5305288e-08, 0.8, 1.7640142e-08, -0.24726747, -2.1507011e-08, 0.7608277, -4.62, 0.1, -9.063)
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=480581205]
-transform = Transform3D(0.85716736, 0.3928032, -0.33312136, -4.656613e-10, 0.6467898, 0.7626684, 0.515038, -0.6537344, 0.55440706, -3, 3.0369086, -0.01238355)
+transform = Transform3D(0.85716736, 0.39280316, -0.3331213, -4.656613e-10, 0.6467898, 0.7626684, 0.515038, -0.6537344, 0.5544071, -6.260421, 37.204304, 8.886542)
 light_color = Color(1, 1, 0.7058824, 1)
-
-[node name="Ground" type="StaticBody3D" parent="." unique_id=1152015460]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=976442100]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 1, -0.02580309, 0.0063769817, -0.005312681)
-mesh = SubResource("BoxMesh_kus3t")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=2128547441]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
-shape = SubResource("BoxShape3D_kus3t")
 
 [node name="Player" type="CharacterBody3D" parent="." unique_id=1189924292]
 script = ExtResource("1_ig7tw")
 
 [node name="RunModel" parent="Player" unique_id=1392810359 instance=ExtResource("3_h2yge")]
+visible = false
 
 [node name="IdleModel" parent="Player" unique_id=1974997972 instance=ExtResource("2_0xm2m")]
+transform = Transform3D(0.9956594, -0.046725713, 0.08049272, 0, 0.8648449, 0.50203913, -0.093071856, -0.49986, 0.86109096, 0, 0.1, 27.835266)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=1587327740]
 shape = SubResource("CapsuleShape3D_mcm6f")
@@ -55,9 +145,13 @@ shape = SubResource("CapsuleShape3D_mcm6f")
 [node name="Skeleton3D" type="Skeleton3D" parent="Player" unique_id=1012056889]
 
 [node name="JumpModel" parent="Player" unique_id=1706862951 instance=ExtResource("4_1bvp3")]
+visible = false
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1944998629]
-transform = Transform3D(1, 0, 0, 0, 0.9396926, 0.34202012, 0, -0.34202012, 0.9396926, 0, 5, 8)
+transform = Transform3D(1, 0, 0, 0, 0.9396927, 0.34202015, 0, -0.34202015, 0.9396927, 0.007987022, 5.0407324, 20.766113)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1526688121]
 environment = SubResource("Environment_kus3t")
+
+[node name="SpawnPoint" type="Marker3D" parent="." unique_id=448188102]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 27)
