@@ -1,0 +1,61 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://collectibles/memory_fragment.gd" id="1_script"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_shard"]
+size = Vector3(0.16, 0.78, 0.54)
+
+[sub_resource type="SphereMesh" id="SphereMesh_core"]
+radius = 0.12
+height = 0.24
+radial_segments = 12
+rings = 6
+
+[sub_resource type="BoxMesh" id="BoxMesh_mark"]
+size = Vector3(0.035, 0.48, 0.035)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_glow"]
+top_radius = 0.62
+bottom_radius = 0.62
+height = 0.014
+radial_segments = 28
+rings = 1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_pickup"]
+radius = 0.72
+
+[node name="MemoryFragment" type="Area3D" groups=["collectible", "memory_fragment"]]
+collision_layer = 0
+collision_mask = 1
+monitorable = false
+script = ExtResource("1_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.62, 0)
+shape = SubResource("SphereShape3D_pickup")
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="GlowRing" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.045, 0)
+mesh = SubResource("CylinderMesh_glow")
+
+[node name="Shard" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0, 0.74, 0)
+mesh = SubResource("BoxMesh_shard")
+
+[node name="Core" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76, 0)
+mesh = SubResource("SphereMesh_core")
+
+[node name="Mark" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0, 0.76, -0.2)
+mesh = SubResource("BoxMesh_mark")
+
+[node name="GlowLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.74, 0)
+light_energy = 1.1
+omni_range = 3.2
+
+[node name="VoicePlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -2.0

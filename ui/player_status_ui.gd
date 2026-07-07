@@ -8,10 +8,14 @@ extends CanvasLayer
 @onready var damage_overlay: ColorRect = $Root/DamageOverlay
 @onready var sanity_overlay: ColorRect = $Root/SanityOverlay
 @onready var blur_material: ShaderMaterial = $Root/BlurOverlay.material as ShaderMaterial
+@onready var memory_panel: Control = $Root/MemoryPanel
+@onready var memory_title_label: Label = $Root/MemoryPanel/Margin/Text/Title
+@onready var memory_line_label: Label = $Root/MemoryPanel/Margin/Text/Line
 
 var damage_flash: float = 0.0
 var low_health_pressure: float = 0.0
 var low_sanity_pressure: float = 0.0
+var memory_message_timer: float = 0.0
 
 
 func _ready() -> void:
@@ -19,11 +23,17 @@ func _ready() -> void:
 	blur_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	damage_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	sanity_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if _resolve_memory_nodes():
+		memory_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		memory_panel.visible = false
 	_update_overlays()
 
 
 func _process(delta: float) -> void:
 	damage_flash = maxf(damage_flash - delta * 2.8, 0.0)
+	if memory_message_timer > 0.0:
+		memory_message_timer = maxf(memory_message_timer - delta, 0.0)
+		_update_memory_message()
 	_update_overlays()
 
 
@@ -56,6 +66,17 @@ func show_damage_feedback() -> void:
 	_update_overlays()
 
 
+func show_memory_fragment(title: String, line: String, duration: float = 4.0) -> void:
+	if not _resolve_memory_nodes():
+		call_deferred("show_memory_fragment", title, line, duration)
+		return
+
+	memory_title_label.text = title
+	memory_line_label.text = line
+	memory_message_timer = maxf(duration, 1.0)
+	_update_memory_message()
+
+
 func _update_overlays() -> void:
 	if not _resolve_nodes():
 		return
@@ -69,6 +90,18 @@ func _update_overlays() -> void:
 
 	var sanity_alpha := low_sanity_pressure * 0.36 + low_health_pressure * 0.12
 	sanity_overlay.color = Color(0.02, 0.0, 0.045, clampf(sanity_alpha, 0.0, 0.5))
+
+
+func _update_memory_message() -> void:
+	if not _resolve_memory_nodes():
+		return
+
+	memory_panel.visible = memory_message_timer > 0.0
+	if not memory_panel.visible:
+		return
+
+	var fade_alpha := clampf(memory_message_timer / 0.35, 0.0, 1.0)
+	memory_panel.modulate.a = fade_alpha
 
 
 func _resolve_nodes() -> bool:
@@ -87,3 +120,14 @@ func _resolve_nodes() -> bool:
 		blur_material = blur_overlay.material as ShaderMaterial
 
 	return health_bar != null and sanity_bar != null and health_label != null and sanity_label != null and blur_overlay != null and damage_overlay != null and sanity_overlay != null
+
+
+func _resolve_memory_nodes() -> bool:
+	if memory_panel and memory_title_label and memory_line_label:
+		return true
+
+	memory_panel = get_node_or_null("Root/MemoryPanel") as Control
+	memory_title_label = get_node_or_null("Root/MemoryPanel/Margin/Text/Title") as Label
+	memory_line_label = get_node_or_null("Root/MemoryPanel/Margin/Text/Line") as Label
+
+	return memory_panel != null and memory_title_label != null and memory_line_label != null
