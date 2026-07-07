@@ -11,8 +11,13 @@
 [ext_resource type="PackedScene" uid="uid://cvh2rovu6u1pm" path="res://assets/scene/Free Forest Nature Pack/Trees/Spruce/Flat_Tree_Spruce_small.glb" id="7_kek77"]
 [ext_resource type="PackedScene" uid="uid://den6co0owfriw" path="res://assets/scene/Free Forest Nature Pack/Extras/Flat_Fallen_Log.glb" id="7_ycdy4"]
 [ext_resource type="PackedScene" uid="uid://js34a0ro843s" path="res://assets/scene/Free Forest Nature Pack/Trees/Pine/Flat_Tree_Pine_small.glb" id="8_4c57u"]
+[ext_resource type="PackedScene" path="res://enemies/wolf_fragment.tscn" id="9_wolf"]
+[ext_resource type="PackedScene" path="res://ui/player_status_ui.tscn" id="10_status"]
+[ext_resource type="PackedScene" path="res://collectibles/medicine_pickup.tscn" id="11_medicine"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mcm6f"]
+radius = 0.35
+height = 1.8
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8t50h"]
 sky_top_color = Color(0.15294118, 0.14509805, 0.76862746, 1)
@@ -126,11 +131,77 @@ transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 8.871835, 0.1, -26.3738
 [node name="Flat_Fallen_Log" parent="Scene/Trees" unique_id=2007071116 instance=ExtResource("7_ycdy4")]
 transform = Transform3D(0.7608277, 9.103568e-09, 0.24726747, -1.5305288e-08, 0.8, 1.7640142e-08, -0.24726747, -2.1507011e-08, 0.7608277, -4.62, 0.1, -9.063)
 
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="WolfFragment_Tutorial" parent="Enemies" instance=ExtResource("9_wolf")]
+transform = Transform3D(0.9659258, 0, 0.25881904, 0, 1, 0, -0.25881904, 0, 0.9659258, -3.8, 0.1, 18.2)
+detection_range = 5.2
+wander_radius = 1.7
+
+[node name="WolfFragment_Roadside" parent="Enemies" instance=ExtResource("9_wolf")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 4.6, 0.1, 5.6)
+detection_range = 6.4
+wander_radius = 2.4
+
+[node name="WolfFragment_ForestBendLeft" parent="Enemies" instance=ExtResource("9_wolf")]
+transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, -4.8, 0.1, 9.6)
+detection_range = 5.8
+wander_radius = 1.9
+
+[node name="WolfFragment_ForestBendRight" parent="Enemies" instance=ExtResource("9_wolf")]
+transform = Transform3D(0.64278764, 0, -0.76604444, 0, 1, 0, 0.76604444, 0, 0.64278764, 5.7, 0.1, -0.6)
+detection_range = 5.6
+wander_radius = 1.8
+
+[node name="WolfFragment_HouseApproach" parent="Enemies" instance=ExtResource("9_wolf")]
+transform = Transform3D(-0.17364818, 0, 0.9848077, 0, 1, 0, -0.9848077, 0, -0.17364818, -5.3, 0.1, -15.4)
+detection_range = 7.2
+wander_radius = 2.2
+lunge_speed = 12.5
+
+[node name="WolfFragment_HouseGateLeft" parent="Enemies" instance=ExtResource("9_wolf")]
+transform = Transform3D(0.34202015, 0, 0.9396926, 0, 1, 0, -0.9396926, 0, 0.34202015, -2.4, 0.1, -18.6)
+detection_range = 6.1
+wander_radius = 1.6
+lunge_speed = 12.6
+
+[node name="WolfFragment_HouseGateRight" parent="Enemies" instance=ExtResource("9_wolf")]
+transform = Transform3D(0.42261827, 0, -0.9063078, 0, 1, 0, 0.9063078, 0, 0.42261827, 3.4, 0.1, -21.2)
+detection_range = 5.8
+wander_radius = 1.6
+lunge_speed = 12.8
+
+[node name="WolfFragment_HouseDoorGuard" parent="Enemies" instance=ExtResource("9_wolf")]
+transform = Transform3D(0.9848077, 0, 0.17364818, 0, 1, 0, -0.17364818, 0, 0.9848077, 0.8, 0.1, -24.2)
+detection_range = 5.2
+wander_radius = 1.25
+lunge_speed = 13.0
+
+[node name="Collectibles" type="Node3D" parent="."]
+
+[node name="Mooncap_Start" parent="Collectibles" instance=ExtResource("11_medicine")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9, 0.1, 23.2)
+
+[node name="Mooncap_AfterTutorial" parent="Collectibles" instance=ExtResource("11_medicine")]
+transform = Transform3D(0.9063078, 0, -0.42261827, 0, 1, 0, 0.42261827, 0, 0.9063078, 2.8, 0.1, 13.2)
+
+[node name="Bloodcap_Crossroads" parent="Collectibles" instance=ExtResource("11_medicine")]
+transform = Transform3D(0.81915206, 0, 0.57357645, 0, 1, 0, -0.57357645, 0, 0.81915206, -6, 0.1, 3.4)
+medicine_type = 1
+
+[node name="Mooncap_HouseApproach" parent="Collectibles" instance=ExtResource("11_medicine")]
+transform = Transform3D(0.9659258, 0, 0.25881904, 0, 1, 0, -0.25881904, 0, 0.9659258, 2.2, 0.1, -8.2)
+
+[node name="Bloodcap_BeforeHouse" parent="Collectibles" instance=ExtResource("11_medicine")]
+transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, -4.2, 0.1, -20.3)
+medicine_type = 1
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=480581205]
 transform = Transform3D(0.85716736, 0.39280316, -0.3331213, -4.656613e-10, 0.6467898, 0.7626684, 0.515038, -0.6537344, 0.5544071, -6.260421, 37.204304, 8.886542)
 light_color = Color(1, 1, 0.7058824, 1)
 
-[node name="Player" type="CharacterBody3D" parent="." unique_id=1189924292]
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1189924292 groups=["player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 27)
 script = ExtResource("1_ig7tw")
 
 [node name="RunModel" parent="Player" unique_id=1392810359 instance=ExtResource("3_h2yge")]
@@ -140,6 +211,7 @@ visible = false
 transform = Transform3D(0.9956594, -0.046725713, 0.08049272, 0, 0.8648449, 0.50203913, -0.093071856, -0.49986, 0.86109096, 0, 0.1, 27.835266)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=1587327740]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("CapsuleShape3D_mcm6f")
 
 [node name="Skeleton3D" type="Skeleton3D" parent="Player" unique_id=1012056889]
@@ -147,11 +219,14 @@ shape = SubResource("CapsuleShape3D_mcm6f")
 [node name="JumpModel" parent="Player" unique_id=1706862951 instance=ExtResource("4_1bvp3")]
 visible = false
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1944998629]
-transform = Transform3D(1, 0, 0, 0, 0.9396927, 0.34202015, 0, -0.34202015, 0.9396927, 0.007987022, 5.0407324, 20.766113)
+[node name="Camera3D" type="Camera3D" parent="Player" unique_id=1944998629]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, -0.15)
+current = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1526688121]
 environment = SubResource("Environment_kus3t")
 
+[node name="PlayerStatusUI" parent="." instance=ExtResource("10_status")]
+
 [node name="SpawnPoint" type="Marker3D" parent="." unique_id=448188102]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 27)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 27)

@@ -1,0 +1,120 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/player_status_ui.gd" id="1_script"]
+
+[sub_resource type="Shader" id="Shader_screen_blur"]
+code = "shader_type canvas_item;
+
+uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_linear_mipmap;
+uniform float blur_strength = 0.0;
+
+void fragment() {
+	vec2 offset = SCREEN_PIXEL_SIZE * blur_strength;
+	vec4 center = texture(screen_texture, SCREEN_UV);
+	vec4 blur = center * 0.227027;
+	blur += texture(screen_texture, SCREEN_UV + vec2(offset.x, 0.0)) * 0.1945946;
+	blur += texture(screen_texture, SCREEN_UV - vec2(offset.x, 0.0)) * 0.1945946;
+	blur += texture(screen_texture, SCREEN_UV + vec2(0.0, offset.y)) * 0.1945946;
+	blur += texture(screen_texture, SCREEN_UV - vec2(0.0, offset.y)) * 0.1945946;
+	COLOR = mix(center, blur, clamp(blur_strength / 6.0, 0.0, 1.0));
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_screen_blur"]
+shader = SubResource("Shader_screen_blur")
+shader_parameter/blur_strength = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_bg"]
+bg_color = Color(0.025, 0.02, 0.03, 0.78)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.18, 0.16, 0.2, 0.9)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health_fill"]
+bg_color = Color(0.78, 0.02, 0.02, 0.92)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sanity_fill"]
+bg_color = Color(0.22, 0.42, 0.95, 0.9)
+
+[node name="PlayerStatusUI" type="CanvasLayer" groups=["player_status_ui"]]
+script = ExtResource("1_script")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BlurOverlay" type="ColorRect" parent="Root"]
+material = SubResource("ShaderMaterial_screen_blur")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 1)
+
+[node name="SanityOverlay" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.02, 0, 0.045, 0)
+
+[node name="DamageOverlay" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.72, 0.02, 0.01, 0)
+
+[node name="Meters" type="VBoxContainer" parent="Root"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 20.0
+offset_right = 282.0
+offset_bottom = 98.0
+theme_override_constants/separation = 4
+
+[node name="HealthLabel" type="Label" parent="Root/Meters"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.84, 1)
+theme_override_font_sizes/font_size = 13
+text = "HEALTH 100 / 100"
+
+[node name="HealthBar" type="ProgressBar" parent="Root/Meters"]
+custom_minimum_size = Vector2(260, 14)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_health_fill")
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="SanityLabel" type="Label" parent="Root/Meters"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 13
+text = "SAN 100 / 100"
+
+[node name="SanityBar" type="ProgressBar" parent="Root/Meters"]
+custom_minimum_size = Vector2(260, 12)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_sanity_fill")
+max_value = 100.0
+value = 100.0
+show_percentage = false
