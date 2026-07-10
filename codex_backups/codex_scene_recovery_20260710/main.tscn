@@ -27,7 +27,6 @@
 [ext_resource type="PackedScene" path="res://world/false_safe_door.tscn" id="22_false_door"]
 [ext_resource type="PackedScene" path="res://world/hidden_road_goal.tscn" id="23_hidden_goal"]
 [ext_resource type="PackedScene" path="res://world/hidden_forest_extension.tscn" id="24_hidden_forest"]
-[ext_resource type="Script" path="res://world/visual_obstacle_proxies.gd" id="25_visual_obstacles"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mcm6f"]
 radius = 0.35
@@ -72,7 +71,6 @@ data = {
 
 [node name="Trees" type="Node3D" parent="Scene" unique_id=19859661]
 transform = Transform3D(1, -2.9802322e-08, 0, 2.9802322e-08, 1.0000001, 2.9802322e-08, 1.4901161e-08, 2.9802322e-08, 1, 4.7683716e-07, -3.8146973e-06, -1.9073486e-06)
-script = ExtResource("25_visual_obstacles")
 
 [node name="Flat_Tree_Spruce_medium" parent="Scene/Trees" unique_id=1407013088 instance=ExtResource("6_5vw27")]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -3.058, 0.1, 27.498)
@@ -262,7 +260,7 @@ voice_clip = ExtResource("17_mem05")
 subtitle_duration = 5.0
 
 [node name="Memory_WolfDefinition" parent="Collectibles/MemoryFragments" instance=ExtResource("12_memory")]
-transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0.0, 0.1, -18.2)
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0.9, 0.1, -22.2)
 fragment_id = "memory_06"
 fragment_title = "碎片 06：半张狼面具"
 fragment_line = "狼：你以为我是狼？我是他们允许存在的那部分黑暗。"
@@ -284,11 +282,11 @@ transform = Transform3D(0.99939084, 0, -0.034899496, 0, 1, 0, 0.034899496, 0, 0.
 [node name="HiddenRoad" type="Node3D" parent="."]
 
 [node name="HiddenRoad_LeaveMainRoad" parent="HiddenRoad" instance=ExtResource("21_hidden_road")]
-transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -8.6, 0.12, 12.0)
+transform = Transform3D(0.9063078, 0, -0.42261827, 0, 1, 0, 0.42261827, 0, 0.9063078, -7.0, 0.12, -23.9)
 required_fragments_csv = "memory_01,memory_02"
 segment_title = "第一段路：离开主路"
 locked_message = "你还在用别人留下的鞋印走路。那条被删掉的小路还不完整。"
-path_size = Vector3(3.0, 0.08, 4.8)
+path_size = Vector3(3.1, 0.08, 5.6)
 
 [node name="HiddenRoad_AvoidGaze" parent="HiddenRoad" instance=ExtResource("21_hidden_road")]
 transform = Transform3D(0.76604444, 0, -0.64278764, 0, 1, 0, 0.64278764, 0, 0.76604444, -11.1, 0.12, -27.9)

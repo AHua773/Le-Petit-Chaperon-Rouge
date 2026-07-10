@@ -1,0 +1,290 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://assets/scene/Free Forest Nature Pack/Grass/Flat_Grass_large.glb" id="2_grass_large"]
+[ext_resource type="PackedScene" path="res://assets/scene/Free Forest Nature Pack/Grass/Flat_Grass_medium.glb" id="3_grass_medium"]
+[ext_resource type="PackedScene" path="res://assets/scene/Free Forest Nature Pack/Bushes/Flat_Bush_Clumps_medium.glb" id="4_bush_clumps"]
+[ext_resource type="PackedScene" path="res://assets/scene/Free Forest Nature Pack/Bushes/Flat_Bush_with_Flowers.glb" id="5_bush_flowers"]
+[ext_resource type="PackedScene" path="res://assets/scene/Free Forest Nature Pack/Rocks/Flat_Rock_03.glb" id="6_rock_03"]
+[ext_resource type="PackedScene" path="res://assets/scene/Free Forest Nature Pack/Rocks/Flat_Rock_06.glb" id="7_rock_06"]
+[ext_resource type="PackedScene" path="res://assets/scene/Free Forest Nature Pack/Extras/Flat_Fallen_Log.glb" id="8_fallen_log"]
+[ext_resource type="PackedScene" path="res://assets/scene/Free Forest Nature Pack/Trees/Spruce/Flat_Tree_Spruce_small.glb" id="9_spruce_small"]
+[ext_resource type="PackedScene" path="res://assets/scene/Free Forest Nature Pack/Trees/Pine/Flat_Tree_Pine_small.glb" id="10_pine_small"]
+[ext_resource type="PackedScene" path="res://assets/scene/Free Forest Nature Pack/Trees/Cypress/Flat_Tree_Cypress_small.glb" id="11_cypress_small"]
+[ext_resource type="PackedScene" path="res://assets/scene/Free Forest Nature Pack/Mushrooms/Flat_Mushroom_Red_small.glb" id="12_red_mushroom"]
+[ext_resource type="PackedScene" path="res://assets/scene/KayKit_HalloweenBits_1.0_FREE/Assets/gltf/path_A.gltf" id="13_path_a"]
+[ext_resource type="PackedScene" path="res://assets/scene/KayKit_HalloweenBits_1.0_FREE/Assets/gltf/path_B.gltf" id="14_path_b"]
+[ext_resource type="PackedScene" path="res://assets/scene/KayKit_HalloweenBits_1.0_FREE/Assets/gltf/path_C.gltf" id="15_path_c"]
+[ext_resource type="PackedScene" path="res://assets/scene/KayKit_HalloweenBits_1.0_FREE/Assets/gltf/fence_broken.gltf" id="16_fence_broken"]
+[ext_resource type="PackedScene" path="res://assets/scene/KayKit_HalloweenBits_1.0_FREE/Assets/gltf/gravemarker_A.gltf" id="17_gravemarker_a"]
+[ext_resource type="PackedScene" path="res://assets/scene/KayKit_HalloweenBits_1.0_FREE/Assets/gltf/gravemarker_B.gltf" id="18_gravemarker_b"]
+[ext_resource type="PackedScene" path="res://assets/scene/KayKit_HalloweenBits_1.0_FREE/Assets/gltf/post_lantern.gltf" id="19_post_lantern"]
+[ext_resource type="PackedScene" path="res://assets/scene/KayKit_HalloweenBits_1.0_FREE/Assets/gltf/candle_melted.gltf" id="20_candle_melted"]
+
+[sub_resource type="StandardMaterial3D" id="Material_memory_thread"]
+albedo_color = Color(0.95, 0.03, 0.055, 1)
+emission_enabled = true
+emission = Color(1, 0.02, 0.04, 1)
+emission_energy_multiplier = 1.45
+roughness = 0.48
+
+[sub_resource type="StandardMaterial3D" id="Material_glow_marker"]
+albedo_color = Color(0.95, 0.08, 0.08, 0.72)
+emission_enabled = true
+emission = Color(1, 0.04, 0.04, 1)
+emission_energy_multiplier = 1.9
+transparency = 1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ground_entrance"]
+size = Vector3(5.6, 0.12, 4.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ground_turn"]
+size = Vector3(6.4, 0.12, 5.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ground_deep"]
+size = Vector3(5.8, 0.12, 6.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ground_return"]
+size = Vector3(6.8, 0.12, 4.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ground_goal"]
+size = Vector3(5.4, 0.12, 3.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_barrier_west"]
+size = Vector3(0.55, 1.7, 11.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_barrier_north"]
+size = Vector3(9.4, 1.7, 0.55)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_barrier_south"]
+size = Vector3(10.8, 1.7, 0.55)
+
+[sub_resource type="BoxMesh" id="BoxMesh_thread_short"]
+size = Vector3(0.12, 0.035, 2.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_thread_long"]
+size = Vector3(0.12, 0.035, 4.7)
+
+[sub_resource type="BoxMesh" id="BoxMesh_thread_cross"]
+size = Vector3(4.2, 0.035, 0.12)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_marker"]
+top_radius = 0.28
+bottom_radius = 0.28
+height = 0.055
+radial_segments = 24
+
+[node name="HiddenForestExtension" type="Node3D"]
+
+[node name="WalkableGround" type="Node3D" parent="."]
+
+[node name="Ground_Entrance" type="StaticBody3D" parent="WalkableGround"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.3, 0.04, -22.6)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WalkableGround/Ground_Entrance"]
+shape = SubResource("BoxShape3D_ground_entrance")
+
+[node name="Ground_FirstTurn" type="StaticBody3D" parent="WalkableGround"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.3, 0.04, -25.0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WalkableGround/Ground_FirstTurn"]
+shape = SubResource("BoxShape3D_ground_turn")
+
+[node name="Ground_DeepLeft" type="StaticBody3D" parent="WalkableGround"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.0, 0.04, -28.2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WalkableGround/Ground_DeepLeft"]
+shape = SubResource("BoxShape3D_ground_deep")
+
+[node name="Ground_ReturnBend" type="StaticBody3D" parent="WalkableGround"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.0, 0.04, -31.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WalkableGround/Ground_ReturnBend"]
+shape = SubResource("BoxShape3D_ground_return")
+
+[node name="Ground_GoalPocket" type="StaticBody3D" parent="WalkableGround"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2, 0.04, -33.1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WalkableGround/Ground_GoalPocket"]
+shape = SubResource("BoxShape3D_ground_goal")
+
+[node name="BoundaryCollisions" type="Node3D" parent="."]
+
+[node name="Barrier_West" type="StaticBody3D" parent="BoundaryCollisions"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.4, 0.84, -28.0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoundaryCollisions/Barrier_West"]
+shape = SubResource("BoxShape3D_barrier_west")
+
+[node name="Barrier_North" type="StaticBody3D" parent="BoundaryCollisions"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.7, 0.84, -20.1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoundaryCollisions/Barrier_North"]
+shape = SubResource("BoxShape3D_barrier_north")
+
+[node name="Barrier_South" type="StaticBody3D" parent="BoundaryCollisions"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, 0.84, -35.3)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoundaryCollisions/Barrier_South"]
+shape = SubResource("BoxShape3D_barrier_south")
+
+[node name="DirtPathStones" type="Node3D" parent="."]
+
+[node name="PathTile_Entrance" parent="DirtPathStones" instance=ExtResource("13_path_a")]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -5.5, 0.115, -22.5)
+
+[node name="PathTile_FirstGate" parent="DirtPathStones" instance=ExtResource("14_path_b")]
+transform = Transform3D(0.76, 0, 0.32, 0, 0.82, 0, -0.32, 0, 0.76, -7.4, 0.116, -24.4)
+
+[node name="PathTile_LeftBend" parent="DirtPathStones" instance=ExtResource("15_path_c")]
+transform = Transform3D(0.62, 0, -0.45, 0, 0.78, 0, 0.45, 0, 0.62, -10.5, 0.116, -26.8)
+
+[node name="PathTile_Deep" parent="DirtPathStones" instance=ExtResource("13_path_a")]
+transform = Transform3D(0.84, 0, 0, 0, 0.84, 0, 0, 0, 0.84, -12.2, 0.116, -29.2)
+
+[node name="PathTile_Return" parent="DirtPathStones" instance=ExtResource("14_path_b")]
+transform = Transform3D(0.58, 0, 0.52, 0, 0.78, 0, -0.52, 0, 0.58, -8.6, 0.116, -31.6)
+
+[node name="PathTile_Goal" parent="DirtPathStones" instance=ExtResource("15_path_c")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -5.2, 0.116, -33.1)
+
+[node name="MemoryThread" type="Node3D" parent="."]
+
+[node name="Thread_Entrance" type="MeshInstance3D" parent="MemoryThread"]
+transform = Transform3D(0.9063078, 0, -0.42261827, 0, 1, 0, 0.42261827, 0, 0.9063078, -6.4, 0.16, -23.2)
+mesh = SubResource("BoxMesh_thread_long")
+surface_material_override/0 = SubResource("Material_memory_thread")
+
+[node name="Thread_FirstTurn" type="MeshInstance3D" parent="MemoryThread"]
+transform = Transform3D(0.81915206, 0, -0.57357645, 0, 1, 0, 0.57357645, 0, 0.81915206, -9.5, 0.16, -25.4)
+mesh = SubResource("BoxMesh_thread_long")
+surface_material_override/0 = SubResource("Material_memory_thread")
+
+[node name="Thread_Deep" type="MeshInstance3D" parent="MemoryThread"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1, 0.16, -28.5)
+mesh = SubResource("BoxMesh_thread_long")
+surface_material_override/0 = SubResource("Material_memory_thread")
+
+[node name="Thread_Return" type="MeshInstance3D" parent="MemoryThread"]
+transform = Transform3D(0.76604444, 0, 0.64278764, 0, 1, 0, -0.64278764, 0, 0.76604444, -9.0, 0.16, -31.1)
+mesh = SubResource("BoxMesh_thread_long")
+surface_material_override/0 = SubResource("Material_memory_thread")
+
+[node name="Thread_GoalPocket" type="MeshInstance3D" parent="MemoryThread"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0.16, -33.1)
+mesh = SubResource("BoxMesh_thread_short")
+surface_material_override/0 = SubResource("Material_memory_thread")
+
+[node name="GlowMarkers" type="Node3D" parent="."]
+
+[node name="Marker_FirstMemoryGate" type="MeshInstance3D" parent="GlowMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.2, 0.18, -24.1)
+mesh = SubResource("CylinderMesh_marker")
+surface_material_override/0 = SubResource("Material_glow_marker")
+
+[node name="Marker_SecondMemoryGate" type="MeshInstance3D" parent="GlowMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 0.18, -28.2)
+mesh = SubResource("CylinderMesh_marker")
+surface_material_override/0 = SubResource("Material_glow_marker")
+
+[node name="Marker_FinalMemoryGate" type="MeshInstance3D" parent="GlowMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.1, 0.18, -31.7)
+mesh = SubResource("CylinderMesh_marker")
+surface_material_override/0 = SubResource("Material_glow_marker")
+
+[node name="GlowLight_First" type="OmniLight3D" parent="GlowMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.2, 0.75, -24.1)
+light_color = Color(1, 0.08, 0.08, 1)
+light_energy = 0.35
+omni_range = 2.4
+
+[node name="GlowLight_Second" type="OmniLight3D" parent="GlowMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 0.75, -28.2)
+light_color = Color(1, 0.08, 0.08, 1)
+light_energy = 0.35
+omni_range = 2.4
+
+[node name="GlowLight_Final" type="OmniLight3D" parent="GlowMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.1, 0.75, -31.7)
+light_color = Color(1, 0.08, 0.08, 1)
+light_energy = 0.35
+omni_range = 2.4
+
+[node name="Decor" type="Node3D" parent="."]
+
+[node name="Fence_NorthBroken" parent="Decor" instance=ExtResource("16_fence_broken")]
+transform = Transform3D(0.58, 0, 0.24, 0, 0.63, 0, -0.24, 0, 0.58, -7.4, 0.105, -20.7)
+
+[node name="Fence_LeftBroken" parent="Decor" instance=ExtResource("16_fence_broken")]
+transform = Transform3D(0.1, 0, 0.62, 0, 0.64, 0, -0.62, 0, 0.1, -14.6, 0.105, -26.0)
+
+[node name="Fence_BackBroken" parent="Decor" instance=ExtResource("16_fence_broken")]
+transform = Transform3D(0.62, 0, -0.1, 0, 0.64, 0, 0.1, 0, 0.62, -8.8, 0.105, -34.5)
+
+[node name="PostLantern_Goal" parent="Decor" instance=ExtResource("19_post_lantern")]
+transform = Transform3D(0.42, 0, 0, 0, 0.42, 0, 0, 0, 0.42, -3.7, 0.105, -32.4)
+
+[node name="Gravemarker_A" parent="Decor" instance=ExtResource("17_gravemarker_a")]
+transform = Transform3D(0.55, 0, 0.12, 0, 0.55, 0, -0.12, 0, 0.55, -13.7, 0.105, -27.1)
+
+[node name="Gravemarker_B" parent="Decor" instance=ExtResource("18_gravemarker_b")]
+transform = Transform3D(0.5, 0, -0.22, 0, 0.5, 0, 0.22, 0, 0.5, -12.8, 0.105, -31.0)
+
+[node name="CandleMelted_Goal" parent="Decor" instance=ExtResource("20_candle_melted")]
+transform = Transform3D(0.36, 0, 0, 0, 0.36, 0, 0, 0, 0.36, -4.6, 0.105, -32.7)
+
+[node name="FallenLog_LeftEdge" parent="Decor" instance=ExtResource("8_fallen_log")]
+transform = Transform3D(0.65, 0, 0.36, 0, 0.8, 0, -0.36, 0, 0.65, -13.8, 0.105, -24.7)
+
+[node name="FallenLog_BackEdge" parent="Decor" instance=ExtResource("8_fallen_log")]
+transform = Transform3D(0.24, 0, 0.74, 0, 0.82, 0, -0.74, 0, 0.24, -6.8, 0.105, -34.0)
+
+[node name="Rock_EntranceA" parent="Decor" instance=ExtResource("6_rock_03")]
+transform = Transform3D(0.86, 0, 0, 0, 0.86, 0, 0, 0, 0.86, -3.9, 0.105, -21.8)
+
+[node name="Rock_EntranceB" parent="Decor" instance=ExtResource("7_rock_06")]
+transform = Transform3D(0.74, 0, 0.18, 0, 0.74, 0, -0.18, 0, 0.74, -8.9, 0.105, -21.2)
+
+[node name="Rock_DeepA" parent="Decor" instance=ExtResource("6_rock_03")]
+transform = Transform3D(0.78, 0, -0.22, 0, 0.78, 0, 0.22, 0, 0.78, -14.1, 0.105, -29.5)
+
+[node name="Rock_BackA" parent="Decor" instance=ExtResource("7_rock_06")]
+transform = Transform3D(0.7, 0, 0.25, 0, 0.7, 0, -0.25, 0, 0.7, -10.7, 0.105, -34.2)
+
+[node name="Bush_Entrance" parent="Decor" instance=ExtResource("4_bush_clumps")]
+transform = Transform3D(0.82, 0, 0, 0, 0.82, 0, 0, 0, 0.82, -5.0, 0.105, -20.8)
+
+[node name="Bush_LeftFlowers" parent="Decor" instance=ExtResource("5_bush_flowers")]
+transform = Transform3D(0.74, 0, 0.18, 0, 0.74, 0, -0.18, 0, 0.74, -14.2, 0.105, -30.8)
+
+[node name="Bush_Back" parent="Decor" instance=ExtResource("4_bush_clumps")]
+transform = Transform3D(0.86, 0, -0.18, 0, 0.86, 0, 0.18, 0, 0.86, -6.1, 0.105, -34.4)
+
+[node name="Grass_Entrance" parent="Decor" instance=ExtResource("2_grass_large")]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -6.8, 0.105, -21.2)
+
+[node name="Grass_Left" parent="Decor" instance=ExtResource("3_grass_medium")]
+transform = Transform3D(0.95, 0, 0, 0, 0.95, 0, 0, 0, 0.95, -13.2, 0.105, -25.5)
+
+[node name="Grass_Back" parent="Decor" instance=ExtResource("2_grass_large")]
+transform = Transform3D(0.82, 0, 0, 0, 0.82, 0, 0, 0, 0.82, -8.0, 0.105, -34.1)
+
+[node name="Mushroom_RedA" parent="Decor" instance=ExtResource("12_red_mushroom")]
+transform = Transform3D(0.48, 0, 0, 0, 0.48, 0, 0, 0, 0.48, -10.9, 0.105, -25.3)
+
+[node name="Mushroom_RedB" parent="Decor" instance=ExtResource("12_red_mushroom")]
+transform = Transform3D(0.42, 0, 0, 0, 0.42, 0, 0, 0, 0.42, -7.0, 0.105, -32.8)
+
+[node name="Tree_Spruce_North" parent="Decor" instance=ExtResource("9_spruce_small")]
+transform = Transform3D(0.62, 0, 0, 0, 0.62, 0, 0, 0, 0.62, -10.6, 0.105, -20.9)
+
+[node name="Tree_Pine_WestA" parent="Decor" instance=ExtResource("10_pine_small")]
+transform = Transform3D(0.58, 0, 0, 0, 0.58, 0, 0, 0, 0.58, -15.0, 0.105, -24.1)
+
+[node name="Tree_Cypress_WestB" parent="Decor" instance=ExtResource("11_cypress_small")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -15.1, 0.105, -31.7)
+
+[node name="Tree_Spruce_Back" parent="Decor" instance=ExtResource("9_spruce_small")]
+transform = Transform3D(0.64, 0, 0, 0, 0.64, 0, 0, 0, 0.64, -11.4, 0.105, -34.4)
+
+[node name="Tree_Pine_Goal" parent="Decor" instance=ExtResource("10_pine_small")]
+transform = Transform3D(0.56, 0, 0, 0, 0.56, 0, 0, 0, 0.56, -3.5, 0.105, -34.0)

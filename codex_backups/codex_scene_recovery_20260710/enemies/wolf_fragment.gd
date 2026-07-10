@@ -18,9 +18,6 @@ enum State {
 @export var knockback_force: float = 7.5
 @export var damage: float = 18.0
 @export var sanity_damage: float = 8.0
-@export_flags_3d_physics var line_of_sight_mask: int = 1
-@export var eye_height: float = 0.58
-@export var player_target_height: float = 0.95
 
 @onready var windup_marker: MeshInstance3D = $Visual/WindupMarker
 @onready var hitbox: Area3D = $Hitbox
@@ -65,7 +62,6 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 	if state == State.LUNGE:
-		_stop_lunge_on_obstacle_collision()
 		_check_lunge_hits()
 
 
@@ -163,10 +159,7 @@ func _can_see_player() -> bool:
 	if not is_instance_valid(player):
 		return false
 
-	return (
-		global_position.distance_to(player.global_position) <= detection_range
-		and _has_clear_line_to(player)
-	)
+	return global_position.distance_to(player.global_position) <= detection_range
 
 
 func _direction_to_player() -> Vector3:
@@ -215,13 +208,13 @@ func _check_lunge_hits() -> void:
 		return
 
 	for body in hitbox.get_overlapping_bodies():
-		if body.is_in_group("player") and _has_clear_line_to(body):
+		if body.is_in_group("player"):
 			_hit_player(body)
 			return
 
 
 func _on_hitbox_body_entered(body: Node3D) -> void:
-	if state == State.LUNGE and body.is_in_group("player") and _has_clear_line_to(body):
+	if state == State.LUNGE and body.is_in_group("player"):
 		_hit_player(body)
 
 
@@ -235,43 +228,3 @@ func _hit_player(body: Node3D) -> void:
 		body.apply_enemy_hit(global_position, knockback_force, damage, sanity_damage)
 
 	_enter_recover()
-
-
-func _has_clear_line_to(target: Node3D) -> bool:
-	if not is_instance_valid(target):
-		return false
-
-	var origin := global_position + Vector3.UP * eye_height
-	var target_position := target.global_position + Vector3.UP * player_target_height
-	var query := PhysicsRayQueryParameters3D.create(origin, target_position, line_of_sight_mask, [get_rid()])
-	query.collide_with_areas = false
-	query.collide_with_bodies = true
-
-	var result := get_world_3d().direct_space_state.intersect_ray(query)
-	if result.is_empty():
-		return true
-
-	var collider := result.get("collider") as Node
-	if collider == target:
-		return true
-
-	return collider != null and collider.is_in_group("player") and target.is_in_group("player")
-
-
-func _stop_lunge_on_obstacle_collision() -> void:
-	for index in range(get_slide_collision_count()):
-		var collision := get_slide_collision(index)
-		if not collision:
-			continue
-
-		if collision.get_normal().y > 0.55:
-			continue
-
-		var collider := collision.get_collider() as Node
-		if collider and collider.is_in_group("player"):
-			continue
-
-		velocity.x = 0.0
-		velocity.z = 0.0
-		_enter_recover()
-		return
