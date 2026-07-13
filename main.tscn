@@ -226,7 +226,7 @@ voice_clip = ExtResource("13_mem01")
 subtitle_duration = 4.0
 
 [node name="Memory_DeletedPath" parent="Collectibles/MemoryFragments" instance=ExtResource("12_memory")]
-transform = Transform3D(0.9396926, 0, 0.34202015, 0, 1, 0, -0.34202015, 0, 0.9396926, -7.1, 0.1, 12.7)
+transform = Transform3D(0.9396926, 0, 0.34202015, 0, 1, 0, -0.34202015, 0, 0.9396926, -2.65, 0.1, -11.35)
 fragment_id = "memory_02"
 fragment_title = "碎片 02：断掉的路牌"
 fragment_line = "小红帽：这里原来有条小路，可村里的人说，我记错了。"
@@ -284,30 +284,30 @@ transform = Transform3D(0.99939084, 0, -0.034899496, 0, 1, 0, 0.034899496, 0, 0.
 [node name="HiddenRoad" type="Node3D" parent="."]
 
 [node name="HiddenRoad_LeaveMainRoad" parent="HiddenRoad" instance=ExtResource("21_hidden_road")]
-transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -8.6, 0.12, 12.0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.4, 0.12, -16.6)
 required_fragments_csv = "memory_01,memory_02"
 segment_title = "第一段路：离开主路"
 locked_message = "你还在用别人留下的鞋印走路。那条被删掉的小路还不完整。"
-path_size = Vector3(3.0, 0.08, 4.8)
+path_size = Vector3(3.0, 0.08, 5.2)
 
 [node name="HiddenRoad_AvoidGaze" parent="HiddenRoad" instance=ExtResource("21_hidden_road")]
-transform = Transform3D(0.76604444, 0, -0.64278764, 0, 1, 0, 0.64278764, 0, 0.76604444, -11.1, 0.12, -27.9)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.8, 0.12, -21.0)
 required_fragments_csv = "memory_03,memory_04"
 segment_title = "第二段路：避开凝视"
 locked_message = "树后的眼睛还在替你决定方向。迟来的斧徽只能照亮一瞬。"
-path_size = Vector3(3.0, 0.08, 5.6)
+path_size = Vector3(3.0, 0.08, 5.4)
 preview_color = Color(0.28, 0.46, 1, 0.3)
 
 [node name="HiddenRoad_RejectDoor" parent="HiddenRoad" instance=ExtResource("21_hidden_road")]
-transform = Transform3D(0.64278764, 0, 0.76604444, 0, 1, 0, -0.76604444, 0, 0.64278764, -8.0, 0.12, -31.3)
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.4, 0.12, -23.8)
 required_fragments_csv = "memory_05,memory_06"
 segment_title = "第三段路：不走正门"
 locked_message = "你仍以为门就是安全，也仍在用狼给你的名字理解狼。"
-path_size = Vector3(3.0, 0.08, 5.8)
+path_size = Vector3(2.8, 0.08, 4.4)
 preview_color = Color(1, 0.04, 0.08, 0.34)
 
 [node name="HiddenRoadGoal" parent="HiddenRoad" instance=ExtResource("23_hidden_goal")]
-transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, -4.8, 0.14, -33.1)
+transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, -2.85, 0.14, -24.0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=480581205]
 transform = Transform3D(0.85716736, 0.39280316, -0.3331213, -4.656613e-10, 0.6467898, 0.7626684, 0.515038, -0.6537344, 0.5544071, -6.260421, 37.204304, 8.886542)

@@ -33,6 +33,7 @@ var wander_target: Vector3
 var wander_timer: float = 0.0
 var lunge_direction: Vector3 = Vector3.FORWARD
 var has_hit_player: bool = false
+var pacified_for_hidden_road: bool = false
 var player: Node3D
 
 
@@ -48,9 +49,37 @@ func reset_home_position() -> void:
 	_pick_wander_target()
 
 
+func pacify_for_hidden_road() -> void:
+	pacified_for_hidden_road = true
+	state = State.RECOVER
+	state_timer = 0.0
+	damage = 0.0
+	sanity_damage = 0.0
+	detection_range = 0.0
+	lunge_speed = 0.0
+	wander_speed = 0.0
+	has_hit_player = true
+	windup_marker.visible = false
+	hitbox.monitoring = false
+	velocity.x = 0.0
+	velocity.z = 0.0
+
+
+func set_hidden_road_windup_time(value: float) -> void:
+	windup_time = value
+	if state == State.WINDUP:
+		state_timer = maxf(state_timer, windup_time)
+
+
 func _physics_process(delta: float) -> void:
 	_refresh_player()
 	_apply_gravity(delta)
+
+	if pacified_for_hidden_road:
+		_stop_horizontal(delta)
+		windup_marker.visible = false
+		move_and_slide()
+		return
 
 	match state:
 		State.WANDER:

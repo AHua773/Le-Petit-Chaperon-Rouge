@@ -16,6 +16,8 @@ var player: Node3D
 var memory_state: Node
 var active: bool = false
 var encounter_completed: bool = false
+var hidden_road_suppressed: bool = false
+var hidden_road_windup_override: float = -1.0
 var spawn_timer: float = 0.0
 var pressure_timer: float = 0.0
 var taunt_timer: float = 0.0
@@ -28,7 +30,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if encounter_completed:
+	if encounter_completed or hidden_road_suppressed:
 		return
 
 	_refresh_player()
@@ -51,7 +53,7 @@ func _process(delta: float) -> void:
 
 
 func spawn_pressure_wave(_reason: String = "") -> void:
-	if encounter_completed:
+	if encounter_completed or hidden_road_suppressed:
 		return
 
 	if pressure_timer > 0.0:
@@ -70,6 +72,22 @@ func complete_encounter() -> void:
 	for child in summon_root.get_children():
 		if is_instance_valid(child):
 			child.queue_free()
+
+
+func suppress_for_hidden_road() -> void:
+	hidden_road_suppressed = true
+	active = false
+	visual.visible = false
+	for child in summon_root.get_children():
+		if is_instance_valid(child):
+			child.queue_free()
+
+
+func set_hidden_road_windup_time(value: float) -> void:
+	hidden_road_windup_override = value
+	for child in summon_root.get_children():
+		if is_instance_valid(child) and child.has_method("set_hidden_road_windup_time"):
+			child.set_hidden_road_windup_time(hidden_road_windup_override)
 
 
 func _spawn_minions(count: int) -> void:
@@ -96,6 +114,8 @@ func _spawn_minions(count: int) -> void:
 		minion.global_rotation = point.global_rotation
 		minion.set("detection_range", 8.5)
 		minion.set("wander_radius", 1.4)
+		if hidden_road_windup_override > 0.0:
+			minion.set("windup_time", hidden_road_windup_override)
 
 		if minion.has_method("reset_home_position"):
 			minion.reset_home_position()

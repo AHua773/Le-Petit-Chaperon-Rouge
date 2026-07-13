@@ -9,6 +9,8 @@ extends Node3D
 @export var locked_color: Color = Color(0.12, 0.02, 0.025, 0.45)
 @export var message_cooldown: float = 2.4
 @export var path_collision_enabled: bool = false
+@export var always_show_preview: bool = true
+@export var preview_min_alpha: float = 0.38
 
 @onready var path_visual: MeshInstance3D = $PathVisual
 @onready var path_body: StaticBody3D = $PathBody
@@ -24,6 +26,7 @@ var required_fragments := PackedStringArray()
 var memory_state: Node
 var is_unlocked: bool = false
 var _message_timer: float = 0.0
+var _has_announced_unlock: bool = false
 
 
 func _ready() -> void:
@@ -101,8 +104,12 @@ func _update_state() -> void:
 	if memory_state and memory_state.has_method("has_fragments"):
 		new_unlocked = memory_state.has_fragments(required_fragments)
 
+	var was_unlocked := is_unlocked
 	if new_unlocked != is_unlocked:
 		is_unlocked = new_unlocked
+		if is_unlocked and not was_unlocked and not _has_announced_unlock:
+			_has_announced_unlock = true
+			_show_path_message(segment_title, "这段路完整了。沿着红光和石路继续。", 3.2)
 
 	lock_wall.visible = not is_unlocked
 	path_collision.set_deferred("disabled", not path_collision_enabled)
@@ -115,14 +122,14 @@ func _update_state() -> void:
 		light.light_color = Color(0.82, 0.95, 1.0, 1.0)
 		light.light_energy = 1.2
 	else:
-		var alpha := lerpf(0.08, preview_color.a, progress)
+		var alpha := lerpf(preview_min_alpha, preview_color.a, progress)
 		var color := preview_color
 		color.a = alpha
-		path_visual.visible = progress > 0.0
+		path_visual.visible = always_show_preview or progress > 0.0
 		path_visual.set_surface_override_material(0, _make_material(color))
 		lock_wall_visual.set_surface_override_material(0, _make_material(locked_color))
 		light.light_color = Color(1.0, 0.08, 0.08, 1.0)
-		light.light_energy = lerpf(0.12, 0.75, progress)
+		light.light_energy = lerpf(0.42, 0.95, progress)
 
 
 func _get_progress_ratio() -> float:
@@ -139,7 +146,7 @@ func _make_material(color: Color) -> StandardMaterial3D:
 	material.albedo_color = color
 	material.emission_enabled = true
 	material.emission = Color(color.r, color.g, color.b, 1.0)
-	material.emission_energy_multiplier = 0.65
+	material.emission_energy_multiplier = 1.25
 	material.roughness = 0.7
 	if color.a < 1.0:
 		material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
@@ -156,13 +163,17 @@ func _on_trigger_body_entered(body: Node3D) -> void:
 
 
 func _show_locked_message() -> void:
+	_show_path_message(segment_title, locked_message, 3.4)
+
+
+func _show_path_message(title: String, line: String, duration: float) -> void:
 	var ui_nodes := get_tree().get_nodes_in_group("player_status_ui")
 	if ui_nodes.size() == 0:
 		return
 
 	var ui := ui_nodes[0]
 	if ui and ui.has_method("show_memory_fragment"):
-		ui.show_memory_fragment(segment_title, locked_message, 3.4)
+		ui.show_memory_fragment(title, line, duration)
 
 
 func _notify_boss_pressure() -> void:
