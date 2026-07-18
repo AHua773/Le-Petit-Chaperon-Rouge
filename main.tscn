@@ -12,13 +12,21 @@
 [ext_resource type="PackedScene" uid="uid://den6co0owfriw" path="res://assets/scene/Free Forest Nature Pack/Extras/Flat_Fallen_Log.glb" id="7_ycdy4"]
 [ext_resource type="PackedScene" uid="uid://js34a0ro843s" path="res://assets/scene/Free Forest Nature Pack/Trees/Pine/Flat_Tree_Pine_small.glb" id="8_4c57u"]
 [ext_resource type="PackedScene" path="res://enemies/wolf_fragment.tscn" id="9_wolf"]
+[ext_resource type="PackedScene" uid="uid://btvrap7f0s22s" path="res://assets/scene/ground_p1.glb" id="10_facbu"]
 [ext_resource type="PackedScene" path="res://ui/player_status_ui.tscn" id="10_status"]
+[ext_resource type="PackedScene" uid="uid://buecakqvptmyn" path="res://assets/scene/ground_p2.glb" id="11_b1qrp"]
 [ext_resource type="PackedScene" path="res://collectibles/medicine_pickup.tscn" id="11_medicine"]
+[ext_resource type="PackedScene" uid="uid://dutu67qrxwitn" path="res://assets/scene/ground_p3.glb" id="12_come4"]
 [ext_resource type="PackedScene" path="res://collectibles/memory_fragment.tscn" id="12_memory"]
+[ext_resource type="PackedScene" uid="uid://cm7knnism4udd" path="res://assets/scene/ground_p4.glb" id="13_h8e4i"]
 [ext_resource type="AudioStream" uid="uid://bqtr43hy0sfeg" path="res://audio/memory/memory_01.wav" id="13_mem01"]
+[ext_resource type="PackedScene" uid="uid://gouk4xospv72" path="res://assets/scene/ground_p5.glb" id="14_4lmeg"]
 [ext_resource type="AudioStream" uid="uid://h556kweadxbq" path="res://audio/memory/memory_02.wav" id="14_mem02"]
+[ext_resource type="PackedScene" uid="uid://df1fpilny6da7" path="res://assets/scene/ground_p6.glb" id="15_0cp0l"]
 [ext_resource type="AudioStream" uid="uid://cm786djtmu4rj" path="res://audio/memory/memory_03.wav" id="15_mem03"]
+[ext_resource type="PackedScene" uid="uid://dwgg6n8yv5c4q" path="res://assets/scene/ground_p7.glb" id="16_d2t1y"]
 [ext_resource type="AudioStream" uid="uid://d2oyhpr8iaok7" path="res://audio/memory/memory_04.wav" id="16_mem04"]
+[ext_resource type="PackedScene" uid="uid://cq4h0aaumb4kx" path="res://assets/scene/ground_p8.glb" id="17_gngh3"]
 [ext_resource type="AudioStream" uid="uid://cp0rhjq0cvy0t" path="res://audio/memory/memory_05.wav" id="17_mem05"]
 [ext_resource type="AudioStream" uid="uid://chia0edbf4jys" path="res://audio/memory/memory_06.wav" id="18_mem06"]
 [ext_resource type="Script" uid="uid://bpdiy01i8np5o" path="res://systems/memory_state.gd" id="19_memory_state"]
@@ -28,14 +36,22 @@
 [ext_resource type="PackedScene" path="res://world/hidden_road_goal.tscn" id="23_hidden_goal"]
 [ext_resource type="PackedScene" path="res://world/hidden_forest_extension.tscn" id="24_hidden_forest"]
 [ext_resource type="Script" uid="uid://br2ojfprv0mt4" path="res://world/visual_obstacle_proxies.gd" id="25_visual_obstacles"]
+[ext_resource type="PackedScene" uid="uid://dhnrryoqxbtwn" path="res://assets/scene/house_trees_rocks.glb" id="37_0n3wm"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ground"]
+size = Vector3(38, 0.3, 70)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mcm6f"]
 radius = 0.35
 height = 1.8
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8t50h"]
-sky_top_color = Color(0.15294118, 0.14509805, 0.76862746, 1)
-sky_horizon_color = Color(0.52713996, 0.6674572, 0.7481964, 1)
+sky_top_color = Color(0.16644159, 0.16670424, 0.3401844, 1)
+sky_horizon_color = Color(0.12580642, 0.098831736, 0.20917758, 1)
+sky_curve = 0.2611648
+ground_bottom_color = Color(0.02, 0.02, 0.02, 1)
+ground_horizon_color = Color(0.03, 0.03, 0.03, 1)
+sun_angle_max = 19.16
 
 [sub_resource type="Sky" id="Sky_mcm6f"]
 sky_material = SubResource("ProceduralSkyMaterial_8t50h")
@@ -44,7 +60,22 @@ sky_material = SubResource("ProceduralSkyMaterial_8t50h")
 background_mode = 2
 sky = SubResource("Sky_mcm6f")
 ambient_light_source = 3
-ambient_light_energy = 0.67
+ambient_light_energy = 0.35
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.35369244, 0.38429767, 0.43240443, 1)
+fog_light_energy = 1.58
+fog_density = 0.7835
+fog_aerial_perspective = 0.876
+fog_height_density = -0.07
+fog_depth_begin = 0.0
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0
+volumetric_fog_emission = Color(1, 0.6, 0.2, 1)
+volumetric_fog_emission_energy = 0.3
+adjustment_enabled = true
+adjustment_contrast = 1.05
+adjustment_saturation = 0.85
 
 [node name="Main" type="Node3D" unique_id=147114746]
 
@@ -148,6 +179,39 @@ transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 8.871835, 0.1, -26.3738
 
 [node name="Flat_Fallen_Log" parent="Scene/Trees" unique_id=2007071116 instance=ExtResource("7_ycdy4")]
 transform = Transform3D(0.7608277, 9.103568e-09, 0.24726747, -1.5305288e-08, 0.8, 1.7640142e-08, -0.24726747, -2.1507011e-08, 0.7608277, -4.62, 0.1, -9.063)
+
+[node name="Ground_new" type="Node3D" parent="Scene" unique_id=906464982]
+transform = Transform3D(-0.99999994, 0, 8.742277e-08, 0, 1, 0, -8.742277e-08, 0, -0.99999994, 144.86267, 0, -11.595032)
+
+[node name="GroundCollision" type="StaticBody3D" parent="Scene/Ground_new" unique_id=1082622838]
+transform = Transform3D(0.9999994, 0, 2.1316282e-14, 0, 1, 0, -2.1316282e-14, 0, 0.9999994, 80.27632, -0.14210314, -13.125656)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Scene/Ground_new/GroundCollision" unique_id=615907050]
+shape = SubResource("BoxShape3D_ground")
+
+[node name="ground_p1" parent="Scene/Ground_new" unique_id=405523222 instance=ExtResource("10_facbu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72.76222, 0, -53.228333)
+
+[node name="ground_p2" parent="Scene/Ground_new" unique_id=1865252848 instance=ExtResource("11_b1qrp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72.69906, 0, -53.261696)
+
+[node name="ground_p3" parent="Scene/Ground_new" unique_id=758035797 instance=ExtResource("12_come4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72.831665, 0, -53.32366)
+
+[node name="ground_p4" parent="Scene/Ground_new" unique_id=780397713 instance=ExtResource("13_h8e4i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72.7469, 0, -53.346054)
+
+[node name="ground_p5" parent="Scene/Ground_new" unique_id=2039360999 instance=ExtResource("14_4lmeg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72.97637, 0, -53.372517)
+
+[node name="ground_p6" parent="Scene/Ground_new" unique_id=2010887922 instance=ExtResource("15_0cp0l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72.54969, 0, -53.399452)
+
+[node name="ground_p8" parent="Scene/Ground_new" unique_id=196227283 instance=ExtResource("16_d2t1y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 73.12761, 0, -53.756065)
+
+[node name="ground_p9" parent="Scene/Ground_new" unique_id=1847681469 instance=ExtResource("17_gngh3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72.61637, 0, -53.791393)
 
 [node name="Enemies" type="Node3D" parent="." unique_id=539542634]
 
@@ -308,7 +372,9 @@ transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, -2.85, 0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=480581205]
 transform = Transform3D(0.85716736, 0.39280316, -0.3331213, -4.656613e-10, 0.6467898, 0.7626684, 0.515038, -0.6537344, 0.5544071, -6.260421, 37.204304, 8.886542)
-light_color = Color(1, 1, 0.7058824, 1)
+light_color = Color(0.3, 0.32, 0.5, 1)
+light_energy = 0.6
+shadow_enabled = true
 
 [node name="Player" type="CharacterBody3D" parent="." unique_id=1189924292 groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 27)
@@ -340,3 +406,12 @@ environment = SubResource("Environment_kus3t")
 
 [node name="SpawnPoint" type="Marker3D" parent="." unique_id=448188102]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 27)
+
+[node name="house_trees_rocks" parent="." unique_id=1309353329 instance=ExtResource("37_0n3wm")]
+transform = Transform3D(-0.99999994, 0, -8.742277e-08, 0, 1, 0, 8.742277e-08, 0, -0.99999994, 71.42235, 0, 42.572)
+
+[node name="HouseLamp" type="OmniLight3D" parent="house_trees_rocks" unique_id=1682060035]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.7503204, 2.0818024, 61.55474)
+light_color = Color(1, 0.55, 0.15, 1)
+light_energy = 10.0
+omni_range = 18.0
