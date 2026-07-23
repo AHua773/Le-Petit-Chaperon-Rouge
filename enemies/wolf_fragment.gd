@@ -192,19 +192,28 @@ func _can_see_player() -> bool:
 	if not is_instance_valid(player):
 		return false
 
-	return (
-		global_position.distance_to(player.global_position) <= detection_range
-		and _has_clear_line_to(player)
-	)
+	var to_target := _get_player_target_position() - global_position
+	to_target.y = 0.0
+
+	return to_target.length() <= detection_range and _has_clear_line_to(player)
 
 
 func _direction_to_player() -> Vector3:
 	if not is_instance_valid(player):
 		return Vector3.ZERO
 
-	var direction := player.global_position - global_position
+	var direction := _get_player_target_position() - global_position
 	direction.y = 0.0
 	return direction
+
+
+func _get_player_target_position(height_offset: float = 0.0) -> Vector3:
+	if not is_instance_valid(player):
+		return Vector3.ZERO
+	if player.has_method("get_enemy_target_position"):
+		return player.call("get_enemy_target_position", height_offset)
+
+	return player.global_position + Vector3.UP * height_offset
 
 
 func _pick_wander_target() -> void:
@@ -272,6 +281,9 @@ func _has_clear_line_to(target: Node3D) -> bool:
 
 	var origin := global_position + Vector3.UP * eye_height
 	var target_position := target.global_position + Vector3.UP * player_target_height
+	if target.has_method("get_enemy_target_position"):
+		target_position = target.call("get_enemy_target_position", player_target_height)
+
 	var query := PhysicsRayQueryParameters3D.create(origin, target_position, line_of_sight_mask, [get_rid()])
 	query.collide_with_areas = false
 	query.collide_with_bodies = true

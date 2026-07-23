@@ -29,6 +29,7 @@ enum PlayerState {
 @export var jump_anim_speed: float = 0.8
 
 @onready var camera: Camera3D = $Camera3D
+@onready var body_collision: CollisionShape3D = $CollisionShape3D
 @onready var idle_model: Node3D = $IdleModel
 @onready var run_model: Node3D = $RunModel
 @onready var jump_model: Node3D = $JumpModel
@@ -237,7 +238,7 @@ func apply_enemy_hit(source_position: Vector3, force: float, damage: float = 12.
 	if is_downed:
 		return
 
-	var knockback_direction := global_position - source_position
+	var knockback_direction := get_enemy_target_position() - source_position
 	knockback_direction.y = 0.0
 
 	if knockback_direction.length_squared() <= 0.001:
@@ -258,6 +259,16 @@ func apply_enemy_hit(source_position: Vector3, force: float, damage: float = 12.
 
 	if current_health <= 0.0:
 		_enter_downed_state()
+
+
+func get_enemy_target_position(height_offset: float = 0.0) -> Vector3:
+	var target_position := global_position
+	if body_collision:
+		target_position.x = body_collision.global_position.x
+		target_position.z = body_collision.global_position.z
+
+	target_position.y = global_position.y + height_offset
+	return target_position
 
 
 func heal(amount: float) -> void:
