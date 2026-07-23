@@ -36,7 +36,15 @@
 [ext_resource type="PackedScene" path="res://world/hidden_road_goal.tscn" id="23_hidden_goal"]
 [ext_resource type="PackedScene" path="res://world/hidden_forest_extension.tscn" id="24_hidden_forest"]
 [ext_resource type="Script" uid="uid://br2ojfprv0mt4" path="res://world/visual_obstacle_proxies.gd" id="25_visual_obstacles"]
+[ext_resource type="PackedScene" path="res://ui/virtual_joystick.tscn" id="26_virtual_joystick"]
+[ext_resource type="Script" uid="uid://851vmcql3eb6" path="res://systems/game_audio.gd" id="27_game_audio"]
 [ext_resource type="PackedScene" uid="uid://dhnrryoqxbtwn" path="res://assets/scene/house_trees_rocks.glb" id="37_0n3wm"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_boundary_x"]
+size = Vector3(1, 12, 72)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_boundary_z"]
+size = Vector3(38, 12, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mcm6f"]
 radius = 0.35
@@ -81,6 +89,33 @@ size = Vector3(38, 0.3, 70)
 
 [node name="MemoryState" type="Node" parent="." unique_id=1749602317 groups=["memory_state"]]
 script = ExtResource("19_memory_state")
+
+[node name="GameAudio" type="Node" parent="." unique_id=592673972]
+script = ExtResource("27_game_audio")
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="GameAudio" unique_id=506141160]
+volume_db = -12.0
+
+[node name="HitSound" type="AudioStreamPlayer" parent="GameAudio" unique_id=440129309]
+volume_db = -3.0
+
+[node name="PlayAreaBoundary" type="StaticBody3D" parent="." unique_id=269236874]
+
+[node name="WestWall" type="CollisionShape3D" parent="PlayAreaBoundary" unique_id=1682810301]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.87, 5, 1.53)
+shape = SubResource("BoxShape3D_boundary_x")
+
+[node name="EastWall" type="CollisionShape3D" parent="PlayAreaBoundary" unique_id=478967264]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.13, 5, 1.53)
+shape = SubResource("BoxShape3D_boundary_x")
+
+[node name="NorthWall" type="CollisionShape3D" parent="PlayAreaBoundary" unique_id=1604125275]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.13, 5, -33.47)
+shape = SubResource("BoxShape3D_boundary_z")
+
+[node name="SouthWall" type="CollisionShape3D" parent="PlayAreaBoundary" unique_id=1335671428]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.13, 5, 36.53)
+shape = SubResource("BoxShape3D_boundary_z")
 
 [node name="Scene" type="Node3D" parent="." unique_id=1659452923]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.59806, 0, -112.28673)
@@ -371,6 +406,8 @@ current = true
 environment = SubResource("Environment_kus3t")
 
 [node name="PlayerStatusUI" parent="." unique_id=221760749 instance=ExtResource("10_status")]
+
+[node name="VirtualJoystickLayer" parent="." unique_id=1699423673 instance=ExtResource("26_virtual_joystick")]
 
 [node name="SpawnPoint" type="Marker3D" parent="." unique_id=448188102]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 27)

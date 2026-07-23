@@ -10,6 +10,7 @@ enum PlayerState {
 @export var acceleration: float = 20.0
 @export var jump_velocity: float = 7.0
 @export var mouse_sensitivity: float = 0.0025
+@export var touch_look_sensitivity: float = 0.004
 @export var min_pitch: float = -75.0
 @export var max_pitch: float = 75.0
 @export var show_first_person_body: bool = false
@@ -49,6 +50,8 @@ var camera_shake_duration: float = 0.0
 var camera_shake_strength: float = 0.0
 var is_downed: bool = false
 var status_ui: Node
+var virtual_joystick: Node
+var _look_touch_index := -1
 
 
 func _ready() -> void:
@@ -64,6 +67,7 @@ func _ready() -> void:
 	jump_anim.get_animation("mixamo_com").loop_mode = Animation.LOOP_NONE
 
 	change_state(PlayerState.IDLE)
+	call_deferred("_connect_virtual_joystick")
 	call_deferred("_update_status_ui")
 
 
@@ -73,20 +77,34 @@ func _process(delta: float) -> void:
 	_update_status_ui()
 
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventScreenTouch:
+		if event.pressed and _look_touch_index == -1 and event.position.x > get_viewport().get_visible_rect().size.x * 0.5:
+			_look_touch_index = event.index
+		elif not event.pressed and event.index == _look_touch_index:
+			_look_touch_index = -1
+	elif event is InputEventScreenDrag and event.index == _look_touch_index:
+		_rotate_view(event.relative.x * touch_look_sensitivity, event.relative.y * touch_look_sensitivity)
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		current_facing_y -= event.relative.x * mouse_sensitivity
-		camera_pitch = clamp(
-			camera_pitch - event.relative.y * mouse_sensitivity,
-			deg_to_rad(min_pitch),
-			deg_to_rad(max_pitch)
-		)
-		apply_view_rotation()
+		_rotate_view(event.relative.x * mouse_sensitivity, event.relative.y * mouse_sensitivity)
 
 	if event.is_action_pressed("ui_cancel"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	elif event is InputEventMouseButton and event.pressed:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+
+func _rotate_view(yaw_delta: float, pitch_delta: float) -> void:
+	current_facing_y -= yaw_delta
+	camera_pitch = clamp(
+		camera_pitch - pitch_delta,
+		deg_to_rad(min_pitch),
+		deg_to_rad(max_pitch)
+	)
+	apply_view_rotation()
 
 
 func _physics_process(delta: float) -> void:
@@ -138,6 +156,10 @@ func handle_movement(delta: float) -> void:
 		"move_forward",
 		"move_backward"
 	)
+	if not is_instance_valid(virtual_joystick):
+		_connect_virtual_joystick()
+	if is_instance_valid(virtual_joystick) and virtual_joystick.value.length_squared() > input_vector.length_squared():
+		input_vector = virtual_joystick.value
 
 	var forward := -global_transform.basis.z
 	var right := global_transform.basis.x
@@ -159,6 +181,10 @@ func handle_movement(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0.0, acceleration * delta)
 
 	apply_view_rotation()
+
+
+func _connect_virtual_joystick() -> void:
+	virtual_joystick = get_tree().get_first_node_in_group("virtual_joystick")
 
 
 func update_state() -> void:
@@ -227,6 +253,7 @@ func apply_enemy_hit(source_position: Vector3, force: float, damage: float = 12.
 
 	_start_camera_shake(damage_camera_shake_strength, damage_camera_shake_time)
 	_show_damage_feedback()
+	_play_hit_sound()
 	_update_status_ui()
 
 	if current_health <= 0.0:
@@ -317,6 +344,12 @@ func _show_damage_feedback() -> void:
 	var ui := _get_status_ui()
 	if ui and ui.has_method("show_damage_feedback"):
 		ui.show_damage_feedback()
+
+
+func _play_hit_sound() -> void:
+	var audio := get_tree().get_first_node_in_group("game_audio")
+	if audio and audio.has_method("play_hit"):
+		audio.play_hit()
 
 
 func _update_status_ui() -> void:
