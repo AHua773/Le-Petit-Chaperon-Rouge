@@ -304,7 +304,7 @@ fragment_style = 2
 subtitle_duration = 5.2
 
 [node name="Memory_Hunter" parent="Collectibles/MemoryFragments" unique_id=1190789767 instance=ExtResource("12_memory")]
-transform = Transform3D(0.76604444, 0, 0.64278764, 0, 1, 0, -0.64278764, 0, 0.76604444, -5.8, 0.1, -20.55)
+transform = Transform3D(0.76604444, 0, 0.64278764, 0, 1, 0, -0.64278764, 0, 0.76604444, -3.2, 0.1, -20)
 fragment_id = "memory_04"
 fragment_title = "Fragment 04: The Hunter's Late Weapon"
 fragment_line = "Hunter: When it is all over, I will break down the door. My mark can only protect this small circle by the wall."
@@ -312,7 +312,7 @@ fragment_style = 3
 subtitle_duration = 5.4
 
 [node name="Memory_GrandmaDoor" parent="Collectibles/MemoryFragments" unique_id=52148925 instance=ExtResource("12_memory")]
-transform = Transform3D(0.9848077, 0, -0.17364818, 0, 1, 0, 0.17364818, 0, 0.9848077, -0.7, 0.1, -22.4)
+transform = Transform3D(0.9848077, 0, -0.17364818, 0, 1, 0, 0.17364818, 0, 0.9848077, 6.4, 0.1, -16)
 fragment_id = "memory_05"
 fragment_title = "Fragment 05: Door Deed and Key"
 fragment_line = "Grandmother: Child, I did not lock the door. The house learned to close it for them."
@@ -320,7 +320,7 @@ fragment_style = 4
 subtitle_duration = 5.0
 
 [node name="Memory_WolfDefinition" parent="Collectibles/MemoryFragments" unique_id=1378877624 instance=ExtResource("12_memory")]
-transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 1.25, 0.1, -20.65)
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 5.25, 0.1, -22.75)
 fragment_id = "memory_06"
 fragment_title = "Fragment 06: Wolf-Crest Shield"
 fragment_line = "Wolf: You think I am the wolf? I am the darkness they permit to exist."

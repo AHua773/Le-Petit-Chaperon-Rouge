@@ -1,6 +1,5 @@
 extends Area3D
 
-const BLADE_SCENE_PATH := "res://assets/collectibles/memory/models/pink_bow.glb"
 const SCROLL_SCENE_PATH := "res://assets/collectibles/memory/models/scroll.glb"
 const SHIELD_SCENE_PATH := "res://assets/collectibles/memory/models/viking_shield.glb"
 const HUNTER_WEAPON_SCENE_PATH := "res://assets/collectibles/memory/models/hunter_weapon.glb"
@@ -138,20 +137,12 @@ func _build_pink_bow_symbol(glow_color: Color, mark_color: Color) -> void:
 	var bow_mat := _make_material(Color(1.0, 0.46, 0.72, 1.0), Color(1.0, 0.18, 0.5, 1.0), 1.55, false)
 	var ribbon_shadow_mat := _make_material(Color(0.58, 0.04, 0.22, 1.0), Color(0.9, 0.04, 0.32, 1.0), 0.7, false)
 
-	_add_imported_symbol(
-		"HiddenBlade",
-		BLADE_SCENE_PATH,
-		Vector3.ONE * 0.44,
-		Vector3(0.0, 0.62, 0.08),
-		Vector3(0.0, deg_to_rad(8.0), deg_to_rad(-14.0)),
-		glow_color
-	)
-	_add_sphere("BowLeft", 0.18, 0.16, Vector3(-0.19, 1.03, -0.18), Vector3(1.45, 0.66, 0.55), bow_mat, Vector3(0.0, deg_to_rad(-14.0), deg_to_rad(22.0)))
-	_add_sphere("BowRight", 0.18, 0.16, Vector3(0.19, 1.03, -0.18), Vector3(1.45, 0.66, 0.55), bow_mat, Vector3(0.0, deg_to_rad(14.0), deg_to_rad(-22.0)))
-	_add_sphere("BowKnot", 0.105, 0.15, Vector3(0.0, 1.03, -0.24), Vector3(1.0, 0.82, 0.68), bow_mat)
-	_add_box("RibbonLeft", Vector3(0.13, 0.42, 0.07), Vector3(-0.1, 0.79, -0.17), Vector3(0.0, 0.0, deg_to_rad(12.0)), ribbon_shadow_mat)
-	_add_box("RibbonRight", Vector3(0.13, 0.42, 0.07), Vector3(0.1, 0.79, -0.17), Vector3(0.0, 0.0, deg_to_rad(-12.0)), ribbon_shadow_mat)
-	_add_sphere("WarmMemory", 0.055, 0.08, Vector3(0.0, 1.04, -0.31), Vector3.ONE, _make_material(mark_color, glow_color, 1.8, false))
+	_add_sphere("BowLeft", 0.22, 0.2, Vector3(-0.22, 0.86, 0.0), Vector3(1.5, 0.7, 0.62), bow_mat, Vector3(0.0, deg_to_rad(-14.0), deg_to_rad(22.0)))
+	_add_sphere("BowRight", 0.22, 0.2, Vector3(0.22, 0.86, 0.0), Vector3(1.5, 0.7, 0.62), bow_mat, Vector3(0.0, deg_to_rad(14.0), deg_to_rad(-22.0)))
+	_add_sphere("BowKnot", 0.12, 0.17, Vector3(0.0, 0.86, -0.08), Vector3(1.0, 0.86, 0.74), bow_mat)
+	_add_box("RibbonLeft", Vector3(0.15, 0.42, 0.085), Vector3(-0.11, 0.59, 0.0), Vector3(0.0, 0.0, deg_to_rad(12.0)), ribbon_shadow_mat)
+	_add_box("RibbonRight", Vector3(0.15, 0.42, 0.085), Vector3(0.11, 0.59, 0.0), Vector3(0.0, 0.0, deg_to_rad(-12.0)), ribbon_shadow_mat)
+	_add_sphere("WarmMemory", 0.06, 0.085, Vector3(0.0, 0.87, -0.16), Vector3.ONE, _make_material(mark_color, glow_color, 1.8, false))
 
 
 func _build_deleted_path_symbol(glow_color: Color) -> void:
