@@ -38,6 +38,7 @@
 [ext_resource type="Script" uid="uid://br2ojfprv0mt4" path="res://world/visual_obstacle_proxies.gd" id="25_visual_obstacles"]
 [ext_resource type="PackedScene" path="res://ui/virtual_joystick.tscn" id="26_virtual_joystick"]
 [ext_resource type="Script" uid="uid://851vmcql3eb6" path="res://systems/game_audio.gd" id="27_game_audio"]
+[ext_resource type="PackedScene" path="res://world/hunter_refuge.tscn" id="28_hunter_refuge"]
 [ext_resource type="PackedScene" uid="uid://dhnrryoqxbtwn" path="res://assets/scene/house_trees_rocks.glb" id="37_0n3wm"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_boundary_x"]
@@ -284,14 +285,14 @@ medicine_type = 1
 [node name="MemoryFragments" type="Node3D" parent="Collectibles" unique_id=1019694113]
 
 [node name="Memory_RuleNote" parent="Collectibles/MemoryFragments" unique_id=316935068 instance=ExtResource("12_memory")]
-transform = Transform3D(0.81915206, 0, -0.57357645, 0, 1, 0, 0.57357645, 0, 0.81915206, 2.9679756, 0.1, 25.8)
-fragment_title = "碎片 01：红色高跟鞋"
-fragment_line = "妈妈：沿着路走。别问路通向哪里。"
+transform = Transform3D(0.81915206, 0, -0.57357645, 0, 1, 0, 0.57357645, 0, 0.81915206, 1.8, 0.1, 25.2)
+fragment_title = "任务碎片 01：红色高跟鞋"
+fragment_line = "妈妈：沿着路走。别问路通向哪里。去找回森林里六件被遗忘的东西。"
 voice_clip = ExtResource("13_mem01")
 subtitle_duration = 4.0
 
 [node name="Memory_DeletedPath" parent="Collectibles/MemoryFragments" unique_id=1231638005 instance=ExtResource("12_memory")]
-transform = Transform3D(0.9396926, 0, 0.34202015, 0, 1, 0, -0.34202015, 0, 0.9396926, -2.65, 0.1, -11.35)
+transform = Transform3D(0.9396926, 0, 0.34202015, 0, 1, 0, -0.34202015, 0, 0.9396926, -5.0, 0.1, -13.15)
 fragment_id = "memory_02"
 fragment_title = "碎片 02：断掉的路牌"
 fragment_line = "小红帽：这里原来有条小路，可村里的人说，我记错了。"
@@ -300,7 +301,7 @@ voice_clip = ExtResource("14_mem02")
 subtitle_duration = 5.2
 
 [node name="Memory_Watcher" parent="Collectibles/MemoryFragments" unique_id=1416507513 instance=ExtResource("12_memory")]
-transform = Transform3D(0.64278764, 0, -0.76604444, 0, 1, 0, 0.76604444, 0, 0.64278764, 10.675844, 0.1, 2.5027878)
+transform = Transform3D(0.64278764, 0, -0.76604444, 0, 1, 0, 0.76604444, 0, 0.64278764, 5.8, 0.1, 8.2)
 fragment_id = "memory_03"
 fragment_title = "碎片 03：树后的眼"
 fragment_line = "村民：看见她偏离道路，就告诉别人；这不是恶意，是规矩。"
@@ -309,25 +310,25 @@ voice_clip = ExtResource("15_mem03")
 subtitle_duration = 5.2
 
 [node name="Memory_Hunter" parent="Collectibles/MemoryFragments" unique_id=1190789767 instance=ExtResource("12_memory")]
-transform = Transform3D(0.76604444, 0, 0.64278764, 0, 1, 0, -0.64278764, 0, 0.76604444, 5.5, 0.1, -24)
+transform = Transform3D(0.76604444, 0, 0.64278764, 0, 1, 0, -0.64278764, 0, 0.76604444, -5.8, 0.1, -20.55)
 fragment_id = "memory_04"
 fragment_title = "碎片 04：靠墙的斧徽"
-fragment_line = "猎人：等一切结束，我会把门踹开。那时他们会说，秩序来了。"
+fragment_line = "猎人：等一切结束，我会把门踹开。斧徽只能护住墙边这一小圈。"
 fragment_style = 3
 voice_clip = ExtResource("16_mem04")
 subtitle_duration = 5.4
 
 [node name="Memory_GrandmaDoor" parent="Collectibles/MemoryFragments" unique_id=52148925 instance=ExtResource("12_memory")]
-transform = Transform3D(0.9848077, 0, -0.17364818, 0, 1, 0, 0.17364818, 0, 0.9848077, -1.5, 0.1, -22.8)
+transform = Transform3D(0.9848077, 0, -0.17364818, 0, 1, 0, 0.17364818, 0, 0.9848077, -0.7, 0.1, -22.4)
 fragment_id = "memory_05"
-fragment_title = "碎片 05：反锁的门扣"
+fragment_title = "碎片 05：反锁门扣与钥匙"
 fragment_line = "外婆：孩子，门不是我锁的。屋子学会了替他们关门。"
 fragment_style = 4
 voice_clip = ExtResource("17_mem05")
 subtitle_duration = 5.0
 
 [node name="Memory_WolfDefinition" parent="Collectibles/MemoryFragments" unique_id=1378877624 instance=ExtResource("12_memory")]
-transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0, 0.1, -18.2)
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 1.25, 0.1, -20.65)
 fragment_id = "memory_06"
 fragment_title = "碎片 06：半张狼面具"
 fragment_line = "狼：你以为我是狼？我是他们允许存在的那部分黑暗。"
@@ -343,35 +344,38 @@ spawn_interval = 6.2
 [node name="FalseSafeDoor" parent="." unique_id=984229527 instance=ExtResource("22_false_door")]
 transform = Transform3D(0.99939084, 0, -0.034899496, 0, 1, 0, 0.034899496, 0, 0.99939084, 0, 0.1, -23.8)
 
+[node name="HunterRefuge" parent="." instance=ExtResource("28_hunter_refuge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.8, 0.1, -20.55)
+
 [node name="HiddenForestExtension" parent="." unique_id=2124294787 instance=ExtResource("24_hidden_forest")]
 
 [node name="HiddenRoad" type="Node3D" parent="." unique_id=1162020891]
 
 [node name="HiddenRoad_LeaveMainRoad" parent="HiddenRoad" unique_id=1861666421 instance=ExtResource("21_hidden_road")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.4, 0.12, -16.6)
-required_fragments_csv = "memory_01,memory_02"
+required_fragments_csv = "memory_01,memory_02,memory_03,memory_05,memory_06"
 segment_title = "第一段路：离开主路"
-locked_message = "你还在用别人留下的鞋印走路。那条被删掉的小路还不完整。"
+locked_message = "你已经看见入口，但还没有经历足够多的事。凝视、正门和狼的定义仍挡着这条路。"
 path_size = Vector3(3, 0.08, 5.2)
 
 [node name="HiddenRoad_AvoidGaze" parent="HiddenRoad" unique_id=927978398 instance=ExtResource("21_hidden_road")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.8, 0.12, -21)
-required_fragments_csv = "memory_03,memory_04"
+required_fragments_csv = "memory_01,memory_02,memory_03,memory_04,memory_05,memory_06"
 segment_title = "第二段路：避开凝视"
-locked_message = "树后的眼睛还在替你决定方向。迟来的斧徽只能照亮一瞬。"
+locked_message = "斧徽就在这一小段路上。看清迟到的保护，才能继续。"
 path_size = Vector3(3, 0.08, 5.4)
 preview_color = Color(0.28, 0.46, 1, 0.3)
 
 [node name="HiddenRoad_RejectDoor" parent="HiddenRoad" unique_id=1071030255 instance=ExtResource("21_hidden_road")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.4, 0.12, -23.8)
-required_fragments_csv = "memory_05,memory_06"
+required_fragments_csv = "memory_01,memory_02,memory_03,memory_04,memory_05,memory_06"
 segment_title = "第三段路：不走正门"
 locked_message = "你仍以为门就是安全，也仍在用狼给你的名字理解狼。"
 path_size = Vector3(2.8, 0.08, 4.4)
 preview_color = Color(1, 0.04, 0.08, 0.34)
 
 [node name="HiddenRoadGoal" parent="HiddenRoad" unique_id=1092164035 instance=ExtResource("23_hidden_goal")]
-transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, -2.85, 0.14, -24)
+transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, -6.8, 0.14, -24)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=480581205]
 transform = Transform3D(0.85716736, 0.39280316, -0.3331213, -4.656613e-10, 0.6467898, 0.7626684, 0.515038, -0.6537344, 0.5544071, -6.260421, 37.204304, 8.886542)

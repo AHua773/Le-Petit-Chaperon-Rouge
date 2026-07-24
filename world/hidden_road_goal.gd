@@ -1,7 +1,7 @@
 extends Area3D
 
-@export var completion_title: String = "隐藏道路"
-@export_multiline var completion_line: String = "你已经沿着被掩盖的路走到门前。现在可以面对屋子里真正的问题。"
+@export var completion_title: String = "已抵达安全区域"
+@export_multiline var completion_line: String = "你走完了被掩盖的路。狼群停止行动，这里暂时不会再伤害你。"
 @export var incomplete_title: String = "门前的黄光"
 @export_multiline var incomplete_line: String = "这就是隐藏路的终点，但路还没有完全记起。继续收集所有记忆碎片。"
 @export var require_hidden_route: bool = true
@@ -9,11 +9,22 @@ extends Area3D
 @export var route_locked_title: String = "黄光太远"
 @export_multiline var route_locked_line: String = "你看见了门前的黄光，但身体还没有真正走过那条被藏起来的路。回到断掉的路牌，沿着红光走。"
 
+@onready var marker: MeshInstance3D = $Marker
+@onready var beacon_beam: MeshInstance3D = $BeaconBeam
+@onready var beacon_core: MeshInstance3D = $BeaconCore
+@onready var completion_wave: MeshInstance3D = $CompletionWave
+@onready var goal_light: OmniLight3D = $GoalLight
+@onready var safety_overlay: CanvasLayer = $SafetyOverlay
+@onready var safety_filter: ColorRect = $SafetyOverlay/Filter
+@onready var safety_message: Control = $SafetyOverlay/SafetyMessage
+
 var _completed: bool = false
 
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
+	safety_overlay.visible = false
+	completion_wave.visible = false
 
 
 func _physics_process(_delta: float) -> void:
@@ -54,6 +65,47 @@ func _complete_encounter() -> void:
 	_completed = true
 	_show_message(completion_title, completion_line)
 	_terminate_enemy_actions()
+	_play_completion_effects()
+
+
+func _play_completion_effects() -> void:
+	safety_overlay.visible = true
+	safety_message.modulate.a = 0.0
+	completion_wave.visible = true
+	completion_wave.scale = Vector3(0.45, 1.0, 0.45)
+	completion_wave.transparency = 0.0
+
+	var filter_material := safety_filter.material as ShaderMaterial
+	if filter_material:
+		filter_material = filter_material.duplicate()
+		safety_filter.material = filter_material
+		filter_material.set_shader_parameter("intensity", 0.0)
+
+	var effect_tween := create_tween()
+	effect_tween.set_parallel(true)
+	effect_tween.set_trans(Tween.TRANS_QUAD)
+	effect_tween.set_ease(Tween.EASE_OUT)
+	effect_tween.tween_property(completion_wave, "scale", Vector3(4.8, 1.0, 4.8), 1.6)
+	effect_tween.tween_property(completion_wave, "transparency", 1.0, 1.6)
+	effect_tween.tween_property(goal_light, "light_energy", 4.2, 0.45)
+	effect_tween.tween_property(marker, "scale", Vector3(1.35, 1.0, 1.35), 0.7)
+	effect_tween.tween_property(beacon_beam, "scale", Vector3(1.8, 1.25, 1.8), 0.7)
+	effect_tween.tween_property(beacon_core, "scale", Vector3(1.8, 1.8, 1.8), 0.7)
+	effect_tween.tween_property(safety_message, "modulate:a", 1.0, 0.9).set_delay(0.35)
+	if filter_material:
+		effect_tween.tween_method(_set_filter_intensity.bind(filter_material), 0.0, 0.62, 1.8)
+
+	var settle_tween := create_tween()
+	settle_tween.set_trans(Tween.TRANS_SINE)
+	settle_tween.set_ease(Tween.EASE_IN_OUT)
+	settle_tween.tween_interval(0.55)
+	settle_tween.tween_property(goal_light, "light_energy", 2.15, 1.25)
+	settle_tween.parallel().tween_property(beacon_core, "scale", Vector3(1.25, 1.25, 1.25), 1.25)
+	settle_tween.parallel().tween_property(beacon_beam, "scale", Vector3(1.25, 1.08, 1.25), 1.25)
+
+
+func _set_filter_intensity(value: float, material: ShaderMaterial) -> void:
+	material.set_shader_parameter("intensity", value)
 
 
 func _terminate_enemy_actions() -> void:
