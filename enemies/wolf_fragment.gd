@@ -24,6 +24,7 @@ enum State {
 
 @onready var windup_marker: MeshInstance3D = $Visual/WindupMarker
 @onready var hitbox: Area3D = $Hitbox
+@onready var wolf_animation_player: AnimationPlayer = get_node_or_null("Visual/WolfModel/AnimationPlayer") as AnimationPlayer
 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var state: int = State.WANDER
@@ -42,6 +43,8 @@ func _ready() -> void:
 	_pick_wander_target()
 	windup_marker.visible = false
 	hitbox.body_entered.connect(_on_hitbox_body_entered)
+	_configure_wolf_animations()
+	_play_wolf_animation("idle")
 
 
 func reset_home_position() -> void:
@@ -63,6 +66,7 @@ func pacify_for_hidden_road() -> void:
 	hitbox.monitoring = false
 	velocity.x = 0.0
 	velocity.z = 0.0
+	_play_wolf_animation("idle")
 
 
 func set_hidden_road_windup_time(value: float) -> void:
@@ -114,8 +118,10 @@ func _process_wander(delta: float) -> void:
 		var wander_direction := to_wander_target.normalized()
 		_set_horizontal_velocity(wander_direction * wander_speed, delta)
 		_face_direction(wander_direction)
+		_play_wolf_animation("running", 0.85)
 	else:
 		_stop_horizontal(delta)
+		_play_wolf_animation("idle")
 
 	if _can_see_player():
 		_enter_windup()
@@ -160,12 +166,14 @@ func _enter_windup() -> void:
 	lunge_direction = _direction_to_player().normalized()
 	has_hit_player = false
 	windup_marker.visible = true
+	_play_wolf_animation("idle2")
 
 
 func _enter_lunge() -> void:
 	state = State.LUNGE
 	state_timer = lunge_time
 	has_hit_player = false
+	_play_wolf_animation("running", 1.8)
 
 	if lunge_direction.length_squared() <= 0.001:
 		lunge_direction = -global_transform.basis.z
@@ -177,6 +185,28 @@ func _enter_recover() -> void:
 	state = State.RECOVER
 	state_timer = recovery_time
 	has_hit_player = true
+	_play_wolf_animation("sniffing")
+
+
+func _configure_wolf_animations() -> void:
+	if not wolf_animation_player:
+		return
+
+	for animation_name in ["idle", "idle2", "running", "sniffing"]:
+		if not wolf_animation_player.has_animation(animation_name):
+			continue
+		var animation := wolf_animation_player.get_animation(animation_name)
+		if animation:
+			animation.loop_mode = Animation.LOOP_LINEAR
+
+
+func _play_wolf_animation(animation_name: StringName, speed: float = 1.0) -> void:
+	if not wolf_animation_player or not wolf_animation_player.has_animation(animation_name):
+		return
+
+	if wolf_animation_player.current_animation != animation_name or not wolf_animation_player.is_playing():
+		wolf_animation_player.play(animation_name, 0.12)
+	wolf_animation_player.speed_scale = speed
 
 
 func _refresh_player() -> void:
