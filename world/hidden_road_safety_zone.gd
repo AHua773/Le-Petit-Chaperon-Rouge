@@ -1,8 +1,8 @@
 extends Area3D
 
 @export var hidden_road_windup_time: float = 0.6
-@export var message_title: String = "隐藏路"
-@export_multiline var message_line: String = "你已经记起了这条路。狼的锁定变慢了，但它们还没有停下。"
+@export var message_title: String = "Hidden Path"
+@export_multiline var message_line: String = "You remember this path now. The wolves lock on more slowly, but they have not stopped."
 
 var _has_triggered: bool = false
 var _memory_state: Node

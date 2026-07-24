@@ -19,16 +19,10 @@
 [ext_resource type="PackedScene" uid="uid://dutu67qrxwitn" path="res://assets/scene/ground_p3.glb" id="12_come4"]
 [ext_resource type="PackedScene" path="res://collectibles/memory_fragment.tscn" id="12_memory"]
 [ext_resource type="PackedScene" uid="uid://cm7knnism4udd" path="res://assets/scene/ground_p4.glb" id="13_h8e4i"]
-[ext_resource type="AudioStream" uid="uid://bqtr43hy0sfeg" path="res://audio/memory/memory_01.wav" id="13_mem01"]
 [ext_resource type="PackedScene" uid="uid://gouk4xospv72" path="res://assets/scene/ground_p5.glb" id="14_4lmeg"]
-[ext_resource type="AudioStream" uid="uid://h556kweadxbq" path="res://audio/memory/memory_02.wav" id="14_mem02"]
 [ext_resource type="PackedScene" uid="uid://df1fpilny6da7" path="res://assets/scene/ground_p6.glb" id="15_0cp0l"]
-[ext_resource type="AudioStream" uid="uid://cm786djtmu4rj" path="res://audio/memory/memory_03.wav" id="15_mem03"]
 [ext_resource type="PackedScene" uid="uid://dwgg6n8yv5c4q" path="res://assets/scene/ground_p7.glb" id="16_d2t1y"]
-[ext_resource type="AudioStream" uid="uid://d2oyhpr8iaok7" path="res://audio/memory/memory_04.wav" id="16_mem04"]
 [ext_resource type="PackedScene" uid="uid://cq4h0aaumb4kx" path="res://assets/scene/ground_p8.glb" id="17_gngh3"]
-[ext_resource type="AudioStream" uid="uid://cp0rhjq0cvy0t" path="res://audio/memory/memory_05.wav" id="17_mem05"]
-[ext_resource type="AudioStream" uid="uid://chia0edbf4jys" path="res://audio/memory/memory_06.wav" id="18_mem06"]
 [ext_resource type="Script" uid="uid://bpdiy01i8np5o" path="res://systems/memory_state.gd" id="19_memory_state"]
 [ext_resource type="PackedScene" path="res://boss/defining_wolf_boss.tscn" id="20_boss"]
 [ext_resource type="PackedScene" path="res://world/hidden_road_segment.tscn" id="21_hidden_road"]
@@ -39,6 +33,7 @@
 [ext_resource type="PackedScene" path="res://ui/virtual_joystick.tscn" id="26_virtual_joystick"]
 [ext_resource type="Script" uid="uid://851vmcql3eb6" path="res://systems/game_audio.gd" id="27_game_audio"]
 [ext_resource type="PackedScene" path="res://world/hunter_refuge.tscn" id="28_hunter_refuge"]
+[ext_resource type="AudioStream" uid="uid://dpbltq3l0px6n" path="res://audio/music/witch_fantasia.wav" id="29_witch_music"]
 [ext_resource type="PackedScene" uid="uid://dhnrryoqxbtwn" path="res://assets/scene/house_trees_rocks.glb" id="37_0n3wm"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_boundary_x"]
@@ -95,7 +90,9 @@ script = ExtResource("19_memory_state")
 script = ExtResource("27_game_audio")
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="GameAudio" unique_id=506141160]
-volume_db = -12.0
+stream = ExtResource("29_witch_music")
+volume_db = -5.0
+autoplay = true
 
 [node name="HitSound" type="AudioStreamPlayer" parent="GameAudio" unique_id=440129309]
 volume_db = -3.0
@@ -286,54 +283,48 @@ medicine_type = 1
 
 [node name="Memory_RuleNote" parent="Collectibles/MemoryFragments" unique_id=316935068 instance=ExtResource("12_memory")]
 transform = Transform3D(0.81915206, 0, -0.57357645, 0, 1, 0, 0.57357645, 0, 0.81915206, 1.8, 0.1, 25.2)
-fragment_title = "任务碎片 01：粉色蝴蝶结"
-fragment_line = "妈妈：沿着路走。别问路通向哪里。去找回森林里六件被遗忘的东西。"
-voice_clip = ExtResource("13_mem01")
+fragment_title = "Quest Fragment 01: Pink Bow"
+fragment_line = "Mother: Follow the path. Don't ask where it leads. Find the six forgotten objects in the forest."
 subtitle_duration = 4.0
 
 [node name="Memory_DeletedPath" parent="Collectibles/MemoryFragments" unique_id=1231638005 instance=ExtResource("12_memory")]
-transform = Transform3D(0.9396926, 0, 0.34202015, 0, 1, 0, -0.34202015, 0, 0.9396926, -5.0, 0.1, -13.15)
+transform = Transform3D(0.9396926, 0, 0.34202015, 0, 1, 0, -0.34202015, 0, 0.9396926, -5, 0.1, -13.15)
 fragment_id = "memory_02"
-fragment_title = "碎片 02：断掉的路牌"
-fragment_line = "小红帽：这里原来有条小路，可村里的人说，我记错了。"
+fragment_title = "Fragment 02: Broken Signpost"
+fragment_line = "Little Red: There used to be a path here, but the villagers say I remembered it wrong."
 fragment_style = 1
-voice_clip = ExtResource("14_mem02")
 subtitle_duration = 5.2
 
 [node name="Memory_Watcher" parent="Collectibles/MemoryFragments" unique_id=1416507513 instance=ExtResource("12_memory")]
 transform = Transform3D(0.64278764, 0, -0.76604444, 0, 1, 0, 0.76604444, 0, 0.64278764, 5.8, 0.1, 8.2)
 fragment_id = "memory_03"
-fragment_title = "碎片 03：树后的眼"
-fragment_line = "村民：看见她偏离道路，就告诉别人；这不是恶意，是规矩。"
+fragment_title = "Fragment 03: The Eye Behind the Trees"
+fragment_line = "Villager: If you see her leave the path, tell the others. It isn't malice. It's the rule."
 fragment_style = 2
-voice_clip = ExtResource("15_mem03")
 subtitle_duration = 5.2
 
 [node name="Memory_Hunter" parent="Collectibles/MemoryFragments" unique_id=1190789767 instance=ExtResource("12_memory")]
 transform = Transform3D(0.76604444, 0, 0.64278764, 0, 1, 0, -0.64278764, 0, 0.76604444, -5.8, 0.1, -20.55)
 fragment_id = "memory_04"
-fragment_title = "碎片 04：迟到的猎人武器"
-fragment_line = "猎人：等一切结束，我会把门踹开。斧徽只能护住墙边这一小圈。"
+fragment_title = "Fragment 04: The Hunter's Late Weapon"
+fragment_line = "Hunter: When it is all over, I will break down the door. My mark can only protect this small circle by the wall."
 fragment_style = 3
-voice_clip = ExtResource("16_mem04")
 subtitle_duration = 5.4
 
 [node name="Memory_GrandmaDoor" parent="Collectibles/MemoryFragments" unique_id=52148925 instance=ExtResource("12_memory")]
 transform = Transform3D(0.9848077, 0, -0.17364818, 0, 1, 0, 0.17364818, 0, 0.9848077, -0.7, 0.1, -22.4)
 fragment_id = "memory_05"
-fragment_title = "碎片 05：门契卷轴与钥匙"
-fragment_line = "外婆：孩子，门不是我锁的。屋子学会了替他们关门。"
+fragment_title = "Fragment 05: Door Deed and Key"
+fragment_line = "Grandmother: Child, I did not lock the door. The house learned to close it for them."
 fragment_style = 4
-voice_clip = ExtResource("17_mem05")
 subtitle_duration = 5.0
 
 [node name="Memory_WolfDefinition" parent="Collectibles/MemoryFragments" unique_id=1378877624 instance=ExtResource("12_memory")]
 transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 1.25, 0.1, -20.65)
 fragment_id = "memory_06"
-fragment_title = "碎片 06：狼纹盾面"
-fragment_line = "狼：你以为我是狼？我是他们允许存在的那部分黑暗。"
+fragment_title = "Fragment 06: Wolf-Crest Shield"
+fragment_line = "Wolf: You think I am the wolf? I am the darkness they permit to exist."
 fragment_style = 5
-voice_clip = ExtResource("18_mem06")
 subtitle_duration = 5.0
 
 [node name="BossEncounter" parent="." unique_id=885117499 instance=ExtResource("20_boss")]
@@ -344,7 +335,7 @@ spawn_interval = 6.2
 [node name="FalseSafeDoor" parent="." unique_id=984229527 instance=ExtResource("22_false_door")]
 transform = Transform3D(0.99939084, 0, -0.034899496, 0, 1, 0, 0.034899496, 0, 0.99939084, 0, 0.1, -23.8)
 
-[node name="HunterRefuge" parent="." instance=ExtResource("28_hunter_refuge")]
+[node name="HunterRefuge" parent="." unique_id=1238849810 instance=ExtResource("28_hunter_refuge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.8, 0.1, -20.55)
 
 [node name="HiddenForestExtension" parent="." unique_id=2124294787 instance=ExtResource("24_hidden_forest")]
@@ -354,23 +345,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.8, 0.1, -20.55)
 [node name="HiddenRoad_LeaveMainRoad" parent="HiddenRoad" unique_id=1861666421 instance=ExtResource("21_hidden_road")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.4, 0.12, -16.6)
 required_fragments_csv = "memory_01,memory_02,memory_03,memory_05,memory_06"
-segment_title = "第一段路：离开主路"
-locked_message = "你已经看见入口，但还没有经历足够多的事。凝视、正门和狼的定义仍挡着这条路。"
+segment_title = "Path I: Leave the Main Road"
+locked_message = "You have seen the entrance, but you have not lived through enough yet. The gaze, the front door, and the wolf's definition still block this path."
 path_size = Vector3(3, 0.08, 5.2)
 
 [node name="HiddenRoad_AvoidGaze" parent="HiddenRoad" unique_id=927978398 instance=ExtResource("21_hidden_road")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.8, 0.12, -21)
 required_fragments_csv = "memory_01,memory_02,memory_03,memory_04,memory_05,memory_06"
-segment_title = "第二段路：避开凝视"
-locked_message = "斧徽就在这一小段路上。看清迟到的保护，才能继续。"
+segment_title = "Path II: Evade the Gaze"
+locked_message = "The hunter's mark is on this stretch. See the protection that came too late before you continue."
 path_size = Vector3(3, 0.08, 5.4)
 preview_color = Color(0.28, 0.46, 1, 0.3)
 
 [node name="HiddenRoad_RejectDoor" parent="HiddenRoad" unique_id=1071030255 instance=ExtResource("21_hidden_road")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.4, 0.12, -23.8)
 required_fragments_csv = "memory_01,memory_02,memory_03,memory_04,memory_05,memory_06"
-segment_title = "第三段路：不走正门"
-locked_message = "你仍以为门就是安全，也仍在用狼给你的名字理解狼。"
+segment_title = "Path III: Refuse the Front Door"
+locked_message = "You still believe a door means safety, and still understand the wolf by the name it gave you."
 path_size = Vector3(2.8, 0.08, 4.4)
 preview_color = Color(1, 0.04, 0.08, 0.34)
 

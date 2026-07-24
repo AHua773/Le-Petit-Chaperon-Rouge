@@ -58,6 +58,3 @@ mesh = SubResource("BoxMesh_mark")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.74, 0)
 light_energy = 1.1
 omni_range = 3.2
-
-[node name="VoicePlayer" type="AudioStreamPlayer" parent="."]
-volume_db = -2.0

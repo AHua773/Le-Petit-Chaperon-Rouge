@@ -49,7 +49,7 @@ func _process(delta: float) -> void:
 	if spawn_timer <= 0.0:
 		spawn_timer = _get_spawn_interval()
 		_spawn_minions(regular_spawn_count)
-		_show_taunt("狼：路已经替你铺好了，为什么还要看向树后？")
+		_show_taunt("Wolf: The road has already been laid for you. Why keep looking behind the trees?")
 
 
 func spawn_pressure_wave(_reason: String = "") -> void:
@@ -62,7 +62,7 @@ func spawn_pressure_wave(_reason: String = "") -> void:
 	pressure_timer = pressure_wave_cooldown
 	active = true
 	_spawn_minions(pressure_spawn_count)
-	_show_taunt("狼：那里没有路。你只是又记错了。")
+	_show_taunt("Wolf: There is no path there. You simply remembered it wrong again.")
 
 
 func complete_encounter() -> void:
@@ -149,7 +149,7 @@ func _show_taunt(line: String) -> void:
 
 	var ui := ui_nodes[0]
 	if ui and ui.has_method("show_memory_fragment"):
-		ui.show_memory_fragment("定义狼", line, 3.0)
+		ui.show_memory_fragment("Defining the Wolf", line, 3.0)
 
 
 func _refresh_player() -> void:

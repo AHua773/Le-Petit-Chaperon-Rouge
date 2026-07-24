@@ -3,8 +3,8 @@ extends Area3D
 @export var checkpoint_index: int = 0
 @export var required_previous_index: int = -1
 @export var announce_once: bool = false
-@export var message_title: String = "隐藏路"
-@export_multiline var message_line: String = "你正在走一条被藏起来的路。"
+@export var message_title: String = "Hidden Path"
+@export_multiline var message_line: String = "You are walking a path that was hidden."
 
 var _has_announced: bool = false
 

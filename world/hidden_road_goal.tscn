@@ -150,7 +150,7 @@ theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 30
-text = "已抵达安全区域"
+text = "SAFETY REACHED"
 horizontal_alignment = 1
 
 [node name="Line" type="Label" parent="SafetyOverlay/SafetyMessage"]
@@ -161,6 +161,6 @@ theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 18
-text = "狼群停止行动。这里暂时不会再伤害你。"
+text = "The wolves have stopped. Nothing here can hurt you for now."
 horizontal_alignment = 1
 autowrap_mode = 3

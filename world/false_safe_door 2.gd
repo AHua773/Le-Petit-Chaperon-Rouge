@@ -1,7 +1,7 @@
 extends Node3D
 
-@export var message_title: String = "正门陷阱"
-@export_multiline var message_line: String = "门不是安全。它只是在等你主动走进去。"
+@export var message_title: String = "False Front Door"
+@export_multiline var message_line: String = "The door is not safety. It is only waiting for you to enter willingly."
 @export var message_cooldown: float = 2.8
 
 @onready var trigger_area: Area3D = $TriggerArea

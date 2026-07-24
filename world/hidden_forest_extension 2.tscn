@@ -198,7 +198,7 @@ monitorable = false
 script = ExtResource("23_checkpoint")
 checkpoint_index = 0
 announce_once = true
-message_line = "你离开了铺好的正路。沿着红光继续。"
+message_line = "You left the road laid out for you. Follow the red light."
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HiddenRoadCheckpoints/Checkpoint_Entrance"]
 shape = SubResource("BoxShape3D_route_checkpoint")

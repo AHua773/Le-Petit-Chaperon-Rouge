@@ -1,13 +1,13 @@
 extends Area3D
 
-@export var completion_title: String = "隐藏道路"
-@export_multiline var completion_line: String = "你已经沿着被掩盖的路走到门前。现在可以面对屋子里真正的问题。"
-@export var incomplete_title: String = "门前的黄光"
-@export_multiline var incomplete_line: String = "这就是隐藏路的终点，但路还没有完全记起。继续收集所有记忆碎片。"
+@export var completion_title: String = "Hidden Path"
+@export_multiline var completion_line: String = "You followed the concealed path to the door. Now you can face what is truly inside the house."
+@export var incomplete_title: String = "Yellow Light at the Door"
+@export_multiline var incomplete_line: String = "This is the end of the hidden path, but the road is not fully remembered. Collect every memory fragment."
 @export var require_hidden_route: bool = true
 @export var required_route_checkpoint: int = 3
-@export var route_locked_title: String = "黄光太远"
-@export_multiline var route_locked_line: String = "你看见了门前的黄光，但身体还没有真正走过那条被藏起来的路。回到断掉的路牌，沿着红光走。"
+@export var route_locked_title: String = "The Yellow Light Is Out of Reach"
+@export_multiline var route_locked_line: String = "You can see the yellow light, but you have not walked the hidden path. Return to the broken signpost and follow the red light."
 
 var _completed: bool = false
 

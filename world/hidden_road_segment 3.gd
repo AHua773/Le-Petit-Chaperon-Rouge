@@ -1,8 +1,8 @@
 extends Node3D
 
 @export var required_fragments_csv: String = ""
-@export var segment_title: String = "道路尚未完整"
-@export_multiline var locked_message: String = "你还记不清这条路。"
+@export var segment_title: String = "The Path Is Still Incomplete"
+@export_multiline var locked_message: String = "You still cannot remember this path."
 @export var path_size: Vector3 = Vector3(3.0, 0.08, 4.0)
 @export var unlocked_color: Color = Color(0.9, 0.96, 1.0, 0.92)
 @export var preview_color: Color = Color(0.95, 0.08, 0.08, 0.28)
@@ -109,7 +109,7 @@ func _update_state() -> void:
 		is_unlocked = new_unlocked
 		if is_unlocked and not was_unlocked and not _has_announced_unlock:
 			_has_announced_unlock = true
-			_show_path_message(segment_title, "这段路完整了。沿着红光和石路继续。", 3.2)
+			_show_path_message(segment_title, "This section is complete. Follow the red light and stone trail.", 3.2)
 
 	lock_wall.visible = not is_unlocked
 	path_collision.set_deferred("disabled", not path_collision_enabled)

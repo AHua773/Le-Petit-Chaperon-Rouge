@@ -10,10 +10,9 @@ enum FragmentStyle {
 }
 
 @export var fragment_id: String = "memory_01"
-@export var fragment_title: String = "记忆碎片"
+@export var fragment_title: String = "Memory Fragment"
 @export_multiline var fragment_line: String = ""
 @export_enum("Rule Note", "Deleted Path", "Watcher", "Hunter", "Grandma", "Wolf") var fragment_style: int = FragmentStyle.RULE_NOTE
-@export var voice_clip: AudioStream
 @export var subtitle_duration: float = 4.2
 @export var bob_speed: float = 2.1
 @export var bob_height: float = 0.09
@@ -28,7 +27,6 @@ enum FragmentStyle {
 @onready var glow_ring: MeshInstance3D = $Visual/GlowRing
 @onready var symbol_root: Node3D = $Visual/Symbol
 @onready var glow_light: OmniLight3D = $GlowLight
-@onready var voice_player: AudioStreamPlayer = $VoicePlayer
 
 var _base_visual_y: float = 0.0
 var _base_light_energy: float = 1.0
@@ -40,9 +38,6 @@ func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	_base_visual_y = visual.position.y
 	_base_light_energy = glow_light.light_energy
-
-	if voice_clip:
-		voice_player.stream = voice_clip
 
 	_apply_visual_style()
 
@@ -259,7 +254,6 @@ func _on_body_entered(body: Node3D) -> void:
 
 	_record_memory_progress()
 	_show_memory_message()
-	_play_voice()
 	await get_tree().create_timer(_get_cleanup_delay()).timeout
 	queue_free()
 
@@ -280,17 +274,12 @@ func _show_memory_message() -> void:
 		ui.show_memory_fragment(_get_progress_title(), fragment_line, subtitle_duration)
 
 
-func _play_voice() -> void:
-	if voice_player.stream:
-		voice_player.play()
-
-
 func _get_progress_title() -> String:
 	var memory_state := _get_memory_state()
 	if not memory_state or not memory_state.has_method("get_collected_count") or not memory_state.has_method("get_total_count"):
 		return fragment_title
 
-	return "%s  · 觉察 %d/%d" % [
+	return "%s  · Awareness %d/%d" % [
 		fragment_title,
 		memory_state.get_collected_count(),
 		memory_state.get_total_count()
@@ -298,11 +287,7 @@ func _get_progress_title() -> String:
 
 
 func _get_cleanup_delay() -> float:
-	var cleanup_delay := subtitle_duration
-	if voice_player.stream and voice_player.stream.get_length() > 0.0:
-		cleanup_delay = maxf(cleanup_delay, voice_player.stream.get_length() + 0.15)
-
-	return cleanup_delay
+	return subtitle_duration
 
 
 func _get_memory_state() -> Node:
