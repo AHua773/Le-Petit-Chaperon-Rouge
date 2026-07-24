@@ -1,5 +1,11 @@
 extends Area3D
 
+const BLADE_SCENE_PATH := "res://assets/collectibles/memory/models/pink_bow.glb"
+const SCROLL_SCENE_PATH := "res://assets/collectibles/memory/models/scroll.glb"
+const SHIELD_SCENE_PATH := "res://assets/collectibles/memory/models/viking_shield.glb"
+const HUNTER_WEAPON_SCENE_PATH := "res://assets/collectibles/memory/models/hunter_weapon.glb"
+const WINGED_EYE_SCENE_PATH := "res://assets/collectibles/memory/models/winged_eye/winged_eye_monster.fbx"
+
 enum FragmentStyle {
 	RULE_NOTE,
 	DELETED_PATH,
@@ -125,7 +131,7 @@ func _build_symbol(glow_color: Color, mark_color: Color) -> void:
 		FragmentStyle.WOLF:
 			_build_wolf_symbol(glow_color)
 		_:
-			_build_red_shoe_symbol(glow_color, mark_color)
+			_build_pink_bow_symbol(glow_color, mark_color)
 
 
 func _clear_symbol() -> void:
@@ -133,82 +139,160 @@ func _clear_symbol() -> void:
 		child.queue_free()
 
 
-func _build_red_shoe_symbol(glow_color: Color, mark_color: Color) -> void:
-	var shoe_mat := _make_material(Color(0.82, 0.02, 0.04, 1.0), glow_color, 1.15, false)
-	var sole_mat := _make_material(Color(0.09, 0.01, 0.012, 1.0), Color(0.25, 0.0, 0.0, 1.0), 0.25, false)
+func _build_pink_bow_symbol(glow_color: Color, mark_color: Color) -> void:
 	var bow_mat := _make_material(Color(1.0, 0.46, 0.72, 1.0), Color(1.0, 0.18, 0.5, 1.0), 1.55, false)
+	var ribbon_shadow_mat := _make_material(Color(0.58, 0.04, 0.22, 1.0), Color(0.9, 0.04, 0.32, 1.0), 0.7, false)
 
-	_add_box("ShoeSole", Vector3(0.66, 0.1, 0.24), Vector3(0.02, 0.49, 0.0), Vector3(0.0, 0.0, deg_to_rad(-8.0)), sole_mat)
-	_add_sphere("ShoeToe", 0.24, 0.22, Vector3(0.28, 0.56, 0.0), Vector3(1.55, 0.48, 0.86), shoe_mat)
-	_add_box("ShoeArch", Vector3(0.32, 0.12, 0.22), Vector3(-0.08, 0.57, 0.0), Vector3(0.0, 0.0, deg_to_rad(9.0)), shoe_mat)
-	_add_box("Heel", Vector3(0.07, 0.43, 0.07), Vector3(-0.34, 0.27, 0.0), Vector3(0.0, 0.0, deg_to_rad(-12.0)), shoe_mat)
-	_add_box("BowLeft", Vector3(0.18, 0.08, 0.12), Vector3(0.12, 0.77, -0.07), Vector3(0.0, 0.0, deg_to_rad(22.0)), bow_mat)
-	_add_box("BowRight", Vector3(0.18, 0.08, 0.12), Vector3(0.3, 0.77, 0.07), Vector3(0.0, 0.0, deg_to_rad(-22.0)), bow_mat)
-	_add_sphere("BowKnot", 0.055, 0.08, Vector3(0.21, 0.77, 0.0), Vector3.ONE, bow_mat)
+	_add_imported_symbol(
+		"HiddenBlade",
+		BLADE_SCENE_PATH,
+		Vector3.ONE * 0.44,
+		Vector3(0.0, 0.62, 0.08),
+		Vector3(0.0, deg_to_rad(8.0), deg_to_rad(-14.0)),
+		glow_color
+	)
+	_add_sphere("BowLeft", 0.18, 0.16, Vector3(-0.19, 1.03, -0.18), Vector3(1.45, 0.66, 0.55), bow_mat, Vector3(0.0, deg_to_rad(-14.0), deg_to_rad(22.0)))
+	_add_sphere("BowRight", 0.18, 0.16, Vector3(0.19, 1.03, -0.18), Vector3(1.45, 0.66, 0.55), bow_mat, Vector3(0.0, deg_to_rad(14.0), deg_to_rad(-22.0)))
+	_add_sphere("BowKnot", 0.105, 0.15, Vector3(0.0, 1.03, -0.24), Vector3(1.0, 0.82, 0.68), bow_mat)
+	_add_box("RibbonLeft", Vector3(0.13, 0.42, 0.07), Vector3(-0.1, 0.79, -0.17), Vector3(0.0, 0.0, deg_to_rad(12.0)), ribbon_shadow_mat)
+	_add_box("RibbonRight", Vector3(0.13, 0.42, 0.07), Vector3(0.1, 0.79, -0.17), Vector3(0.0, 0.0, deg_to_rad(-12.0)), ribbon_shadow_mat)
+	_add_sphere("WarmMemory", 0.055, 0.08, Vector3(0.0, 1.04, -0.31), Vector3.ONE, _make_material(mark_color, glow_color, 1.8, false))
 
 
 func _build_deleted_path_symbol(glow_color: Color) -> void:
-	var wood_mat := _make_material(Color(0.36, 0.22, 0.12, 1.0), Color(0.08, 0.04, 0.01, 1.0), 0.1, false)
-	var board_mat := _make_material(Color(0.2, 0.18, 0.14, 1.0), glow_color, 0.35, false)
+	var wood_mat := _make_material(Color(0.29, 0.15, 0.07, 1.0), Color(0.08, 0.04, 0.01, 1.0), 0.1, false)
+	var board_mat := _make_material(Color(0.42, 0.27, 0.13, 1.0), glow_color, 0.22, false)
+	var cut_mat := _make_material(Color(0.15, 0.075, 0.025, 1.0), Color(0.05, 0.02, 0.0, 1.0), 0.05, false)
+	var vine_mat := _make_material(Color(0.08, 0.28, 0.11, 1.0), Color(0.02, 0.12, 0.04, 1.0), 0.18, false)
+	var leaf_mat := _make_material(Color(0.16, 0.48, 0.2, 1.0), Color(0.04, 0.22, 0.08, 1.0), 0.25, false)
 	var thread_mat := _make_material(Color(0.86, 0.02, 0.04, 1.0), Color(1.0, 0.02, 0.02, 1.0), 1.35, false)
 
-	_add_box("Post", Vector3(0.08, 0.72, 0.08), Vector3(0.0, 0.5, 0.0), Vector3.ZERO, wood_mat)
-	_add_box("BrokenSignLeft", Vector3(0.34, 0.16, 0.06), Vector3(-0.21, 0.82, 0.0), Vector3(0.0, 0.0, deg_to_rad(8.0)), board_mat)
-	_add_box("BrokenSignRight", Vector3(0.34, 0.16, 0.06), Vector3(0.23, 0.75, 0.0), Vector3(0.0, 0.0, deg_to_rad(-16.0)), board_mat)
-	_add_box("CutThreadLeft", Vector3(0.32, 0.035, 0.035), Vector3(-0.27, 1.0, 0.04), Vector3(0.0, 0.0, deg_to_rad(-24.0)), thread_mat)
-	_add_box("CutThreadRight", Vector3(0.32, 0.035, 0.035), Vector3(0.27, 1.0, -0.04), Vector3(0.0, 0.0, deg_to_rad(24.0)), thread_mat)
+	_add_box("Post", Vector3(0.12, 1.18, 0.12), Vector3(0.0, 0.57, 0.05), Vector3(0.0, 0.0, deg_to_rad(-3.0)), wood_mat)
+	_add_box("BrokenSignLeft", Vector3(0.62, 0.26, 0.1), Vector3(-0.31, 0.92, 0.0), Vector3(0.0, deg_to_rad(-4.0), deg_to_rad(7.0)), board_mat)
+	_add_box("BrokenSignRight", Vector3(0.55, 0.26, 0.1), Vector3(0.31, 0.83, 0.01), Vector3(0.0, deg_to_rad(5.0), deg_to_rad(-13.0)), board_mat)
+	_add_box("SplitTop", Vector3(0.08, 0.22, 0.12), Vector3(0.02, 0.89, -0.01), Vector3(0.0, 0.0, deg_to_rad(31.0)), cut_mat)
+	_add_box("BrokenTipUpper", Vector3(0.17, 0.13, 0.1), Vector3(0.64, 0.91, 0.01), Vector3(0.0, 0.0, deg_to_rad(25.0)), board_mat)
+	_add_box("BrokenTipLower", Vector3(0.13, 0.12, 0.1), Vector3(0.61, 0.77, 0.01), Vector3(0.0, 0.0, deg_to_rad(-24.0)), board_mat)
+
+	# Shallow dark strokes suggest letters that someone deliberately scraped away.
+	for i in range(5):
+		_add_box("ErasedLetter%d" % i, Vector3(0.12, 0.028, 0.018), Vector3(-0.43 + i * 0.2, 0.91 - i * 0.012, 0.065), Vector3(0.0, 0.0, deg_to_rad(-8.0 + i * 4.0)), cut_mat)
+	_add_box("LongScrape", Vector3(0.94, 0.026, 0.02), Vector3(-0.02, 0.88, 0.078), Vector3(0.0, 0.0, deg_to_rad(9.0)), cut_mat)
+	_add_box("CrossScrape", Vector3(0.62, 0.024, 0.022), Vector3(0.1, 0.89, 0.084), Vector3(0.0, 0.0, deg_to_rad(-22.0)), cut_mat)
+
+	_add_cylinder("VineStemLeft", 0.018, 0.018, 0.78, Vector3(-0.2, 0.51, 0.09), Vector3(0.0, 0.0, deg_to_rad(-17.0)), vine_mat)
+	_add_cylinder("VineStemAcross", 0.016, 0.016, 0.72, Vector3(-0.19, 0.86, 0.09), Vector3(0.0, 0.0, deg_to_rad(75.0)), vine_mat)
+	for i in range(6):
+		var leaf_position := Vector3(-0.38 + i * 0.14, 0.69 + i * 0.055, 0.12)
+		_add_sphere("Leaf%d" % i, 0.095, 0.1, leaf_position, Vector3(1.2, 0.48, 0.38), leaf_mat, Vector3(0.0, 0.0, deg_to_rad(-35.0 + i * 17.0)))
+	_add_box("CutThreadLeft", Vector3(0.42, 0.035, 0.035), Vector3(-0.36, 1.13, 0.03), Vector3(0.0, 0.0, deg_to_rad(-24.0)), thread_mat)
+	_add_box("CutThreadRight", Vector3(0.42, 0.035, 0.035), Vector3(0.36, 1.13, -0.03), Vector3(0.0, 0.0, deg_to_rad(24.0)), thread_mat)
 
 
 func _build_watcher_symbol(glow_color: Color) -> void:
-	var eye_mat := _make_material(Color(0.86, 0.9, 1.0, 1.0), glow_color, 1.1, false)
-	var pupil_mat := _make_material(Color(0.02, 0.025, 0.05, 1.0), Color(0.14, 0.28, 1.0, 1.0), 1.6, false)
-	var lash_mat := _make_material(Color(0.06, 0.07, 0.12, 1.0), glow_color, 0.75, false)
-
-	_add_sphere("EyeWhite", 0.34, 0.3, Vector3(0.0, 0.74, 0.0), Vector3(1.45, 0.42, 0.8), eye_mat)
-	_add_sphere("Pupil", 0.11, 0.12, Vector3(0.0, 0.76, -0.23), Vector3(1.0, 1.0, 0.55), pupil_mat)
-	for i in range(5):
-		var x := -0.36 + i * 0.18
-		_add_box("WatcherRay%d" % i, Vector3(0.035, 0.22, 0.035), Vector3(x, 1.0, 0.0), Vector3(0.0, 0.0, deg_to_rad(-28.0 + i * 14.0)), lash_mat)
-	_add_sphere("SmallEyeLeft", 0.08, 0.08, Vector3(-0.46, 0.55, 0.0), Vector3(1.2, 0.45, 0.7), eye_mat)
-	_add_sphere("SmallEyeRight", 0.08, 0.08, Vector3(0.46, 0.55, 0.0), Vector3(1.2, 0.45, 0.7), eye_mat)
+	var eye := _add_imported_symbol(
+		"WingedWatcher",
+		WINGED_EYE_SCENE_PATH,
+		Vector3.ONE * 1.38,
+		Vector3(0.0, 0.78, -0.06),
+		Vector3(0.0, 0.0, deg_to_rad(-3.0)),
+		glow_color
+	)
+	var animation_player := _find_animation_player(eye)
+	if animation_player and animation_player.has_animation("Take 001"):
+		animation_player.play("Take 001")
+		animation_player.speed_scale = 0.72
+	var pupil_glow := _make_material(Color(0.03, 0.03, 0.08, 1.0), glow_color, 2.2, false)
+	_add_sphere("WatchingPupilGlow", 0.055, 0.065, Vector3(0.0, 0.78, -0.19), Vector3(1.0, 1.0, 0.45), pupil_glow)
 
 
 func _build_hunter_symbol(glow_color: Color) -> void:
-	var handle_mat := _make_material(Color(0.34, 0.2, 0.12, 1.0), Color(0.1, 0.045, 0.02, 1.0), 0.1, false)
-	var metal_mat := _make_material(Color(0.52, 0.54, 0.52, 1.0), glow_color, 0.75, false)
 	var badge_mat := _make_material(Color(0.78, 0.52, 0.18, 1.0), glow_color, 0.9, false)
 
-	_add_box("AxeHandle", Vector3(0.08, 0.92, 0.08), Vector3(0.0, 0.57, 0.0), Vector3(0.0, 0.0, deg_to_rad(-24.0)), handle_mat)
-	_add_box("AxeBlade", Vector3(0.36, 0.2, 0.05), Vector3(0.24, 0.94, 0.0), Vector3(0.0, 0.0, deg_to_rad(-24.0)), metal_mat)
-	_add_box("BadgeBar", Vector3(0.46, 0.055, 0.055), Vector3(-0.18, 0.36, 0.0), Vector3(0.0, 0.0, deg_to_rad(12.0)), badge_mat)
+	_add_imported_symbol(
+		"HunterWeapon",
+		HUNTER_WEAPON_SCENE_PATH,
+		Vector3.ONE * 1.12,
+		Vector3(0.0, 0.66, 0.0),
+		Vector3(0.0, deg_to_rad(-12.0), deg_to_rad(-24.0)),
+		glow_color
+	)
+	_add_box("LateBadgeBar", Vector3(0.5, 0.055, 0.055), Vector3(-0.2, 0.31, -0.22), Vector3(0.0, 0.0, deg_to_rad(12.0)), badge_mat)
 	_add_sphere("LateBadge", 0.14, 0.08, Vector3(-0.23, 0.47, 0.0), Vector3(1.0, 0.52, 1.0), badge_mat)
 
 
 func _build_grandma_symbol(glow_color: Color) -> void:
-	var lock_mat := _make_material(Color(0.42, 0.28, 0.58, 1.0), glow_color, 1.0, false)
 	var metal_mat := _make_material(Color(0.74, 0.7, 0.82, 1.0), glow_color, 0.85, false)
 	var dark_mat := _make_material(Color(0.02, 0.0, 0.04, 1.0), Color(0.1, 0.0, 0.16, 1.0), 0.3, false)
 
-	_add_box("LockBody", Vector3(0.46, 0.36, 0.16), Vector3(0.0, 0.52, 0.0), Vector3.ZERO, lock_mat)
-	_add_cylinder("ShackleLeft", 0.035, 0.035, 0.34, Vector3(-0.16, 0.84, 0.0), Vector3.ZERO, metal_mat)
-	_add_cylinder("ShackleRight", 0.035, 0.035, 0.34, Vector3(0.16, 0.84, 0.0), Vector3.ZERO, metal_mat)
-	_add_cylinder("ShackleTop", 0.035, 0.035, 0.32, Vector3(0.0, 1.01, 0.0), Vector3(0.0, 0.0, deg_to_rad(90.0)), metal_mat)
-	_add_box("Keyhole", Vector3(0.07, 0.17, 0.035), Vector3(0.0, 0.5, -0.09), Vector3.ZERO, dark_mat)
-	_add_box("DoorChain", Vector3(0.56, 0.045, 0.045), Vector3(0.0, 0.28, 0.02), Vector3(0.0, 0.0, deg_to_rad(-12.0)), metal_mat)
+	_add_imported_symbol(
+		"DoorDeedScroll",
+		SCROLL_SCENE_PATH,
+		Vector3.ONE * 1.02,
+		Vector3(0.0, 0.7, 0.0),
+		Vector3(0.0, deg_to_rad(8.0), deg_to_rad(-6.0)),
+		glow_color
+	)
+	_add_cylinder("KeyShaft", 0.035, 0.035, 0.48, Vector3(0.23, 0.57, 0.2), Vector3(0.0, 0.0, deg_to_rad(-22.0)), metal_mat)
+	_add_sphere("KeyRing", 0.13, 0.06, Vector3(0.32, 0.77, 0.2), Vector3(1.0, 1.0, 0.34), metal_mat)
+	_add_box("KeyToothLong", Vector3(0.18, 0.055, 0.055), Vector3(0.13, 0.35, 0.2), Vector3(0.0, 0.0, deg_to_rad(-22.0)), dark_mat)
+	_add_box("KeyToothShort", Vector3(0.12, 0.055, 0.055), Vector3(0.03, 0.39, 0.2), Vector3(0.0, 0.0, deg_to_rad(68.0)), dark_mat)
 
 
 func _build_wolf_symbol(glow_color: Color) -> void:
-	var mask_mat := _make_material(Color(0.05, 0.045, 0.055, 1.0), glow_color, 0.9, false)
 	var red_mat := _make_material(Color(0.8, 0.015, 0.02, 1.0), Color(1.0, 0.02, 0.02, 1.0), 1.45, false)
 	var eye_mat := _make_material(Color(1.0, 0.86, 0.78, 1.0), glow_color, 1.4, false)
 
-	_add_sphere("MaskFace", 0.31, 0.42, Vector3(0.0, 0.72, 0.0), Vector3(1.05, 1.15, 0.62), mask_mat)
-	_add_box("LeftEar", Vector3(0.14, 0.28, 0.08), Vector3(-0.2, 1.02, 0.0), Vector3(0.0, 0.0, deg_to_rad(-32.0)), mask_mat)
-	_add_box("RightEar", Vector3(0.14, 0.28, 0.08), Vector3(0.2, 1.02, 0.0), Vector3(0.0, 0.0, deg_to_rad(32.0)), mask_mat)
-	_add_box("RedDivide", Vector3(0.055, 0.54, 0.035), Vector3(0.0, 0.72, -0.22), Vector3(0.0, 0.0, deg_to_rad(8.0)), red_mat)
-	_add_sphere("LeftEye", 0.055, 0.055, Vector3(-0.12, 0.79, -0.24), Vector3(1.2, 0.5, 0.5), eye_mat)
-	_add_sphere("RightEye", 0.055, 0.055, Vector3(0.12, 0.79, -0.24), Vector3(1.2, 0.5, 0.5), eye_mat)
-	_add_box("Mouth", Vector3(0.24, 0.04, 0.035), Vector3(0.0, 0.59, -0.25), Vector3.ZERO, red_mat)
+	_add_imported_symbol(
+		"WolfLawShield",
+		SHIELD_SCENE_PATH,
+		Vector3.ONE * 0.78,
+		Vector3(0.0, 0.18, 0.0),
+		Vector3(0.0, 0.0, deg_to_rad(4.0)),
+		glow_color
+	)
+	_add_box("RedDivide", Vector3(0.05, 0.5, 0.04), Vector3(0.0, 0.67, 0.2), Vector3(0.0, 0.0, deg_to_rad(8.0)), red_mat)
+	_add_sphere("LeftEye", 0.065, 0.06, Vector3(-0.19, 0.72, 0.23), Vector3(1.35, 0.55, 0.45), eye_mat)
+	_add_sphere("RightEye", 0.065, 0.06, Vector3(0.19, 0.72, 0.23), Vector3(1.35, 0.55, 0.45), eye_mat)
+	_add_box("Mouth", Vector3(0.34, 0.045, 0.04), Vector3(0.0, 0.48, 0.23), Vector3.ZERO, red_mat)
+
+
+func _add_imported_symbol(part_name: String, scene_path: String, model_scale: Vector3, position: Vector3, rotation: Vector3, glow_color: Color) -> Node3D:
+	var packed_scene := load(scene_path) as PackedScene
+	if packed_scene == null:
+		push_warning("Memory fragment could not load model: %s" % scene_path)
+		return null
+
+	var wrapper := Node3D.new()
+	wrapper.name = part_name
+	wrapper.position = position
+	wrapper.rotation = rotation
+	wrapper.scale = model_scale
+	symbol_root.add_child(wrapper)
+
+	var model := packed_scene.instantiate() as Node3D
+	wrapper.add_child(model)
+	var overlay := _make_material(Color(glow_color.r, glow_color.g, glow_color.b, 0.08), glow_color, 0.42, true)
+	overlay.metallic = 0.08
+	overlay.roughness = 0.34
+	for mesh_node in model.find_children("*", "MeshInstance3D", true, false):
+		var mesh_instance := mesh_node as MeshInstance3D
+		mesh_instance.material_overlay = overlay
+		mesh_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+
+	return wrapper
+
+
+func _find_animation_player(root_node: Node) -> AnimationPlayer:
+	if root_node == null:
+		return null
+	if root_node is AnimationPlayer:
+		return root_node as AnimationPlayer
+	for child in root_node.get_children():
+		var animation_player := _find_animation_player(child)
+		if animation_player:
+			return animation_player
+	return null
 
 
 func _add_box(part_name: String, size: Vector3, position: Vector3, rotation: Vector3, material: StandardMaterial3D) -> MeshInstance3D:
@@ -217,13 +301,13 @@ func _add_box(part_name: String, size: Vector3, position: Vector3, rotation: Vec
 	return _add_mesh(part_name, mesh, position, rotation, Vector3.ONE, material)
 
 
-func _add_sphere(part_name: String, radius: float, height: float, position: Vector3, scale: Vector3, material: StandardMaterial3D) -> MeshInstance3D:
+func _add_sphere(part_name: String, radius: float, height: float, position: Vector3, scale: Vector3, material: StandardMaterial3D, rotation: Vector3 = Vector3.ZERO) -> MeshInstance3D:
 	var mesh := SphereMesh.new()
 	mesh.radius = radius
 	mesh.height = height
 	mesh.radial_segments = 16
 	mesh.rings = 8
-	return _add_mesh(part_name, mesh, position, Vector3.ZERO, scale, material)
+	return _add_mesh(part_name, mesh, position, rotation, scale, material)
 
 
 func _add_cylinder(part_name: String, top_radius: float, bottom_radius: float, height: float, position: Vector3, rotation: Vector3, material: StandardMaterial3D) -> MeshInstance3D:

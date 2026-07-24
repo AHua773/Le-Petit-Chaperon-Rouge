@@ -286,7 +286,7 @@ medicine_type = 1
 
 [node name="Memory_RuleNote" parent="Collectibles/MemoryFragments" unique_id=316935068 instance=ExtResource("12_memory")]
 transform = Transform3D(0.81915206, 0, -0.57357645, 0, 1, 0, 0.57357645, 0, 0.81915206, 1.8, 0.1, 25.2)
-fragment_title = "任务碎片 01：红色高跟鞋"
+fragment_title = "任务碎片 01：粉色蝴蝶结"
 fragment_line = "妈妈：沿着路走。别问路通向哪里。去找回森林里六件被遗忘的东西。"
 voice_clip = ExtResource("13_mem01")
 subtitle_duration = 4.0
@@ -312,7 +312,7 @@ subtitle_duration = 5.2
 [node name="Memory_Hunter" parent="Collectibles/MemoryFragments" unique_id=1190789767 instance=ExtResource("12_memory")]
 transform = Transform3D(0.76604444, 0, 0.64278764, 0, 1, 0, -0.64278764, 0, 0.76604444, -5.8, 0.1, -20.55)
 fragment_id = "memory_04"
-fragment_title = "碎片 04：靠墙的斧徽"
+fragment_title = "碎片 04：迟到的猎人武器"
 fragment_line = "猎人：等一切结束，我会把门踹开。斧徽只能护住墙边这一小圈。"
 fragment_style = 3
 voice_clip = ExtResource("16_mem04")
@@ -321,7 +321,7 @@ subtitle_duration = 5.4
 [node name="Memory_GrandmaDoor" parent="Collectibles/MemoryFragments" unique_id=52148925 instance=ExtResource("12_memory")]
 transform = Transform3D(0.9848077, 0, -0.17364818, 0, 1, 0, 0.17364818, 0, 0.9848077, -0.7, 0.1, -22.4)
 fragment_id = "memory_05"
-fragment_title = "碎片 05：反锁门扣与钥匙"
+fragment_title = "碎片 05：门契卷轴与钥匙"
 fragment_line = "外婆：孩子，门不是我锁的。屋子学会了替他们关门。"
 fragment_style = 4
 voice_clip = ExtResource("17_mem05")
@@ -330,7 +330,7 @@ subtitle_duration = 5.0
 [node name="Memory_WolfDefinition" parent="Collectibles/MemoryFragments" unique_id=1378877624 instance=ExtResource("12_memory")]
 transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 1.25, 0.1, -20.65)
 fragment_id = "memory_06"
-fragment_title = "碎片 06：半张狼面具"
+fragment_title = "碎片 06：狼纹盾面"
 fragment_line = "狼：你以为我是狼？我是他们允许存在的那部分黑暗。"
 fragment_style = 5
 voice_clip = ExtResource("18_mem06")
