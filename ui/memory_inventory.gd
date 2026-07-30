@@ -1,7 +1,11 @@
 extends CanvasLayer
 
+const BAG_BUTTON_SIZE := Vector2(118.0, 56.0)
+const BAG_EDGE_MARGIN := Vector2(18.0, 16.0)
+
 @onready var bag_button: Button = $Root/BagButton
 @onready var overlay: Control = $Root/Overlay
+@onready var inventory_window: Control = $Root/Overlay/Window
 @onready var close_button: Button = $Root/Overlay/Window/Margin/Layout/Header/CloseButton
 @onready var progress_label: Label = $Root/Overlay/Window/Margin/Layout/Header/Progress
 @onready var item_list: VBoxContainer = $Root/Overlay/Window/Margin/Layout/Body/Items/Scroll/List
@@ -20,10 +24,14 @@ var _previous_mouse_mode: Input.MouseMode = Input.MOUSE_MODE_CAPTURED
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	bag_button.pressed.connect(toggle_inventory)
+	bag_button.pressed.connect(_on_bag_button_pressed)
 	close_button.pressed.connect(close_inventory)
+	get_viewport().size_changed.connect(_apply_safe_area_layout)
+	if DisplayServer.has_signal("orientation_changed"):
+		DisplayServer.orientation_changed.connect(_on_orientation_changed)
 	overlay.visible = false
 	call_deferred("_resolve_memory_state")
+	call_deferred("_apply_safe_area_layout")
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -40,6 +48,14 @@ func toggle_inventory() -> void:
 		close_inventory()
 	else:
 		open_inventory()
+
+
+func _on_bag_button_pressed() -> void:
+	toggle_inventory()
+
+
+func _on_orientation_changed(_orientation: int) -> void:
+	call_deferred("_apply_safe_area_layout")
 
 
 func open_inventory() -> void:
@@ -124,7 +140,7 @@ func _rebuild_item_list(collected_ids: PackedStringArray) -> void:
 		var archive: Dictionary = memory_state.get_fragment_archive(fragment_id)
 		var button := Button.new()
 		button.name = "Item_%s" % fragment_id
-		button.custom_minimum_size = Vector2(0.0, 54.0)
+		button.custom_minimum_size = Vector2(0.0, 58.0)
 		button.text = "%s   %s" % [archive.get("index", "--"), str(archive.get("name", fragment_id)).to_upper()]
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		button.focus_mode = Control.FOCUS_ALL
@@ -204,3 +220,49 @@ func _notify_player_inventory_state(is_open: bool) -> void:
 	for player in get_tree().get_nodes_in_group("player"):
 		if player and player.has_method("set_inventory_open"):
 			player.set_inventory_open(is_open)
+
+
+func _apply_safe_area_layout() -> void:
+	if not is_instance_valid(bag_button) or not is_instance_valid(inventory_window):
+		return
+
+	var viewport_size := get_viewport().get_visible_rect().size
+	if viewport_size.x <= 0.0 or viewport_size.y <= 0.0:
+		return
+
+	var safe_insets := _get_ios_safe_insets(viewport_size)
+	var right_margin := maxf(BAG_EDGE_MARGIN.x, safe_insets.z + 12.0)
+	var top_margin := maxf(BAG_EDGE_MARGIN.y, safe_insets.y + 12.0)
+
+	bag_button.offset_right = -right_margin
+	bag_button.offset_left = bag_button.offset_right - BAG_BUTTON_SIZE.x
+	bag_button.offset_top = top_margin
+	bag_button.offset_bottom = top_margin + BAG_BUTTON_SIZE.y
+
+	var horizontal_margin := viewport_size.x * 0.06
+	var vertical_margin := viewport_size.y * 0.07
+	inventory_window.anchor_left = 0.0
+	inventory_window.anchor_top = 0.0
+	inventory_window.anchor_right = 1.0
+	inventory_window.anchor_bottom = 1.0
+	inventory_window.offset_left = maxf(horizontal_margin, safe_insets.x + 12.0)
+	inventory_window.offset_top = maxf(vertical_margin, safe_insets.y + 12.0)
+	inventory_window.offset_right = -maxf(horizontal_margin, safe_insets.z + 12.0)
+	inventory_window.offset_bottom = -maxf(vertical_margin, safe_insets.w + 12.0)
+
+
+func _get_ios_safe_insets(viewport_size: Vector2) -> Vector4:
+	if not OS.has_feature("ios"):
+		return Vector4.ZERO
+
+	var safe_area := DisplayServer.get_display_safe_area()
+	var window_size := Vector2(DisplayServer.window_get_size())
+	if safe_area.size.x <= 0 or safe_area.size.y <= 0 or window_size.x <= 0.0 or window_size.y <= 0.0:
+		return Vector4.ZERO
+
+	var scale := Vector2(viewport_size.x / window_size.x, viewport_size.y / window_size.y)
+	var left := float(safe_area.position.x) * scale.x
+	var top := float(safe_area.position.y) * scale.y
+	var right := float(window_size.x - safe_area.position.x - safe_area.size.x) * scale.x
+	var bottom := float(window_size.y - safe_area.position.y - safe_area.size.y) * scale.y
+	return Vector4(maxf(left, 0.0), maxf(top, 0.0), maxf(right, 0.0), maxf(bottom, 0.0))

@@ -68,13 +68,13 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -124.0
-offset_top = 20.0
-offset_right = -22.0
-offset_bottom = 58.0
+offset_top = 16.0
+offset_right = -18.0
+offset_bottom = 72.0
 grow_horizontal = 0
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 0.86, 0.54, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 15
 theme_override_styles/normal = SubResource("Style_bag")
 theme_override_styles/hover = SubResource("Style_bag_hover")
 theme_override_styles/pressed = SubResource("Style_bag_hover")
@@ -142,7 +142,7 @@ text = "0 / 6 RECOVERED"
 vertical_alignment = 1
 
 [node name="CloseButton" type="Button" parent="Root/Overlay/Window/Margin/Layout/Header"]
-custom_minimum_size = Vector2(42, 38)
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.94, 0.88, 0.82, 1)
