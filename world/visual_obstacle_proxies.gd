@@ -24,12 +24,19 @@ func _build_obstacle_proxies() -> void:
 	obstacle_root.name = "GeneratedObstacleProxies"
 	add_child(obstacle_root)
 
-	var source_nodes := get_children()
+	var source_nodes: Array[Node3D] = []
+	_collect_source_nodes(self, source_nodes)
 	for source in source_nodes:
-		if source == obstacle_root or not (source is Node3D):
-			continue
+		_add_proxy_for(source)
 
-		_add_proxy_for(source as Node3D)
+
+func _collect_source_nodes(parent: Node, result: Array[Node3D]) -> void:
+	for child in parent.get_children():
+		if child == obstacle_root:
+			continue
+		if child is Node3D:
+			result.append(child as Node3D)
+		_collect_source_nodes(child, result)
 
 
 func _add_proxy_for(source: Node3D) -> void:

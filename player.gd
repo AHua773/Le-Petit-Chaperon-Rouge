@@ -8,9 +8,14 @@ enum PlayerState {
 
 @export var move_speed: float = 5.0
 @export var acceleration: float = 20.0
+@export_range(0.1, 1.0, 0.05) var grass_speed_multiplier: float = 0.68
+@export_range(0.1, 1.0, 0.05) var grass_acceleration_multiplier: float = 0.55
+@export_range(1.0, 3.0, 0.1) var grass_stopping_multiplier: float = 1.4
 @export var jump_velocity: float = 7.0
 @export var mouse_sensitivity: float = 0.0025
 @export var touch_look_sensitivity: float = 0.004
+@export var touch_jump_max_duration: float = 0.3
+@export var touch_jump_max_distance: float = 36.0
 @export var min_pitch: float = -75.0
 @export var max_pitch: float = 75.0
 @export var show_first_person_body: bool = false
@@ -54,6 +59,12 @@ var is_downed: bool = false
 var status_ui: Node
 var virtual_joystick: Node
 var _look_touch_index := -1
+var _look_touch_start_position := Vector2.ZERO
+var _look_touch_start_time_msec := 0
+var _look_touch_max_distance := 0.0
+var _mobile_jump_requested := false
+var _is_on_road_surface := true
+var terrain_surface_detector: Node
 
 
 func _ready() -> void:
@@ -83,10 +94,25 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
 		if event.pressed and _look_touch_index == -1 and event.position.x > get_viewport().get_visible_rect().size.x * 0.5:
 			_look_touch_index = event.index
+			_look_touch_start_position = event.position
+			_look_touch_start_time_msec = Time.get_ticks_msec()
+			_look_touch_max_distance = 0.0
 		elif not event.pressed and event.index == _look_touch_index:
+			if _is_right_side_tap(event.position):
+				_mobile_jump_requested = true
 			_look_touch_index = -1
 	elif event is InputEventScreenDrag and event.index == _look_touch_index:
+		_look_touch_max_distance = maxf(
+			_look_touch_max_distance,
+			event.position.distance_to(_look_touch_start_position)
+		)
 		_rotate_view(event.relative.x * touch_look_sensitivity, event.relative.y * touch_look_sensitivity)
+
+
+func _is_right_side_tap(release_position: Vector2) -> bool:
+	var elapsed_seconds := (Time.get_ticks_msec() - _look_touch_start_time_msec) / 1000.0
+	var release_distance := release_position.distance_to(_look_touch_start_position)
+	return elapsed_seconds <= touch_jump_max_duration and maxf(_look_touch_max_distance, release_distance) <= touch_jump_max_distance
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -127,9 +153,12 @@ func _physics_process(delta: float) -> void:
 
 func handle_jump() -> void:
 	if is_downed:
+		_mobile_jump_requested = false
 		return
 
-	if Input.is_action_just_pressed("jump") and is_on_floor():
+	var should_jump := Input.is_action_just_pressed("jump") or _mobile_jump_requested
+	_mobile_jump_requested = false
+	if should_jump and is_on_floor():
 		velocity.y = jump_velocity
 		change_state(PlayerState.JUMP)
 
@@ -172,17 +201,41 @@ func handle_movement(delta: float) -> void:
 	right = right.normalized()
 
 	var direction := right * input_vector.x + forward * -input_vector.y
+	if is_on_floor():
+		_is_on_road_surface = _detect_road_surface()
+
+	var surface_speed := move_speed
+	var surface_acceleration := acceleration
+	var stopping_acceleration := acceleration
+	if not _is_on_road_surface:
+		surface_speed *= grass_speed_multiplier
+		surface_acceleration *= grass_acceleration_multiplier
+		stopping_acceleration *= grass_stopping_multiplier
 
 	if direction.length_squared() > 0.0:
 		direction = direction.normalized()
 
-		velocity.x = move_toward(velocity.x, direction.x * move_speed, acceleration * delta)
-		velocity.z = move_toward(velocity.z, direction.z * move_speed, acceleration * delta)
+		velocity.x = move_toward(velocity.x, direction.x * surface_speed, surface_acceleration * delta)
+		velocity.z = move_toward(velocity.z, direction.z * surface_speed, surface_acceleration * delta)
 	else:
-		velocity.x = move_toward(velocity.x, 0.0, acceleration * delta)
-		velocity.z = move_toward(velocity.z, 0.0, acceleration * delta)
+		velocity.x = move_toward(velocity.x, 0.0, stopping_acceleration * delta)
+		velocity.z = move_toward(velocity.z, 0.0, stopping_acceleration * delta)
 
 	apply_view_rotation()
+
+
+func _detect_road_surface() -> bool:
+	var foot_position := global_position
+	if is_instance_valid(body_collision):
+		foot_position = body_collision.global_position
+
+	if not is_instance_valid(terrain_surface_detector):
+		terrain_surface_detector = get_tree().get_first_node_in_group("terrain_surface_detector")
+
+	if is_instance_valid(terrain_surface_detector) and terrain_surface_detector.has_method("is_position_on_road"):
+		return terrain_surface_detector.is_position_on_road(foot_position)
+
+	return true
 
 
 func _connect_virtual_joystick() -> void:
@@ -401,6 +454,9 @@ func _get_status_ui() -> Node:
 
 
 func _enter_downed_state() -> void:
+	if is_downed:
+		return
+
 	is_downed = true
 	current_health = 0.0
 	hit_stun_timer = 0.0
@@ -408,6 +464,9 @@ func _enter_downed_state() -> void:
 	velocity.z = 0.0
 	_start_camera_shake(damage_camera_shake_strength * 1.5, damage_camera_shake_time * 1.4)
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	var ui := _get_status_ui()
+	if ui and ui.has_method("show_game_over"):
+		ui.show_game_over()
 
 
 func _stop_after_down(delta: float) -> void:

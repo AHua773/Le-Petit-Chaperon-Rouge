@@ -14,6 +14,9 @@ extends CanvasLayer
 @onready var objective_panel: Control = $Root/ObjectivePanel
 @onready var objective_title_label: Label = $Root/ObjectivePanel/Margin/Text/Title
 @onready var objective_line_label: Label = $Root/ObjectivePanel/Margin/Text/Line
+@onready var game_over_overlay: Control = $GameOverOverlay
+@onready var retry_button: Button = $GameOverOverlay/Center/Panel/Margin/Content/Buttons/RetryButton
+@onready var menu_button: Button = $GameOverOverlay/Center/Panel/Margin/Content/Buttons/MenuButton
 
 var damage_flash: float = 0.0
 var low_health_pressure: float = 0.0
@@ -22,6 +25,7 @@ var memory_message_timer: float = 0.0
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	_resolve_nodes()
 	blur_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	damage_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -32,6 +36,9 @@ func _ready() -> void:
 	if _resolve_objective_nodes():
 		objective_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		objective_panel.visible = true
+	game_over_overlay.visible = false
+	retry_button.pressed.connect(_restart_game)
+	menu_button.pressed.connect(_return_to_menu)
 	_update_overlays()
 
 
@@ -91,6 +98,29 @@ func set_objective(title: String, line: String) -> void:
 	objective_title_label.text = title
 	objective_line_label.text = line
 	objective_panel.visible = true
+
+
+func show_game_over() -> void:
+	if game_over_overlay.visible:
+		return
+
+	memory_panel.visible = false
+	game_over_overlay.visible = true
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	get_tree().paused = true
+	retry_button.grab_focus()
+
+
+func _restart_game() -> void:
+	game_over_overlay.visible = false
+	get_tree().paused = false
+	get_tree().reload_current_scene()
+
+
+func _return_to_menu() -> void:
+	game_over_overlay.visible = false
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://ui/app_launcher.tscn")
 
 
 func _update_overlays() -> void:
