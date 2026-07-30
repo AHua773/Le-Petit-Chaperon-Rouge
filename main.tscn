@@ -34,6 +34,7 @@
 [ext_resource type="Script" uid="uid://851vmcql3eb6" path="res://systems/game_audio.gd" id="27_game_audio"]
 [ext_resource type="PackedScene" path="res://world/hunter_refuge.tscn" id="28_hunter_refuge"]
 [ext_resource type="AudioStream" uid="uid://dpbltq3l0px6n" path="res://audio/music/witch_fantasia.wav" id="29_witch_music"]
+[ext_resource type="PackedScene" path="res://ui/memory_inventory.tscn" id="30_inventory"]
 [ext_resource type="PackedScene" uid="uid://dhnrryoqxbtwn" path="res://assets/scene/house_trees_rocks.glb" id="37_0n3wm"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_boundary_x"]
@@ -87,6 +88,7 @@ size = Vector3(38, 0.3, 70)
 script = ExtResource("19_memory_state")
 
 [node name="GameAudio" type="Node" parent="." unique_id=592673972]
+process_mode = 3
 script = ExtResource("27_game_audio")
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="GameAudio" unique_id=506141160]
@@ -329,7 +331,6 @@ subtitle_duration = 5.0
 
 [node name="BossEncounter" parent="." unique_id=885117499 instance=ExtResource("20_boss")]
 transform = Transform3D(0.9659258, 0, -0.25881904, 0, 1, 0, 0.25881904, 0, 0.9659258, 0.1, 0.1, -21.9)
-activation_range = 18.0
 spawn_interval = 6.2
 
 [node name="FalseSafeDoor" parent="." unique_id=984229527 instance=ExtResource("22_false_door")]
@@ -344,10 +345,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.8, 0.1, -20.55)
 
 [node name="HiddenRoad_LeaveMainRoad" parent="HiddenRoad" unique_id=1861666421 instance=ExtResource("21_hidden_road")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.4, 0.12, -16.6)
-required_fragments_csv = "memory_01,memory_02,memory_03,memory_05,memory_06"
+required_fragments_csv = "memory_01,memory_02,memory_03,memory_04,memory_05,memory_06"
 segment_title = "Path I: Leave the Main Road"
 locked_message = "You have seen the entrance, but you have not lived through enough yet. The gaze, the front door, and the wolf's definition still block this path."
 path_size = Vector3(3, 0.08, 5.2)
+announce_route_start = true
 
 [node name="HiddenRoad_AvoidGaze" parent="HiddenRoad" unique_id=927978398 instance=ExtResource("21_hidden_road")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.8, 0.12, -21)
@@ -355,7 +357,7 @@ required_fragments_csv = "memory_01,memory_02,memory_03,memory_04,memory_05,memo
 segment_title = "Path II: Evade the Gaze"
 locked_message = "The hunter's mark is on this stretch. See the protection that came too late before you continue."
 path_size = Vector3(3, 0.08, 5.4)
-preview_color = Color(0.28, 0.46, 1, 0.3)
+preview_color = Color(1, 0.04, 0.08, 0.3)
 
 [node name="HiddenRoad_RejectDoor" parent="HiddenRoad" unique_id=1071030255 instance=ExtResource("21_hidden_road")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.4, 0.12, -23.8)
@@ -401,6 +403,8 @@ current = true
 environment = SubResource("Environment_kus3t")
 
 [node name="PlayerStatusUI" parent="." unique_id=221760749 instance=ExtResource("10_status")]
+
+[node name="MemoryInventory" parent="." instance=ExtResource("30_inventory")]
 
 [node name="VirtualJoystickLayer" parent="." unique_id=1699423673 instance=ExtResource("26_virtual_joystick")]
 

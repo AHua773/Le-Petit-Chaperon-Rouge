@@ -24,6 +24,9 @@ enum State {
 
 @onready var windup_marker: MeshInstance3D = $Visual/WindupMarker
 @onready var hitbox: Area3D = $Hitbox
+@onready var eye_left: MeshInstance3D = $Visual/EyeLeft
+@onready var eye_right: MeshInstance3D = $Visual/EyeRight
+@onready var wolf_skeleton: Skeleton3D = get_node_or_null("Visual/WolfModel/wolf_rig/Skeleton3D") as Skeleton3D
 @onready var wolf_animation_player: AnimationPlayer = get_node_or_null("Visual/WolfModel/AnimationPlayer") as AnimationPlayer
 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -43,6 +46,7 @@ func _ready() -> void:
 	_pick_wander_target()
 	windup_marker.visible = false
 	hitbox.body_entered.connect(_on_hitbox_body_entered)
+	_attach_eyes_to_head()
 	_configure_wolf_animations()
 	_play_wolf_animation("idle")
 
@@ -198,6 +202,18 @@ func _configure_wolf_animations() -> void:
 		var animation := wolf_animation_player.get_animation(animation_name)
 		if animation:
 			animation.loop_mode = Animation.LOOP_LINEAR
+
+
+func _attach_eyes_to_head() -> void:
+	if not wolf_skeleton or wolf_skeleton.find_bone("head") < 0:
+		return
+
+	var head_attachment := BoneAttachment3D.new()
+	head_attachment.name = "EyeAttachment"
+	head_attachment.bone_name = &"head"
+	wolf_skeleton.add_child(head_attachment)
+	eye_left.reparent(head_attachment, true)
+	eye_right.reparent(head_attachment, true)
 
 
 func _play_wolf_animation(animation_name: StringName, speed: float = 1.0) -> void:

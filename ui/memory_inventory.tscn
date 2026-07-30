@@ -1,0 +1,221 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://ui/memory_inventory.gd" id="1_script"]
+[ext_resource type="FontFile" path="res://assets/fonts/NotoSansCJKsc-Regular.otf" id="2_font"]
+
+[sub_resource type="StyleBoxFlat" id="Style_window"]
+bg_color = Color(0.025, 0.021, 0.03, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.68, 0.43, 0.16, 0.88)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="Style_bag"]
+bg_color = Color(0.08, 0.055, 0.045, 0.94)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.9, 0.58, 0.2, 0.88)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="Style_bag_hover"]
+bg_color = Color(0.16, 0.075, 0.05, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.72, 0.3, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="Style_items"]
+bg_color = Color(0.012, 0.011, 0.016, 0.72)
+border_width_right = 1
+border_color = Color(0.26, 0.22, 0.24, 0.9)
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+
+[node name="MemoryInventory" type="CanvasLayer" groups=["memory_inventory"]]
+process_mode = 3
+layer = 40
+script = ExtResource("1_script")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BagButton" type="Button" parent="Root"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -124.0
+offset_top = 20.0
+offset_right = -22.0
+offset_bottom = 58.0
+grow_horizontal = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.54, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("Style_bag")
+theme_override_styles/hover = SubResource("Style_bag_hover")
+theme_override_styles/pressed = SubResource("Style_bag_hover")
+text = "BAG 0/6"
+
+[node name="Overlay" type="Control" parent="Root"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="Dim" type="ColorRect" parent="Root/Overlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.006, 0.004, 0.01, 0.82)
+
+[node name="Window" type="PanelContainer" parent="Root/Overlay"]
+layout_mode = 1
+anchor_left = 0.06
+anchor_top = 0.07
+anchor_right = 0.94
+anchor_bottom = 0.93
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("Style_window")
+
+[node name="Margin" type="MarginContainer" parent="Root/Overlay/Window"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 18
+
+[node name="Layout" type="VBoxContainer" parent="Root/Overlay/Window/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="Root/Overlay/Window/Margin/Layout"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Root/Overlay/Window/Margin/Layout/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.84, 0.48, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+text = "MEMORY INVENTORY"
+
+[node name="Progress" type="Label" parent="Root/Overlay/Window/Margin/Layout/Header"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.7, 0.68, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 13
+text = "0 / 6 RECOVERED"
+vertical_alignment = 1
+
+[node name="CloseButton" type="Button" parent="Root/Overlay/Window/Margin/Layout/Header"]
+custom_minimum_size = Vector2(42, 38)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.94, 0.88, 0.82, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("Style_bag")
+theme_override_styles/hover = SubResource("Style_bag_hover")
+theme_override_styles/pressed = SubResource("Style_bag_hover")
+text = "X"
+
+[node name="Rule" type="HSeparator" parent="Root/Overlay/Window/Margin/Layout"]
+layout_mode = 2
+
+[node name="Body" type="HSplitContainer" parent="Root/Overlay/Window/Margin/Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = 255
+
+[node name="Items" type="PanelContainer" parent="Root/Overlay/Window/Margin/Layout/Body"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Style_items")
+
+[node name="Scroll" type="ScrollContainer" parent="Root/Overlay/Window/Margin/Layout/Body/Items"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="List" type="VBoxContainer" parent="Root/Overlay/Window/Margin/Layout/Body/Items/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Empty" type="Label" parent="Root/Overlay/Window/Margin/Layout/Body/Items"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.58, 0.56, 0.58, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 14
+text = "Nothing recovered yet."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Details" type="VBoxContainer" parent="Root/Overlay/Window/Margin/Layout/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Artifact" type="Label" parent="Root/Overlay/Window/Margin/Layout/Body/Details"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.5, 0.2, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 12
+text = "THE BAG IS STILL LIGHT"
+
+[node name="Title" type="Label" parent="Root/Overlay/Window/Margin/Layout/Body/Details"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.94, 0.82, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 28
+text = "No memories recovered"
+autowrap_mode = 3
+
+[node name="DetailRule" type="HSeparator" parent="Root/Overlay/Window/Margin/Layout/Body/Details"]
+layout_mode = 2
+
+[node name="Story" type="RichTextLabel" parent="Root/Overlay/Window/Margin/Layout/Body/Details"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.86, 0.84, 0.8, 1)
+theme_override_fonts/normal_font = ExtResource("2_font")
+theme_override_fonts/bold_font = ExtResource("2_font")
+theme_override_font_sizes/normal_font_size = 16
+theme_override_font_sizes/bold_font_size = 14
+bbcode_enabled = true
+text = "The forest keeps its objects close."
+fit_content = false
+scroll_active = true

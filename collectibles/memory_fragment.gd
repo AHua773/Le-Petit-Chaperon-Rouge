@@ -4,6 +4,7 @@ const SCROLL_SCENE_PATH := "res://assets/collectibles/memory/models/scroll.glb"
 const SHIELD_SCENE_PATH := "res://assets/collectibles/memory/models/viking_shield.glb"
 const HUNTER_WEAPON_SCENE_PATH := "res://assets/collectibles/memory/models/hunter_weapon.glb"
 const WINGED_EYE_SCENE_PATH := "res://assets/collectibles/memory/models/winged_eye/winged_eye_monster.fbx"
+const MEMORY_GOLD := Color(1.0, 0.72, 0.16, 1.0)
 
 enum FragmentStyle {
 	RULE_NOTE,
@@ -89,6 +90,8 @@ func _apply_visual_style() -> void:
 			mark_color = Color(1.0, 0.86, 0.86, 1.0)
 			visual_scale = Vector3(1.16, 1.16, 1.16)
 
+	# Every memory uses one visual language: gold means recoverable truth.
+	glow_color = MEMORY_GOLD
 	visual.scale = visual_scale
 	shard.visible = false
 	core.visible = false
@@ -327,16 +330,25 @@ func _on_body_entered(body: Node3D) -> void:
 	visual.visible = false
 	glow_light.visible = false
 
-	_record_memory_progress()
+	var collected_count := _record_memory_progress()
 	_show_memory_message()
+	_update_memory_objective(collected_count)
 	await get_tree().create_timer(_get_cleanup_delay()).timeout
+	var milestone_duration := _show_truth_milestone(collected_count)
+	if milestone_duration > 0.0:
+		await get_tree().create_timer(milestone_duration).timeout
+	if fragment_style == FragmentStyle.WOLF:
+		_activate_boss()
 	queue_free()
 
 
-func _record_memory_progress() -> void:
+func _record_memory_progress() -> int:
 	var memory_state := _get_memory_state()
 	if memory_state and memory_state.has_method("collect_fragment"):
 		memory_state.collect_fragment(fragment_id)
+		if memory_state.has_method("get_collected_count"):
+			return memory_state.get_collected_count()
+	return 0
 
 
 func _show_memory_message() -> void:
@@ -363,6 +375,67 @@ func _get_progress_title() -> String:
 
 func _get_cleanup_delay() -> float:
 	return subtitle_duration
+
+
+func _update_memory_objective(collected_count: int) -> void:
+	var ui := _get_status_ui()
+	if ui == null or not ui.has_method("set_objective"):
+		return
+
+	if collected_count >= 6:
+		ui.set_objective(
+			"RETURN TO THE BROKEN SIGNPOST",
+			"Follow the Red Thread — Checkpoint 0/4."
+		)
+	else:
+		ui.set_objective(
+			"RECOVER THE TRUTH",
+			"Memory fragments recovered: %d/6" % collected_count
+		)
+
+
+func _show_truth_milestone(collected_count: int) -> float:
+	var ui := _get_status_ui()
+	if ui == null or not ui.has_method("show_memory_fragment"):
+		return 0.0
+
+	match collected_count:
+		2:
+			ui.show_memory_fragment(
+				"TRUTH ASSEMBLED  ·  2/6",
+				"The village's rules are watching you.",
+				4.2
+			)
+			return 4.2
+		4:
+			ui.show_memory_fragment(
+				"TRUTH ASSEMBLED  ·  4/6",
+				"The road and the \"safe\" door are controlled by the same rules.",
+				4.6
+			)
+			return 4.6
+		6:
+			ui.show_memory_fragment(
+				"TRUTH RESTORED",
+				"The wolf is not a flaw in the rules. It is what the rules allow to exist.\nThe erased road can now be remembered.\nReturn to the Broken Signpost.",
+				6.2
+			)
+			return 6.2
+
+	return 0.0
+
+
+func _activate_boss() -> void:
+	for boss in get_tree().get_nodes_in_group("boss"):
+		if boss and boss.has_method("activate_encounter"):
+			boss.activate_encounter()
+
+
+func _get_status_ui() -> Node:
+	var ui_nodes := get_tree().get_nodes_in_group("player_status_ui")
+	if ui_nodes.is_empty():
+		return null
+	return ui_nodes[0]
 
 
 func _get_memory_state() -> Node:

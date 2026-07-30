@@ -24,6 +24,8 @@ func _on_body_entered(body: Node3D) -> void:
 	_message_timer = message_cooldown
 	_show_message()
 	for boss in get_tree().get_nodes_in_group("boss"):
+		if boss and boss.has_method("activate_encounter"):
+			boss.activate_encounter()
 		if boss and boss.has_method("spawn_pressure_wave"):
 			boss.spawn_pressure_wave("false_door")
 

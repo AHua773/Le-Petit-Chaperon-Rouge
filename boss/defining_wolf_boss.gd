@@ -1,7 +1,6 @@
 extends Node3D
 
 @export var wolf_fragment_scene: PackedScene
-@export var activation_range: float = 17.0
 @export var spawn_interval: float = 6.0
 @export var pressure_wave_cooldown: float = 3.0
 @export var max_active_minions: int = 4
@@ -15,6 +14,7 @@ extends Node3D
 var player: Node3D
 var memory_state: Node
 var active: bool = false
+var encounter_started: bool = false
 var encounter_completed: bool = false
 var hidden_road_suppressed: bool = false
 var hidden_road_windup_override: float = -1.0
@@ -41,7 +41,6 @@ func _process(delta: float) -> void:
 	if not is_instance_valid(player):
 		return
 
-	active = global_position.distance_to(player.global_position) <= activation_range
 	if not active:
 		return
 
@@ -56,6 +55,7 @@ func spawn_pressure_wave(_reason: String = "") -> void:
 	if encounter_completed or hidden_road_suppressed:
 		return
 
+	activate_encounter()
 	if pressure_timer > 0.0:
 		return
 
@@ -63,6 +63,20 @@ func spawn_pressure_wave(_reason: String = "") -> void:
 	active = true
 	_spawn_minions(pressure_spawn_count)
 	_show_taunt("Wolf: There is no path there. You simply remembered it wrong again.")
+
+
+func activate_encounter() -> void:
+	if encounter_completed or hidden_road_suppressed:
+		return
+
+	active = true
+	if encounter_started:
+		return
+
+	encounter_started = true
+	spawn_timer = spawn_interval * 0.5
+	taunt_timer = 5.0
+	_show_encounter_intro()
 
 
 func complete_encounter() -> void:
@@ -150,6 +164,34 @@ func _show_taunt(line: String) -> void:
 	var ui := ui_nodes[0]
 	if ui and ui.has_method("show_memory_fragment"):
 		ui.show_memory_fragment("Defining the Wolf", line, 3.0)
+
+
+func _show_encounter_intro() -> void:
+	var ui_nodes := get_tree().get_nodes_in_group("player_status_ui")
+	if ui_nodes.is_empty():
+		return
+
+	var ui := ui_nodes[0]
+	if ui and ui.has_method("show_memory_fragment"):
+		ui.show_memory_fragment(
+			"THE DEFINING WOLF",
+			"It cannot be defeated here.\nRecover the truth and find the erased road.",
+			4.8
+		)
+	if ui and ui.has_method("set_objective"):
+		var memory_count := 0
+		if memory_state and memory_state.has_method("get_collected_count"):
+			memory_count = memory_state.get_collected_count()
+		if memory_count >= 6:
+			ui.set_objective(
+				"RETURN TO THE BROKEN SIGNPOST",
+				"Follow the Red Thread — Checkpoint 0/4."
+			)
+		else:
+			ui.set_objective(
+				"SURVIVE THE DEFINING WOLF",
+				"Recover the truth and find the erased road.  Memories: %d/6" % memory_count
+			)
 
 
 func _refresh_player() -> void:

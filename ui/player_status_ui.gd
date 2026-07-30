@@ -11,6 +11,9 @@ extends CanvasLayer
 @onready var memory_panel: Control = $Root/MemoryPanel
 @onready var memory_title_label: Label = $Root/MemoryPanel/Margin/Text/Title
 @onready var memory_line_label: Label = $Root/MemoryPanel/Margin/Text/Line
+@onready var objective_panel: Control = $Root/ObjectivePanel
+@onready var objective_title_label: Label = $Root/ObjectivePanel/Margin/Text/Title
+@onready var objective_line_label: Label = $Root/ObjectivePanel/Margin/Text/Line
 
 var damage_flash: float = 0.0
 var low_health_pressure: float = 0.0
@@ -26,6 +29,9 @@ func _ready() -> void:
 	if _resolve_memory_nodes():
 		memory_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		memory_panel.visible = false
+	if _resolve_objective_nodes():
+		objective_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		objective_panel.visible = true
 	_update_overlays()
 
 
@@ -75,6 +81,16 @@ func show_memory_fragment(title: String, line: String, duration: float = 4.0) ->
 	memory_line_label.text = line
 	memory_message_timer = maxf(duration, 1.0)
 	_update_memory_message()
+
+
+func set_objective(title: String, line: String) -> void:
+	if not _resolve_objective_nodes():
+		call_deferred("set_objective", title, line)
+		return
+
+	objective_title_label.text = title
+	objective_line_label.text = line
+	objective_panel.visible = true
 
 
 func _update_overlays() -> void:
@@ -131,3 +147,14 @@ func _resolve_memory_nodes() -> bool:
 	memory_line_label = get_node_or_null("Root/MemoryPanel/Margin/Text/Line") as Label
 
 	return memory_panel != null and memory_title_label != null and memory_line_label != null
+
+
+func _resolve_objective_nodes() -> bool:
+	if objective_panel and objective_title_label and objective_line_label:
+		return true
+
+	objective_panel = get_node_or_null("Root/ObjectivePanel") as Control
+	objective_title_label = get_node_or_null("Root/ObjectivePanel/Margin/Text/Title") as Label
+	objective_line_label = get_node_or_null("Root/ObjectivePanel/Margin/Text/Line") as Label
+
+	return objective_panel != null and objective_title_label != null and objective_line_label != null

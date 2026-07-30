@@ -1,7 +1,7 @@
 extends Area3D
 
-@export var completion_title: String = "Safety Reached"
-@export_multiline var completion_line: String = "You reached the end of the hidden path. The wolves have stopped. Nothing here can hurt you for now."
+@export var completion_title: String = "THE THRESHOLD"
+@export_multiline var completion_line: String = "You found the house.\nYou no longer mistake obedience for safety."
 @export var incomplete_title: String = "Yellow Light at the Door"
 @export_multiline var incomplete_line: String = "This is the end of the hidden path, but the road is not fully remembered. Collect every memory fragment."
 @export var require_hidden_route: bool = true
@@ -17,6 +17,8 @@ extends Area3D
 @onready var safety_overlay: CanvasLayer = $SafetyOverlay
 @onready var safety_filter: ColorRect = $SafetyOverlay/Filter
 @onready var safety_message: Control = $SafetyOverlay/SafetyMessage
+@onready var safety_title: Label = $SafetyOverlay/SafetyMessage/Title
+@onready var safety_line: Label = $SafetyOverlay/SafetyMessage/Line
 
 var _completed: bool = false
 
@@ -64,12 +66,15 @@ func _complete_encounter() -> void:
 
 	_completed = true
 	_show_message(completion_title, completion_line)
+	_set_completion_objective()
 	_terminate_enemy_actions()
 	_play_completion_effects()
 
 
 func _play_completion_effects() -> void:
 	safety_overlay.visible = true
+	safety_title.text = completion_title
+	safety_line.text = completion_line
 	safety_message.modulate.a = 0.0
 	completion_wave.visible = true
 	completion_wave.scale = Vector3(0.45, 1.0, 0.45)
@@ -146,3 +151,16 @@ func _show_message(title: String, line: String) -> void:
 	var ui := ui_nodes[0]
 	if ui and ui.has_method("show_memory_fragment"):
 		ui.show_memory_fragment(title, line, 4.0)
+
+
+func _set_completion_objective() -> void:
+	var ui_nodes := get_tree().get_nodes_in_group("player_status_ui")
+	if ui_nodes.is_empty():
+		return
+
+	var ui := ui_nodes[0]
+	if ui and ui.has_method("set_objective"):
+		ui.set_objective(
+			"THE THRESHOLD",
+			"You found the house. You no longer mistake obedience for safety."
+		)

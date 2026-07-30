@@ -150,7 +150,7 @@ theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 30
-text = "SAFETY REACHED"
+text = "THE THRESHOLD"
 horizontal_alignment = 1
 
 [node name="Line" type="Label" parent="SafetyOverlay/SafetyMessage"]
@@ -161,6 +161,6 @@ theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 18
-text = "The wolves have stopped. Nothing here can hurt you for now."
+text = "You found the house. You no longer mistake obedience for safety."
 horizontal_alignment = 1
 autowrap_mode = 3

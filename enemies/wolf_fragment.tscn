@@ -41,7 +41,7 @@ shape = SubResource("BoxShape3D_body")
 [node name="Visual" type="Node3D" parent="."]
 
 [node name="WolfModel" parent="Visual" instance=ExtResource("2_wolf_model")]
-transform = Transform3D(1.05, 0, 0, 0, 1.05, 0, 0, 0, 1.05, 0, 0.025, 0)
+transform = Transform3D(-1.05, 0, 0, 0, 1.05, 0, 0, 0, -1.05, 0, 0.025, 0)
 
 [node name="EyeLeft" type="MeshInstance3D" parent="Visual"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.13, 0.69, -0.91)

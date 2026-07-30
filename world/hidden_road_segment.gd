@@ -4,13 +4,14 @@ extends Node3D
 @export var segment_title: String = "The Path Is Still Incomplete"
 @export_multiline var locked_message: String = "You still cannot remember this path."
 @export var path_size: Vector3 = Vector3(3.0, 0.08, 4.0)
-@export var unlocked_color: Color = Color(0.9, 0.96, 1.0, 0.92)
+@export var unlocked_color: Color = Color(0.78, 0.025, 0.035, 0.92)
 @export var preview_color: Color = Color(0.95, 0.08, 0.08, 0.28)
 @export var locked_color: Color = Color(0.12, 0.02, 0.025, 0.45)
 @export var message_cooldown: float = 2.4
 @export var path_collision_enabled: bool = false
 @export var always_show_preview: bool = true
 @export var preview_min_alpha: float = 0.38
+@export var announce_route_start: bool = false
 
 @onready var path_visual: MeshInstance3D = $PathVisual
 @onready var path_body: StaticBody3D = $PathBody
@@ -109,7 +110,13 @@ func _update_state() -> void:
 		is_unlocked = new_unlocked
 		if is_unlocked and not was_unlocked and not _has_announced_unlock:
 			_has_announced_unlock = true
-			_show_path_message(segment_title, "This section is complete. Follow the red light and stone trail.", 3.2)
+			if announce_route_start:
+				_show_path_message(
+					"HIDDEN ROAD RESTORED",
+					"Follow the Red Thread — Checkpoint 0/4.",
+					4.0
+				)
+				_set_route_objective(0)
 
 	lock_wall.visible = not is_unlocked
 	path_collision.set_deferred("disabled", not path_collision_enabled)
@@ -119,7 +126,7 @@ func _update_state() -> void:
 	if is_unlocked:
 		path_visual.visible = true
 		path_visual.set_surface_override_material(0, _make_material(unlocked_color))
-		light.light_color = Color(0.82, 0.95, 1.0, 1.0)
+		light.light_color = Color(1.0, 0.06, 0.06, 1.0)
 		light.light_energy = 1.2
 	else:
 		var alpha := lerpf(preview_min_alpha, preview_color.a, progress)
@@ -163,7 +170,9 @@ func _on_trigger_body_entered(body: Node3D) -> void:
 
 
 func _show_locked_message() -> void:
-	_show_path_message(segment_title, locked_message, 3.4)
+	var missing_names := _get_missing_fragment_names()
+	var missing_line := "Missing memories: %s." % ", ".join(missing_names)
+	_show_path_message("HIDDEN PATH LOCKED", missing_line, 4.2)
 
 
 func _show_path_message(title: String, line: String, duration: float) -> void:
@@ -174,6 +183,31 @@ func _show_path_message(title: String, line: String, duration: float) -> void:
 	var ui := ui_nodes[0]
 	if ui and ui.has_method("show_memory_fragment"):
 		ui.show_memory_fragment(title, line, duration)
+
+
+func _set_route_objective(checkpoint_count: int) -> void:
+	var ui_nodes := get_tree().get_nodes_in_group("player_status_ui")
+	if ui_nodes.is_empty():
+		return
+
+	var ui := ui_nodes[0]
+	if ui and ui.has_method("set_objective"):
+		ui.set_objective(
+			"FOLLOW THE RED THREAD",
+			"Hidden-road checkpoints: %d/4" % checkpoint_count
+		)
+
+
+func _get_missing_fragment_names() -> PackedStringArray:
+	if memory_state and memory_state.has_method("get_missing_fragment_names"):
+		return memory_state.get_missing_fragment_names(required_fragments)
+
+	var missing_ids := PackedStringArray()
+	if memory_state and memory_state.has_method("has_fragment"):
+		for fragment_id in required_fragments:
+			if not memory_state.has_fragment(fragment_id):
+				missing_ids.append(fragment_id)
+	return missing_ids
 
 
 func _notify_boss_pressure() -> void:

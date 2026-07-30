@@ -45,6 +45,7 @@ var current_state: PlayerState = PlayerState.JUMP
 var hit_stun_timer: float = 0.0
 var current_health: float = 0.0
 var current_sanity: float = 0.0
+var has_shown_enemy_damage_hint: bool = false
 var camera_base_position: Vector3
 var camera_shake_timer: float = 0.0
 var camera_shake_duration: float = 0.0
@@ -234,6 +235,10 @@ func apply_view_rotation() -> void:
 	camera.rotation.x = camera_pitch
 
 
+func set_inventory_open(_is_open: bool) -> void:
+	_look_touch_index = -1
+
+
 func apply_enemy_hit(source_position: Vector3, force: float, damage: float = 12.0, sanity_damage: float = 6.0) -> void:
 	if is_downed:
 		return
@@ -256,6 +261,7 @@ func apply_enemy_hit(source_position: Vector3, force: float, damage: float = 12.
 	_show_damage_feedback()
 	_play_hit_sound()
 	_update_status_ui()
+	_show_enemy_damage_hint(damage, sanity_damage)
 
 	if current_health <= 0.0:
 		_enter_downed_state()
@@ -355,6 +361,20 @@ func _show_damage_feedback() -> void:
 	var ui := _get_status_ui()
 	if ui and ui.has_method("show_damage_feedback"):
 		ui.show_damage_feedback()
+
+
+func _show_enemy_damage_hint(damage: float, sanity_damage: float) -> void:
+	if has_shown_enemy_damage_hint or (damage <= 0.0 and sanity_damage <= 0.0):
+		return
+
+	has_shown_enemy_damage_hint = true
+	var ui := _get_status_ui()
+	if ui and ui.has_method("show_memory_fragment"):
+		ui.show_memory_fragment(
+			"THE WOLF STRIKES TWICE",
+			"Its teeth wound the body. Its presence follows you into the mind.\nEvery hit drains both HEALTH and SAN.",
+			5.2
+		)
 
 
 func _play_hit_sound() -> void:
