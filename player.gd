@@ -366,6 +366,42 @@ func apply_medicine(health_amount: float, sanity_amount: float) -> void:
 	_update_status_ui()
 
 
+func get_save_state() -> Dictionary:
+	return {
+		"health": current_health,
+		"sanity": current_sanity,
+		"yaw": current_facing_y,
+		"pitch": camera_pitch,
+	}
+
+
+func restore_saved_state(
+	health: float,
+	sanity: float,
+	saved_position: Vector3,
+	saved_yaw: float,
+	saved_pitch: float,
+	checkpoint_index: int
+) -> void:
+	current_health = clampf(health, 1.0, max_health)
+	current_sanity = clampf(sanity, 0.0, max_sanity)
+	global_position = saved_position
+	current_facing_y = saved_yaw
+	camera_pitch = clampf(saved_pitch, deg_to_rad(min_pitch), deg_to_rad(max_pitch))
+	velocity = Vector3.ZERO
+	hit_stun_timer = 0.0
+	is_downed = false
+	set_meta("hidden_road_checkpoint", checkpoint_index)
+	apply_view_rotation()
+	_update_status_ui()
+
+
+func apply_look_sensitivity(normalized_value: float) -> void:
+	var value := clampf(normalized_value, 0.0, 1.0)
+	mouse_sensitivity = lerpf(0.0012, 0.005, value)
+	touch_look_sensitivity = lerpf(0.0022, 0.008, value)
+
+
 func _update_sanity(delta: float) -> void:
 	if is_downed:
 		return

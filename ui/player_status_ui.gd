@@ -113,14 +113,12 @@ func show_game_over() -> void:
 
 func _restart_game() -> void:
 	game_over_overlay.visible = false
-	get_tree().paused = false
-	get_tree().reload_current_scene()
+	get_tree().call_group("game_session", "restart_checkpoint")
 
 
 func _return_to_menu() -> void:
 	game_over_overlay.visible = false
-	get_tree().paused = false
-	get_tree().change_scene_to_file("res://ui/app_launcher.tscn")
+	get_tree().call_group("game_session", "return_to_title")
 
 
 func _update_overlays() -> void:

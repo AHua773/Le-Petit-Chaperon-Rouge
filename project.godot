@@ -15,6 +15,10 @@ run/main_scene="res://ui/app_launcher.tscn"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameSave="*res://systems/game_save.gd"
+
 [display]
 
 window/stretch/mode="canvas_items"

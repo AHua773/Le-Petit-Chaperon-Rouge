@@ -247,7 +247,7 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-focus_neighbor_bottom = NodePath("../HowToPlayButton")
+focus_neighbor_bottom = NodePath("../NewJourneyButton")
 theme_override_colors/font_color = Color(1, 0.94, 0.85, 1)
 theme_override_fonts/font = ExtResource("4_font")
 theme_override_font_sizes/font_size = 17
@@ -258,11 +258,28 @@ theme_override_styles/focus = SubResource("Style_primary_hover")
 text = "START JOURNEY"
 alignment = 0
 
+[node name="NewJourneyButton" type="Button" parent="SafeArea/MenuPanel/Margin/Content"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+focus_neighbor_top = NodePath("../StartButton")
+focus_neighbor_bottom = NodePath("../HowToPlayButton")
+theme_override_colors/font_color = Color(0.9, 0.76, 0.7, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+theme_override_styles/focus = SubResource("Style_button_hover")
+text = "NEW JOURNEY"
+alignment = 0
+
 [node name="HowToPlayButton" type="Button" parent="SafeArea/MenuPanel/Margin/Content"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
-focus_neighbor_top = NodePath("../StartButton")
+focus_neighbor_top = NodePath("../NewJourneyButton")
 focus_neighbor_bottom = NodePath("../SettingsButton")
 theme_override_colors/font_color = Color(0.9, 0.87, 0.82, 1)
 theme_override_fonts/font = ExtResource("4_font")
@@ -310,6 +327,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="MemoryHint" type="Label" parent="SafeArea/MenuPanel/Margin/Content"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.72, 0.42, 0.38, 1)
 theme_override_fonts/font = ExtResource("4_font")
@@ -553,6 +571,54 @@ theme_override_font_sizes/bold_font_size = 16
 bbcode_enabled = true
 text = "[color=#f1c27d][b]LE PETIT CHAPERON ROUGE[/b][/color]\nA story-driven survival prototype created as an app course project.\n\n[b]Engine[/b]  Godot 4.7\n[b]Format[/b]  Landscape mobile game\n[b]Theme[/b]  Memory, obedience, and the structures that define safety\n\n[color=#928b88]Music: Witch Fantasia\nThird-party assets remain credited with their source packages inside the project.[/color]"
 fit_content = true
+
+[node name="NewJourneyConfirm" type="VBoxContainer" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 284)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 14
+
+[node name="Message" type="Label" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content/NewJourneyConfirm"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.83, 0.79, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 17
+text = "Starting again will erase the current journey.\nRecovered memories and checkpoint progress cannot be restored."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Spacer" type="Control" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content/NewJourneyConfirm"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ConfirmNewJourneyButton" type="Button" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content/NewJourneyConfirm"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.94, 0.85, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("Style_primary")
+theme_override_styles/hover = SubResource("Style_primary_hover")
+theme_override_styles/pressed = SubResource("Style_primary_hover")
+theme_override_styles/focus = SubResource("Style_primary_hover")
+text = "ERASE AND BEGIN"
+
+[node name="CancelNewJourneyButton" type="Button" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content/NewJourneyConfirm"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+theme_override_styles/focus = SubResource("Style_button_hover")
+text = "KEEP CURRENT JOURNEY"
 
 [node name="ModalBackButton" type="Button" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content"]
 unique_name_in_owner = true

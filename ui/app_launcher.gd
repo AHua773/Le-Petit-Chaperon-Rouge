@@ -12,6 +12,7 @@ const MIN_LOADING_SECONDS := 1.4
 @onready var how_to_play_text: RichTextLabel = %HowToPlayText
 @onready var credits_text: RichTextLabel = %CreditsText
 @onready var settings_box: VBoxContainer = %SettingsBox
+@onready var new_journey_confirm: VBoxContainer = %NewJourneyConfirm
 @onready var master_volume_slider: HSlider = %MasterVolumeSlider
 @onready var master_volume_value: Label = %MasterVolumeValue
 @onready var reduce_motion_check: CheckButton = %ReduceMotionCheck
@@ -33,11 +34,14 @@ var _reduce_motion := false
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	%StartButton.pressed.connect(_start_game)
+	%StartButton.pressed.connect(_on_primary_journey_pressed)
+	%NewJourneyButton.pressed.connect(_on_new_journey_pressed)
 	%HowToPlayButton.pressed.connect(_open_how_to_play)
 	%SettingsButton.pressed.connect(_open_settings)
 	%CreditsButton.pressed.connect(_open_credits)
 	%ModalBackButton.pressed.connect(_close_modal)
+	%ConfirmNewJourneyButton.pressed.connect(_confirm_new_journey)
+	%CancelNewJourneyButton.pressed.connect(_close_modal)
 	loading_return_button.pressed.connect(_return_to_menu_after_error)
 	master_volume_slider.value_changed.connect(_on_master_volume_changed)
 	reduce_motion_check.toggled.connect(_on_reduce_motion_toggled)
@@ -46,6 +50,7 @@ func _ready() -> void:
 	_load_preferences()
 	_apply_safe_area()
 	_show_menu_immediately()
+	_refresh_journey_actions()
 	%StartButton.grab_focus()
 	set_process(false)
 
@@ -122,6 +127,34 @@ func _start_game() -> void:
 	set_process(true)
 
 
+func _on_primary_journey_pressed() -> void:
+	if GameSave.has_save():
+		GameSave.request_continue()
+	else:
+		GameSave.request_new_game()
+	_start_game()
+
+
+func _on_new_journey_pressed() -> void:
+	if not GameSave.has_save():
+		GameSave.request_new_game()
+		_start_game()
+		return
+	modal_title.text = "BEGIN A NEW JOURNEY?"
+	how_to_play_text.visible = false
+	settings_box.visible = false
+	credits_text.visible = false
+	new_journey_confirm.visible = true
+	%ModalBackButton.visible = false
+	_show_modal()
+	%CancelNewJourneyButton.grab_focus()
+
+
+func _confirm_new_journey() -> void:
+	GameSave.request_new_game()
+	_start_game()
+
+
 func _update_loading_target(progress: float) -> void:
 	if progress < 0.22:
 		loading_stage.text = "PREPARING THE FOREST"
@@ -170,6 +203,8 @@ func _open_how_to_play() -> void:
 	how_to_play_text.visible = true
 	settings_box.visible = false
 	credits_text.visible = false
+	new_journey_confirm.visible = false
+	%ModalBackButton.visible = true
 	_show_modal()
 
 
@@ -178,6 +213,8 @@ func _open_settings() -> void:
 	how_to_play_text.visible = false
 	settings_box.visible = true
 	credits_text.visible = false
+	new_journey_confirm.visible = false
+	%ModalBackButton.visible = true
 	_show_modal()
 	master_volume_slider.grab_focus()
 
@@ -187,6 +224,8 @@ func _open_credits() -> void:
 	how_to_play_text.visible = false
 	settings_box.visible = false
 	credits_text.visible = true
+	new_journey_confirm.visible = false
+	%ModalBackButton.visible = true
 	_show_modal()
 
 
@@ -207,6 +246,23 @@ func _show_menu_immediately() -> void:
 	modal_overlay.visible = false
 
 
+func _refresh_journey_actions() -> void:
+	var has_journey := GameSave.has_save()
+	%StartButton.text = "CONTINUE JOURNEY" if has_journey else "START JOURNEY"
+	%NewJourneyButton.visible = has_journey
+	%MemoryHint.text = _get_save_progress_text() if has_journey else "6 MEMORIES  |  1 ERASED ROAD"
+
+
+func _get_save_progress_text() -> String:
+	var data := GameSave.get_save_data()
+	var fragments: Array = data.get("fragments", [])
+	var checkpoint: Dictionary = data.get("checkpoint", {})
+	var checkpoint_index := int(checkpoint.get("index", -1))
+	if checkpoint_index >= 0:
+		return "%d/6 MEMORIES  |  CHECKPOINT %d/4" % [fragments.size(), checkpoint_index + 1]
+	return "%d/6 MEMORIES  |  FOREST ENTRANCE" % fragments.size()
+
+
 func _load_preferences() -> void:
 	var settings := ConfigFile.new()
 	var volume := 0.82
@@ -220,6 +276,7 @@ func _load_preferences() -> void:
 
 func _save_preferences() -> void:
 	var settings := ConfigFile.new()
+	settings.load(SETTINGS_PATH)
 	settings.set_value("audio", "master_volume", master_volume_slider.value / 100.0)
 	settings.set_value("accessibility", "reduce_ui_motion", _reduce_motion)
 	settings.save(SETTINGS_PATH)

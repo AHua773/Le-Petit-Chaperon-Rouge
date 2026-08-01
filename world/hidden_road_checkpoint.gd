@@ -33,6 +33,7 @@ func _try_mark_checkpoint(body: Node3D) -> void:
 		return
 
 	body.set_meta("hidden_road_checkpoint", checkpoint_index)
+	get_tree().call_group("game_session", "register_checkpoint", checkpoint_index, body)
 
 	if not _has_announced:
 		_has_announced = true

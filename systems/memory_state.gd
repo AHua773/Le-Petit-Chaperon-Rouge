@@ -88,6 +88,15 @@ func collect_fragment(fragment_id: String) -> bool:
 	return true
 
 
+func restore_fragments(fragment_ids: PackedStringArray) -> void:
+	collected_fragments.clear()
+	for fragment_id in fragment_ids:
+		if fragment_id.is_empty() or not FRAGMENT_NAMES.has(fragment_id):
+			continue
+		collected_fragments[fragment_id] = true
+		fragment_collected.emit(fragment_id, get_collected_count())
+
+
 func has_fragment(fragment_id: String) -> bool:
 	return collected_fragments.has(fragment_id)
 

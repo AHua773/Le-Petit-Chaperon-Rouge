@@ -30,6 +30,8 @@
 [ext_resource type="PackedScene" path="res://ui/memory_inventory.tscn" id="30_inventory"]
 [ext_resource type="Script" uid="uid://cvr0dbgmy55jr" path="res://world/road_surface_detector.gd" id="31_road_surface"]
 [ext_resource type="PackedScene" uid="uid://dhnrryoqxbtwn" path="res://assets/scene/house_trees_rocks.glb" id="37_0n3wm"]
+[ext_resource type="Script" path="res://systems/game_session.gd" id="38_game_session"]
+[ext_resource type="PackedScene" path="res://ui/pause_menu.tscn" id="39_pause_menu"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_boundary_x"]
 size = Vector3(2, 12, 74)
@@ -80,6 +82,7 @@ adjustment_saturation = 0.85
 size = Vector3(38, 0.3, 70)
 
 [node name="Main" type="Node3D" unique_id=147114746]
+script = ExtResource("38_game_session")
 
 [node name="MemoryState" type="Node" parent="." unique_id=1749602317 groups=["memory_state"]]
 script = ExtResource("19_memory_state")
@@ -312,6 +315,8 @@ environment = SubResource("Environment_kus3t")
 [node name="MemoryInventory" parent="." unique_id=165348271 instance=ExtResource("30_inventory")]
 
 [node name="VirtualJoystickLayer" parent="." unique_id=1699423673 instance=ExtResource("26_virtual_joystick")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("39_pause_menu")]
 
 [node name="SpawnPoint" type="Marker3D" parent="." unique_id=448188102]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 27)
