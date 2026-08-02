@@ -1,0 +1,357 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://ui/pause_menu.gd" id="1_script"]
+[ext_resource type="FontFile" path="res://assets/fonts/NotoSansCJKsc-Regular.otf" id="2_font"]
+
+[sub_resource type="StyleBoxFlat" id="Style_panel"]
+bg_color = Color(0.035, 0.031, 0.038, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.7, 0.43, 0.24, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="Style_button"]
+bg_color = Color(0.08, 0.075, 0.085, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.34, 0.31, 0.33, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 18.0
+content_margin_right = 18.0
+
+[sub_resource type="StyleBoxFlat" id="Style_button_hover"]
+bg_color = Color(0.18, 0.07, 0.08, 1)
+border_width_left = 2
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.88, 0.25, 0.28, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 18.0
+content_margin_right = 18.0
+
+[sub_resource type="StyleBoxFlat" id="Style_primary"]
+bg_color = Color(0.7, 0.11, 0.15, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.97, 0.55, 0.36, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 18.0
+content_margin_right = 18.0
+
+[sub_resource type="StyleBoxFlat" id="Style_pause"]
+bg_color = Color(0.035, 0.031, 0.038, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0.5, 0.28, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="PauseMenu" type="CanvasLayer"]
+layer = 100
+process_mode = 3
+script = ExtResource("1_script")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PauseOverlay" type="ColorRect" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.008, 0.008, 0.012, 0.78)
+
+[node name="SafeArea" type="Control" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PauseButton" type="Button" parent="Root/SafeArea"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -64.0
+offset_top = 4.0
+offset_right = -12.0
+offset_bottom = 56.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0.96, 0.87, 0.72, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("Style_pause")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+theme_override_styles/focus = SubResource("Style_button_hover")
+text = "II"
+tooltip_text = "Pause"
+
+[node name="Center" type="CenterContainer" parent="Root/PauseOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Root/PauseOverlay/Center"]
+custom_minimum_size = Vector2(610, 500)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Style_panel")
+
+[node name="Margin" type="MarginContainer" parent="Root/PauseOverlay/Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 26
+
+[node name="MainMenu" type="VBoxContainer" parent="Root/PauseOverlay/Center/Panel/Margin"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Root/PauseOverlay/Center/Panel/Margin/MainMenu"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.83, 0.58, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 29
+text = "THE FOREST WAITS"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Root/PauseOverlay/Center/Panel/Margin/MainMenu"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.62, 0.6, 0.6, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 14
+text = "Your journey has been saved."
+horizontal_alignment = 1
+
+[node name="Gap" type="Control" parent="Root/PauseOverlay/Center/Panel/Margin/MainMenu"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="Root/PauseOverlay/Center/Panel/Margin/MainMenu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.94, 0.86, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("Style_primary")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+theme_override_styles/focus = SubResource("Style_button_hover")
+text = "RESUME"
+
+[node name="SettingsButton" type="Button" parent="Root/PauseOverlay/Center/Panel/Margin/MainMenu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+theme_override_styles/focus = SubResource("Style_button_hover")
+text = "SETTINGS"
+
+[node name="RestartButton" type="Button" parent="Root/PauseOverlay/Center/Panel/Margin/MainMenu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+theme_override_styles/focus = SubResource("Style_button_hover")
+text = "RESTART CHECKPOINT"
+
+[node name="ReturnTitleButton" type="Button" parent="Root/PauseOverlay/Center/Panel/Margin/MainMenu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+theme_override_styles/focus = SubResource("Style_button_hover")
+text = "RETURN TO TITLE"
+
+[node name="SettingsMenu" type="VBoxContainer" parent="Root/PauseOverlay/Center/Panel/Margin"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 17
+
+[node name="Title" type="Label" parent="Root/PauseOverlay/Center/Panel/Margin/SettingsMenu"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.83, 0.58, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 27
+text = "SETTINGS"
+
+[node name="VolumeLabel" type="Label" parent="Root/PauseOverlay/Center/Panel/Margin/SettingsMenu"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 15
+text = "MASTER VOLUME"
+
+[node name="VolumeRow" type="HBoxContainer" parent="Root/PauseOverlay/Center/Panel/Margin/SettingsMenu"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="VolumeSlider" type="HSlider" parent="Root/PauseOverlay/Center/Panel/Margin/SettingsMenu/VolumeRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(430, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 82.0
+
+[node name="VolumeValue" type="Label" parent="Root/PauseOverlay/Center/Panel/Margin/SettingsMenu/VolumeRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(62, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 15
+text = "82%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="LookLabel" type="Label" parent="Root/PauseOverlay/Center/Panel/Margin/SettingsMenu"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 15
+text = "LOOK SENSITIVITY"
+
+[node name="LookRow" type="HBoxContainer" parent="Root/PauseOverlay/Center/Panel/Margin/SettingsMenu"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="LookSlider" type="HSlider" parent="Root/PauseOverlay/Center/Panel/Margin/SettingsMenu/LookRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(430, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 50.0
+
+[node name="LookValue" type="Label" parent="Root/PauseOverlay/Center/Panel/Margin/SettingsMenu/LookRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(62, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 15
+text = "50%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="SettingsSpacer" type="Control" parent="Root/PauseOverlay/Center/Panel/Margin/SettingsMenu"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SettingsBackButton" type="Button" parent="Root/PauseOverlay/Center/Panel/Margin/SettingsMenu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(190, 50)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+theme_override_styles/focus = SubResource("Style_button_hover")
+text = "BACK"
+
+[node name="RestartConfirm" type="VBoxContainer" parent="Root/PauseOverlay/Center/Panel/Margin"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Title" type="Label" parent="Root/PauseOverlay/Center/Panel/Margin/RestartConfirm"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.83, 0.58, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 27
+text = "RESTART CHECKPOINT?"
+horizontal_alignment = 1
+
+[node name="Message" type="Label" parent="Root/PauseOverlay/Center/Panel/Margin/RestartConfirm"]
+custom_minimum_size = Vector2(0, 110)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.75, 0.72, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+text = "You will return to the last red-thread checkpoint.\nRecovered memories remain with you."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ConfirmSpacer" type="Control" parent="Root/PauseOverlay/Center/Panel/Margin/RestartConfirm"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RestartConfirmButton" type="Button" parent="Root/PauseOverlay/Center/Panel/Margin/RestartConfirm"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("Style_primary")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+theme_override_styles/focus = SubResource("Style_button_hover")
+text = "RESTART"
+
+[node name="RestartCancelButton" type="Button" parent="Root/PauseOverlay/Center/Panel/Margin/RestartConfirm"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+theme_override_styles/focus = SubResource("Style_button_hover")
+text = "CANCEL"

@@ -1,0 +1,343 @@
+[gd_scene format=3 uid="uid://dvgdgi3jrhrvt"]
+
+[ext_resource type="PackedScene" uid="uid://cie0c5gowwpd2" path="res://assets/scene/KayKit_HalloweenBits_1.0_FREE/Assets/gltf/crypt.gltf" id="1_efxa6"]
+[ext_resource type="Script" uid="uid://dvklekqgmq23f" path="res://player.gd" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://dym42y1g7fi70" path="res://assets/character/idle.tscn" id="2_0xm2m"]
+[ext_resource type="MeshLibrary" uid="uid://m5c0ogrbeekx" path="res://scene/MashLibrary/road.tres" id="3_dg77c"]
+[ext_resource type="PackedScene" uid="uid://tc25hs8ht8yl" path="res://assets/character/fast_run.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://ccd2qwj0jylxd" path="res://assets/character/jump.tscn" id="4_1bvp3"]
+[ext_resource type="MeshLibrary" uid="uid://c52s5nqax363c" path="res://scene/MashLibrary/floor.tres" id="5_floor"]
+[ext_resource type="PackedScene" uid="uid://bmjacfq5ohr6y" path="res://assets/scene/Free Forest Nature Pack/Trees/Spruce/Flat_Tree_Spruce_medium.glb" id="6_5vw27"]
+[ext_resource type="PackedScene" uid="uid://cvh2rovu6u1pm" path="res://assets/scene/Free Forest Nature Pack/Trees/Spruce/Flat_Tree_Spruce_small.glb" id="7_kek77"]
+[ext_resource type="PackedScene" uid="uid://den6co0owfriw" path="res://assets/scene/Free Forest Nature Pack/Extras/Flat_Fallen_Log.glb" id="7_ycdy4"]
+[ext_resource type="PackedScene" uid="uid://js34a0ro843s" path="res://assets/scene/Free Forest Nature Pack/Trees/Pine/Flat_Tree_Pine_small.glb" id="8_4c57u"]
+[ext_resource type="PackedScene" path="res://enemies/wolf_fragment.tscn" id="9_wolf"]
+[ext_resource type="PackedScene" path="res://ui/player_status_ui.tscn" id="10_status"]
+[ext_resource type="PackedScene" path="res://collectibles/medicine_pickup.tscn" id="11_medicine"]
+[ext_resource type="PackedScene" path="res://collectibles/memory_fragment.tscn" id="12_memory"]
+[ext_resource type="AudioStream" path="res://audio/memory/memory_01.wav" id="13_mem01"]
+[ext_resource type="AudioStream" path="res://audio/memory/memory_02.wav" id="14_mem02"]
+[ext_resource type="AudioStream" path="res://audio/memory/memory_03.wav" id="15_mem03"]
+[ext_resource type="AudioStream" path="res://audio/memory/memory_04.wav" id="16_mem04"]
+[ext_resource type="AudioStream" path="res://audio/memory/memory_05.wav" id="17_mem05"]
+[ext_resource type="AudioStream" path="res://audio/memory/memory_06.wav" id="18_mem06"]
+[ext_resource type="Script" path="res://systems/memory_state.gd" id="19_memory_state"]
+[ext_resource type="PackedScene" path="res://boss/defining_wolf_boss.tscn" id="20_boss"]
+[ext_resource type="PackedScene" path="res://world/hidden_road_segment.tscn" id="21_hidden_road"]
+[ext_resource type="PackedScene" path="res://world/false_safe_door.tscn" id="22_false_door"]
+[ext_resource type="PackedScene" path="res://world/hidden_road_goal.tscn" id="23_hidden_goal"]
+[ext_resource type="PackedScene" path="res://world/hidden_forest_extension.tscn" id="24_hidden_forest"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mcm6f"]
+radius = 0.35
+height = 1.8
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8t50h"]
+sky_top_color = Color(0.15294118, 0.14509805, 0.76862746, 1)
+sky_horizon_color = Color(0.52713996, 0.6674572, 0.7481964, 1)
+
+[sub_resource type="Sky" id="Sky_mcm6f"]
+sky_material = SubResource("ProceduralSkyMaterial_8t50h")
+
+[sub_resource type="Environment" id="Environment_kus3t"]
+background_mode = 2
+sky = SubResource("Sky_mcm6f")
+ambient_light_source = 3
+ambient_light_energy = 0.67
+
+[node name="Main" type="Node3D" unique_id=147114746]
+
+[node name="MemoryState" type="Node" parent="." groups=["memory_state"]]
+script = ExtResource("19_memory_state")
+
+[node name="Scene" type="Node3D" parent="." unique_id=1659452923]
+
+[node name="House" parent="Scene" unique_id=86634453 instance=ExtResource("1_efxa6")]
+transform = Transform3D(0.0008508861, 0, -0.9999997, 0, 1, 0, 0.9999997, 0, 0.0008508861, 0.05314529, 0.1, -26.982)
+
+[node name="Ground" type="GridMap" parent="Scene" unique_id=932189024]
+mesh_library = ExtResource("5_floor")
+cell_size = Vector3(4, 0.1, 4)
+data = {
+"cells": PackedInt32Array(65534, 4, 0, 65535, 0, 0, 65535, 1, 0, 65535, 2, 0, 65535, 3, 0, 65535, 4, 0, 65535, 5, 0, 65535, 6, 0, 65535, 7, 0, 65532, 7, 0, 65533, 7, 0, 65534, 7, 0, 0, 7, 0, 1, 7, 0, 2, 7, 0, 3, 7, 0, 65532, 6, 0, 65532, 5, 0, 65532, 4, 0, 65532, 3, 0, 65532, 2, 0, 65532, 1, 0, 65532, 0, 0, 65533, 0, 0, 65534, 0, 0, 65534, 3, 0, 65534, 2, 0, 65534, 1, 0, 65533, 1, 0, 65533, 2, 0, 65533, 3, 0, 65533, 4, 0, 65533, 5, 0, 65533, 6, 0, 65534, 6, 0, 65534, 5, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 3, 1, 0, 3, 2, 0, 3, 3, 0, 3, 4, 0, 3, 5, 0, 3, 6, 0, 2, 6, 0, 2, 5, 0, 2, 4, 0, 1, 4, 0, 1, 3, 0, 1, 2, 0, 1, 1, 0, 2, 1, 0, 2, 2, 0, 2, 3, 0, 1, 5, 0, 1, 6, 0, 0, 5, 0, 0, 4, 0, 0, 3, 0, 0, 2, 0, 0, 6, 0, 65532, 65535, 0, 65532, 65534, 0, 65532, 65533, 0, 65532, 65532, 0, 65532, 65531, 0, 65532, 65530, 0, 65532, 65529, 0, 65532, 65528, 0, 65533, 65528, 0, 65534, 65528, 0, 65535, 65528, 0, 0, 65528, 0, 1, 65528, 0, 2, 65528, 0, 3, 65528, 0, 3, 65529, 0, 3, 65530, 0, 3, 65531, 0, 3, 65532, 0, 3, 65533, 0, 3, 65534, 0, 3, 65535, 0, 2, 65535, 0, 2, 65534, 0, 2, 65533, 0, 2, 65532, 0, 2, 65531, 0, 2, 65530, 0, 2, 65529, 0, 1, 65529, 0, 0, 65530, 0, 1, 65530, 0, 1, 65531, 0, 1, 65532, 0, 1, 65533, 0, 1, 65534, 0, 1, 65535, 0, 0, 65535, 0, 0, 65534, 0, 0, 65533, 0, 0, 65532, 0, 0, 65531, 0, 0, 65529, 0, 65535, 65529, 0, 65534, 65529, 0, 65533, 65529, 0, 65533, 65530, 0, 65534, 65530, 0, 65535, 65530, 0, 65535, 65531, 0, 65535, 65532, 0, 65535, 65533, 0, 65534, 65532, 0, 65534, 65531, 0, 65533, 65531, 0, 65533, 65532, 0, 65533, 65533, 0, 65533, 65534, 0, 65533, 65535, 0, 65534, 65535, 0, 65534, 65534, 0, 65534, 65533, 0, 65535, 65534, 0, 65535, 65535, 0)
+}
+
+[node name="Road" type="GridMap" parent="Scene" unique_id=545945398]
+mesh_library = ExtResource("3_dg77c")
+cell_size = Vector3(2, 0.1, 2)
+data = {
+"cells": PackedInt32Array(65535, 14, 3, 0, 14, 2, 0, 12, 2, 0, 13, 1, 65535, 13, 1, 65535, 12, 0, 0, 11, 0, 65535, 11, 3, 1, 11, 2, 1, 10, 1, 0, 10, 3, 0, 9, 1, 1, 9, 2, 65535, 9, 3, 1, 8, 3, 1, 7, 0, 0, 6, 0, 0, 4, 1, 65535, 3, 1, 65535, 4, 1, 0, 1, 1, 65534, 1, 1, 65534, 0, 1, 65532, 65534, 1, 65533, 65535, 1, 65533, 65532, 1, 65534, 65532, 1, 1, 0, 1, 2, 0, 1, 1, 1, 1, 65533, 65530, 1, 65534, 65529, 1, 65533, 65528, 1, 65534, 65526, 1, 65533, 65527, 1, 65535, 65525, 1, 0, 65525, 1, 65535, 65524, 1, 3, 65535, 1, 65530, 65533, 1, 65531, 65533, 1, 4, 65535, 1, 4, 65534, 2, 65535, 0, 2, 65534, 2, 3, 65535, 2, 3, 65535, 1, 3, 65532, 65535, 3, 65533, 65534, 3, 65533, 65531, 3, 65533, 65529, 3, 65533, 65526, 3, 0, 65526, 3, 65534, 65524, 3, 65532, 65524, 3, 65532, 65532, 3, 65532, 65533, 3, 65533, 65533, 2, 3, 65534, 2, 65535, 5, 2, 0, 7, 2, 2, 65535, 3, 65535, 6, 3, 65535, 7, 1, 65534, 65535, 1, 0, 65523, 1)
+}
+
+[node name="Trees" type="Node3D" parent="Scene" unique_id=19859661]
+transform = Transform3D(1, -2.9802322e-08, 0, 2.9802322e-08, 1.0000001, 2.9802322e-08, 1.4901161e-08, 2.9802322e-08, 1, 4.7683716e-07, -3.8146973e-06, -1.9073486e-06)
+
+[node name="Flat_Tree_Spruce_medium" parent="Scene/Trees" unique_id=1407013088 instance=ExtResource("6_5vw27")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -3.058, 0.1, 27.498)
+
+[node name="Flat_Tree_Spruce_medium3" parent="Scene/Trees" unique_id=2061984233 instance=ExtResource("6_5vw27")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -3.058, 0.1, 8.129583)
+
+[node name="Flat_Tree_Spruce_medium8" parent="Scene/Trees" unique_id=398117240 instance=ExtResource("6_5vw27")]
+transform = Transform3D(0.3, -7.9409334e-24, 0, -1.3322676e-16, 0.3, 0, 0, 0, 0.3, 1.7688937, 0.09999993, 5.9617767)
+
+[node name="Flat_Tree_Spruce_medium4" parent="Scene/Trees" unique_id=1548769966 instance=ExtResource("6_5vw27")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 3.1045346, 0.1, -1.0586395)
+
+[node name="Flat_Tree_Spruce_medium5" parent="Scene/Trees" unique_id=652400853 instance=ExtResource("6_5vw27")]
+transform = Transform3D(0.3, -7.9409334e-24, 0, -1.3322676e-16, 0.3, 0, 0, 0, 0.3, -10.006809, 0.10000008, -10.090468)
+
+[node name="Flat_Tree_Spruce_medium6" parent="Scene/Trees" unique_id=1057118120 instance=ExtResource("6_5vw27")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 6.8628, 0.1, -10.090468)
+
+[node name="Flat_Tree_Spruce_medium7" parent="Scene/Trees" unique_id=809496222 instance=ExtResource("6_5vw27")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -10.3719635, 0.1, -24.501564)
+
+[node name="Flat_Tree_Spruce_medium2" parent="Scene/Trees" unique_id=237313888 instance=ExtResource("6_5vw27")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 3.0118585, 0.1, 27.498)
+
+[node name="Flat_Tree_Spruce_small" parent="Scene/Trees" unique_id=85776584 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, -1.3234888e-23, 0, -2.2204458e-16, 0.5, 0, 4.440892e-16, 0, 0.5, -4, 0.100000285, 16.479404)
+
+[node name="Flat_Tree_Spruce_small13" parent="Scene/Trees" unique_id=1084602569 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, -1.3234888e-23, 0, -2.2204458e-16, 0.5, 0, 4.440892e-16, 0, 0.5, -4, 0.10000044, 11.166605)
+
+[node name="Flat_Tree_Spruce_small11" parent="Scene/Trees" unique_id=1264850332 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, -1.3234888e-23, 0, -2.2204458e-16, 0.5, 0, 4.440892e-16, 0, 0.5, 4.818962, 0.09999983, 23.002295)
+
+[node name="Flat_Tree_Spruce_small12" parent="Scene/Trees" unique_id=588575161 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, -1.3234888e-23, 0, -2.2204458e-16, 0.5, 0, 4.440892e-16, 0, 0.5, -7.87405, 0.1000002, 23.002295)
+
+[node name="Flat_Tree_Spruce_small2" parent="Scene/Trees" unique_id=1585023138 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 6.981658, 0.1, 26)
+
+[node name="Flat_Tree_Spruce_small3" parent="Scene/Trees" unique_id=1893079973 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 6.981658, 0.1, 14.259605)
+
+[node name="Flat_Tree_Spruce_small4" parent="Scene/Trees" unique_id=287217106 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -9.231259, 0.1, 14.259605)
+
+[node name="Flat_Tree_Spruce_small5" parent="Scene/Trees" unique_id=1754815014 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -5.637265, 0.1, 3.4376783)
+
+[node name="Flat_Tree_Spruce_small6" parent="Scene/Trees" unique_id=1531738256 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -10.754963, 0.1, -14.886189)
+
+[node name="Flat_Tree_Spruce_small7" parent="Scene/Trees" unique_id=1034335779 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, -1.3234888e-23, 0, -2.2204458e-16, 0.5, 0, 4.440892e-16, 0, 0.5, 0.46076298, 0.100000106, -8.6727915)
+
+[node name="Flat_Tree_Spruce_small8" parent="Scene/Trees" unique_id=385002142 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 7.2063484, 0.1, -18.750113)
+
+[node name="Flat_Tree_Spruce_small9" parent="Scene/Trees" unique_id=298603931 instance=ExtResource("7_kek77")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -6.527588, 0.1, -18.750113)
+
+[node name="Flat_Tree_Pine_small" parent="Scene/Trees" unique_id=1363160579 instance=ExtResource("8_4c57u")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -6.062, 0.1, 27.877)
+
+[node name="Flat_Tree_Pine_small2" parent="Scene/Trees" unique_id=608591017 instance=ExtResource("8_4c57u")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 8.977364, 0.1, 8.6617775)
+
+[node name="Flat_Tree_Pine_small3" parent="Scene/Trees" unique_id=999736060 instance=ExtResource("8_4c57u")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 4.171932, 0.1, -15.878933)
+
+[node name="Flat_Tree_Pine_small4" parent="Scene/Trees" unique_id=830231239 instance=ExtResource("8_4c57u")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 8.871835, 0.1, -26.373806)
+
+[node name="Flat_Fallen_Log" parent="Scene/Trees" unique_id=2007071116 instance=ExtResource("7_ycdy4")]
+transform = Transform3D(0.7608277, 9.103568e-09, 0.24726747, -1.5305288e-08, 0.8, 1.7640142e-08, -0.24726747, -2.1507011e-08, 0.7608277, -4.62, 0.1, -9.063)
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="WolfFragment_Tutorial" parent="Enemies" instance=ExtResource("9_wolf")]
+transform = Transform3D(0.9659258, 0, 0.25881904, 0, 1, 0, -0.25881904, 0, 0.9659258, -3.8, 0.1, 18.2)
+detection_range = 5.2
+wander_radius = 1.7
+
+[node name="WolfFragment_Roadside" parent="Enemies" instance=ExtResource("9_wolf")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 4.6, 0.1, 5.6)
+detection_range = 6.4
+wander_radius = 2.4
+
+[node name="WolfFragment_ForestBendLeft" parent="Enemies" instance=ExtResource("9_wolf")]
+transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, -4.8, 0.1, 9.6)
+detection_range = 5.8
+wander_radius = 1.9
+
+[node name="WolfFragment_ForestBendRight" parent="Enemies" instance=ExtResource("9_wolf")]
+transform = Transform3D(0.64278764, 0, -0.76604444, 0, 1, 0, 0.76604444, 0, 0.64278764, 5.7, 0.1, -0.6)
+detection_range = 5.6
+wander_radius = 1.8
+
+[node name="WolfFragment_HouseApproach" parent="Enemies" instance=ExtResource("9_wolf")]
+transform = Transform3D(-0.17364818, 0, 0.9848077, 0, 1, 0, -0.9848077, 0, -0.17364818, -5.3, 0.1, -15.4)
+detection_range = 7.2
+wander_radius = 2.2
+lunge_speed = 12.5
+
+[node name="WolfFragment_HouseGateLeft" parent="Enemies" instance=ExtResource("9_wolf")]
+transform = Transform3D(0.34202015, 0, 0.9396926, 0, 1, 0, -0.9396926, 0, 0.34202015, -2.4, 0.1, -18.6)
+detection_range = 6.1
+wander_radius = 1.6
+lunge_speed = 12.6
+
+[node name="WolfFragment_HouseGateRight" parent="Enemies" instance=ExtResource("9_wolf")]
+transform = Transform3D(0.42261827, 0, -0.9063078, 0, 1, 0, 0.9063078, 0, 0.42261827, 3.4, 0.1, -21.2)
+detection_range = 5.8
+wander_radius = 1.6
+lunge_speed = 12.8
+
+[node name="WolfFragment_HouseDoorGuard" parent="Enemies" instance=ExtResource("9_wolf")]
+transform = Transform3D(0.9848077, 0, 0.17364818, 0, 1, 0, -0.17364818, 0, 0.9848077, 0.8, 0.1, -24.2)
+detection_range = 5.2
+wander_radius = 1.25
+lunge_speed = 13.0
+
+[node name="Collectibles" type="Node3D" parent="."]
+
+[node name="Mooncap_Start" parent="Collectibles" instance=ExtResource("11_medicine")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9, 0.1, 23.2)
+
+[node name="Mooncap_AfterTutorial" parent="Collectibles" instance=ExtResource("11_medicine")]
+transform = Transform3D(0.9063078, 0, -0.42261827, 0, 1, 0, 0.42261827, 0, 0.9063078, 2.8, 0.1, 13.2)
+
+[node name="Bloodcap_Crossroads" parent="Collectibles" instance=ExtResource("11_medicine")]
+transform = Transform3D(0.81915206, 0, 0.57357645, 0, 1, 0, -0.57357645, 0, 0.81915206, -6, 0.1, 3.4)
+medicine_type = 1
+
+[node name="Mooncap_HouseApproach" parent="Collectibles" instance=ExtResource("11_medicine")]
+transform = Transform3D(0.9659258, 0, 0.25881904, 0, 1, 0, -0.25881904, 0, 0.9659258, 2.2, 0.1, -8.2)
+
+[node name="Bloodcap_BeforeHouse" parent="Collectibles" instance=ExtResource("11_medicine")]
+transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, -4.2, 0.1, -20.3)
+medicine_type = 1
+
+[node name="MemoryFragments" type="Node3D" parent="Collectibles"]
+
+[node name="Memory_RuleNote" parent="Collectibles/MemoryFragments" instance=ExtResource("12_memory")]
+transform = Transform3D(0.81915206, 0, -0.57357645, 0, 1, 0, 0.57357645, 0, 0.81915206, 0.9, 0.1, 25.8)
+fragment_id = "memory_01"
+fragment_title = "碎片 01：红色高跟鞋"
+fragment_line = "妈妈：沿着路走。别问路通向哪里。"
+fragment_style = 0
+voice_clip = ExtResource("13_mem01")
+subtitle_duration = 4.0
+
+[node name="Memory_DeletedPath" parent="Collectibles/MemoryFragments" instance=ExtResource("12_memory")]
+transform = Transform3D(0.9396926, 0, 0.34202015, 0, 1, 0, -0.34202015, 0, 0.9396926, -7.1, 0.1, 12.7)
+fragment_id = "memory_02"
+fragment_title = "碎片 02：断掉的路牌"
+fragment_line = "小红帽：这里原来有条小路，可村里的人说，我记错了。"
+fragment_style = 1
+voice_clip = ExtResource("14_mem02")
+subtitle_duration = 5.2
+
+[node name="Memory_Watcher" parent="Collectibles/MemoryFragments" instance=ExtResource("12_memory")]
+transform = Transform3D(0.64278764, 0, -0.76604444, 0, 1, 0, 0.76604444, 0, 0.64278764, 6.5, 0.1, 1.2)
+fragment_id = "memory_03"
+fragment_title = "碎片 03：树后的眼"
+fragment_line = "村民：看见她偏离道路，就告诉别人；这不是恶意，是规矩。"
+fragment_style = 2
+voice_clip = ExtResource("15_mem03")
+subtitle_duration = 5.2
+
+[node name="Memory_Hunter" parent="Collectibles/MemoryFragments" instance=ExtResource("12_memory")]
+transform = Transform3D(0.76604444, 0, 0.64278764, 0, 1, 0, -0.64278764, 0, 0.76604444, 5.5, 0.1, -24.0)
+fragment_id = "memory_04"
+fragment_title = "碎片 04：靠墙的斧徽"
+fragment_line = "猎人：等一切结束，我会把门踹开。那时他们会说，秩序来了。"
+fragment_style = 3
+voice_clip = ExtResource("16_mem04")
+subtitle_duration = 5.4
+
+[node name="Memory_GrandmaDoor" parent="Collectibles/MemoryFragments" instance=ExtResource("12_memory")]
+transform = Transform3D(0.9848077, 0, -0.17364818, 0, 1, 0, 0.17364818, 0, 0.9848077, -1.5, 0.1, -22.8)
+fragment_id = "memory_05"
+fragment_title = "碎片 05：反锁的门扣"
+fragment_line = "外婆：孩子，门不是我锁的。屋子学会了替他们关门。"
+fragment_style = 4
+voice_clip = ExtResource("17_mem05")
+subtitle_duration = 5.0
+
+[node name="Memory_WolfDefinition" parent="Collectibles/MemoryFragments" instance=ExtResource("12_memory")]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0.9, 0.1, -22.2)
+fragment_id = "memory_06"
+fragment_title = "碎片 06：半张狼面具"
+fragment_line = "狼：你以为我是狼？我是他们允许存在的那部分黑暗。"
+fragment_style = 5
+voice_clip = ExtResource("18_mem06")
+subtitle_duration = 5.0
+
+[node name="BossEncounter" parent="." instance=ExtResource("20_boss")]
+transform = Transform3D(0.9659258, 0, -0.25881904, 0, 1, 0, 0.25881904, 0, 0.9659258, 0.1, 0.1, -21.9)
+activation_range = 18.0
+spawn_interval = 6.2
+max_active_minions = 4
+
+[node name="FalseSafeDoor" parent="." instance=ExtResource("22_false_door")]
+transform = Transform3D(0.99939084, 0, -0.034899496, 0, 1, 0, 0.034899496, 0, 0.99939084, 0, 0.1, -23.8)
+
+[node name="HiddenForestExtension" parent="." instance=ExtResource("24_hidden_forest")]
+
+[node name="HiddenRoad" type="Node3D" parent="."]
+
+[node name="HiddenRoad_LeaveMainRoad" parent="HiddenRoad" instance=ExtResource("21_hidden_road")]
+transform = Transform3D(0.9063078, 0, -0.42261827, 0, 1, 0, 0.42261827, 0, 0.9063078, -7.0, 0.12, -23.9)
+required_fragments_csv = "memory_01,memory_02"
+segment_title = "第一段路：离开主路"
+locked_message = "你还在用别人留下的鞋印走路。那条被删掉的小路还不完整。"
+path_size = Vector3(3.1, 0.08, 5.6)
+
+[node name="HiddenRoad_AvoidGaze" parent="HiddenRoad" instance=ExtResource("21_hidden_road")]
+transform = Transform3D(0.76604444, 0, -0.64278764, 0, 1, 0, 0.64278764, 0, 0.76604444, -11.1, 0.12, -27.9)
+required_fragments_csv = "memory_03,memory_04"
+segment_title = "第二段路：避开凝视"
+locked_message = "树后的眼睛还在替你决定方向。迟来的斧徽只能照亮一瞬。"
+path_size = Vector3(3.0, 0.08, 5.6)
+preview_color = Color(0.28, 0.46, 1, 0.3)
+
+[node name="HiddenRoad_RejectDoor" parent="HiddenRoad" instance=ExtResource("21_hidden_road")]
+transform = Transform3D(0.64278764, 0, 0.76604444, 0, 1, 0, -0.76604444, 0, 0.64278764, -8.0, 0.12, -31.3)
+required_fragments_csv = "memory_05,memory_06"
+segment_title = "第三段路：不走正门"
+locked_message = "你仍以为门就是安全，也仍在用狼给你的名字理解狼。"
+path_size = Vector3(3.0, 0.08, 5.8)
+preview_color = Color(1, 0.04, 0.08, 0.34)
+
+[node name="HiddenRoadGoal" parent="HiddenRoad" instance=ExtResource("23_hidden_goal")]
+transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, -4.8, 0.14, -33.1)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=480581205]
+transform = Transform3D(0.85716736, 0.39280316, -0.3331213, -4.656613e-10, 0.6467898, 0.7626684, 0.515038, -0.6537344, 0.5544071, -6.260421, 37.204304, 8.886542)
+light_color = Color(1, 1, 0.7058824, 1)
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1189924292 groups=["player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 27)
+script = ExtResource("1_ig7tw")
+
+[node name="RunModel" parent="Player" unique_id=1392810359 instance=ExtResource("3_h2yge")]
+visible = false
+
+[node name="IdleModel" parent="Player" unique_id=1974997972 instance=ExtResource("2_0xm2m")]
+transform = Transform3D(0.9956594, -0.046725713, 0.08049272, 0, 0.8648449, 0.50203913, -0.093071856, -0.49986, 0.86109096, 0, 0.1, 27.835266)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=1587327740]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_mcm6f")
+
+[node name="Skeleton3D" type="Skeleton3D" parent="Player" unique_id=1012056889]
+
+[node name="JumpModel" parent="Player" unique_id=1706862951 instance=ExtResource("4_1bvp3")]
+visible = false
+
+[node name="Camera3D" type="Camera3D" parent="Player" unique_id=1944998629]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, -0.15)
+current = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1526688121]
+environment = SubResource("Environment_kus3t")
+
+[node name="PlayerStatusUI" parent="." instance=ExtResource("10_status")]
+
+[node name="SpawnPoint" type="Marker3D" parent="." unique_id=448188102]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 27)

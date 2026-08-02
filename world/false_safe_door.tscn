@@ -1,0 +1,64 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://world/false_safe_door.gd" id="1_script"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wall"]
+albedo_color = Color(0.16, 0.01, 0.015, 0.5)
+transparency = 1
+emission_enabled = true
+emission = Color(1, 0.02, 0.025, 1)
+emission_energy_multiplier = 0.6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_trap_floor"]
+albedo_color = Color(0.42, 0.01, 0.015, 0.68)
+emission_enabled = true
+emission = Color(1, 0.015, 0.02, 1)
+emission_energy_multiplier = 1.35
+transparency = 1
+roughness = 0.75
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall"]
+size = Vector3(3.8, 2.4, 0.24)
+
+[sub_resource type="BoxMesh" id="BoxMesh_trap_floor"]
+size = Vector3(5.8, 0.035, 4.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall"]
+size = Vector3(3.8, 2.4, 0.24)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_trigger"]
+size = Vector3(5.8, 2.8, 4.6)
+
+[node name="FalseSafeDoor" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="Barrier" type="StaticBody3D" parent="."]
+
+[node name="WallVisual" type="MeshInstance3D" parent="Barrier"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+mesh = SubResource("BoxMesh_wall")
+surface_material_override/0 = SubResource("StandardMaterial3D_wall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Barrier"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="TrapFloor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.16, 2.15)
+mesh = SubResource("BoxMesh_trap_floor")
+surface_material_override/0 = SubResource("StandardMaterial3D_trap_floor")
+
+[node name="TriggerArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 1
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TriggerArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 2.15)
+shape = SubResource("BoxShape3D_trigger")
+
+[node name="WarningLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 2.15)
+light_color = Color(1, 0.02, 0.02, 1)
+light_energy = 1.15
+omni_range = 5.4

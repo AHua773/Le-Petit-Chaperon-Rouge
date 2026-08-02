@@ -1,0 +1,635 @@
+[gd_scene load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://ui/app_launcher.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://ui/assets/app_menu_forest.png" id="2_background"]
+[ext_resource type="Texture2D" path="res://ui/assets/red_hood_loader.svg" id="3_loader"]
+[ext_resource type="FontFile" path="res://assets/fonts/NotoSansCJKsc-Regular.otf" id="4_font"]
+[ext_resource type="AudioStream" path="res://audio/music/witch_fantasia.wav" id="5_music"]
+
+[sub_resource type="StyleBoxFlat" id="Style_menu_panel"]
+bg_color = Color(0.035, 0.031, 0.038, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.62, 0.15, 0.18, 0.58)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="Style_button"]
+bg_color = Color(0.08, 0.075, 0.085, 0.94)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.32, 0.3, 0.32, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 18.0
+content_margin_right = 18.0
+
+[sub_resource type="StyleBoxFlat" id="Style_button_hover"]
+bg_color = Color(0.16, 0.075, 0.085, 0.98)
+border_width_left = 2
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.86, 0.26, 0.28, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 18.0
+content_margin_right = 18.0
+
+[sub_resource type="StyleBoxFlat" id="Style_primary"]
+bg_color = Color(0.68, 0.11, 0.15, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.96, 0.45, 0.37, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 18.0
+content_margin_right = 18.0
+
+[sub_resource type="StyleBoxFlat" id="Style_primary_hover"]
+bg_color = Color(0.82, 0.16, 0.18, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.69, 0.46, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 18.0
+content_margin_right = 18.0
+
+[sub_resource type="StyleBoxFlat" id="Style_modal"]
+bg_color = Color(0.045, 0.041, 0.05, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.72, 0.54, 0.32, 0.82)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="Style_progress_bg"]
+bg_color = Color(0.09, 0.085, 0.095, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.28, 0.26, 0.28, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="Style_progress_fill"]
+bg_color = Color(0.78, 0.13, 0.17, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="Style_slider"]
+bg_color = Color(0.12, 0.11, 0.12, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="Style_slider_fill"]
+bg_color = Color(0.76, 0.14, 0.18, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="Style_check"]
+bg_color = Color(0.12, 0.11, 0.12, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4, 0.36, 0.37, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="Style_check_pressed"]
+bg_color = Color(0.72, 0.14, 0.18, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.96, 0.62, 0.4, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="AppLauncher" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_background")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="AtmosphereTint" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.015, 0.02, 0.025, 0.16)
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_music")
+volume_db = -8.0
+autoplay = true
+
+[node name="SafeArea" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuPanel" type="PanelContainer" parent="SafeArea"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(388, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.035
+anchor_top = 0.055
+anchor_right = 0.39
+anchor_bottom = 0.945
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("Style_menu_panel")
+
+[node name="Margin" type="MarginContainer" parent="SafeArea/MenuPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 22
+
+[node name="Content" type="VBoxContainer" parent="SafeArea/MenuPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="Category" type="Label" parent="SafeArea/MenuPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.66, 0.39, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 12
+text = "STORY-DRIVEN SURVIVAL"
+
+[node name="Title" type="Label" parent="SafeArea/MenuPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.97, 0.92, 0.84, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 34
+text = "LE PETIT\nCHAPERON ROUGE"
+
+[node name="Rule" type="ColorRect" parent="SafeArea/MenuPanel/Margin/Content"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.72, 0.12, 0.16, 1)
+
+[node name="Subtitle" type="Label" parent="SafeArea/MenuPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.7, 0.68, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 15
+text = "A forest of borrowed rules."
+
+[node name="Gap" type="Control" parent="SafeArea/MenuPanel/Margin/Content"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="SafeArea/MenuPanel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../NewJourneyButton")
+theme_override_colors/font_color = Color(1, 0.94, 0.85, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("Style_primary")
+theme_override_styles/hover = SubResource("Style_primary_hover")
+theme_override_styles/pressed = SubResource("Style_primary_hover")
+theme_override_styles/focus = SubResource("Style_primary_hover")
+text = "START JOURNEY"
+alignment = 0
+
+[node name="NewJourneyButton" type="Button" parent="SafeArea/MenuPanel/Margin/Content"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+focus_neighbor_top = NodePath("../StartButton")
+focus_neighbor_bottom = NodePath("../HowToPlayButton")
+theme_override_colors/font_color = Color(0.9, 0.76, 0.7, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+theme_override_styles/focus = SubResource("Style_button_hover")
+text = "NEW JOURNEY"
+alignment = 0
+
+[node name="HowToPlayButton" type="Button" parent="SafeArea/MenuPanel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+focus_neighbor_top = NodePath("../NewJourneyButton")
+focus_neighbor_bottom = NodePath("../SettingsButton")
+theme_override_colors/font_color = Color(0.9, 0.87, 0.82, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+theme_override_styles/focus = SubResource("Style_button_hover")
+text = "HOW TO PLAY"
+alignment = 0
+
+[node name="SettingsButton" type="Button" parent="SafeArea/MenuPanel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+focus_neighbor_top = NodePath("../HowToPlayButton")
+focus_neighbor_bottom = NodePath("../CreditsButton")
+theme_override_colors/font_color = Color(0.9, 0.87, 0.82, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+theme_override_styles/focus = SubResource("Style_button_hover")
+text = "SETTINGS"
+alignment = 0
+
+[node name="CreditsButton" type="Button" parent="SafeArea/MenuPanel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+focus_neighbor_top = NodePath("../SettingsButton")
+theme_override_colors/font_color = Color(0.9, 0.87, 0.82, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+theme_override_styles/focus = SubResource("Style_button_hover")
+text = "CREDITS"
+alignment = 0
+
+[node name="FlexibleSpace" type="Control" parent="SafeArea/MenuPanel/Margin/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MemoryHint" type="Label" parent="SafeArea/MenuPanel/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.42, 0.38, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 12
+text = "6 MEMORIES  |  1 ERASED ROAD"
+
+[node name="Version" type="Label" parent="SafeArea/MenuPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.46, 0.47, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 11
+text = "COURSE PROTOTYPE  |  v1.0.4"
+
+[node name="LoadingView" type="Control" parent="SafeArea"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Center" type="CenterContainer" parent="SafeArea/LoadingView"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LoadingContent" type="VBoxContainer" parent="SafeArea/LoadingView/Center"]
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LoadingIcon" type="TextureRect" parent="SafeArea/LoadingView/Center/LoadingContent"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+pivot_offset = Vector2(38, 38)
+texture = ExtResource("3_loader")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="LoadingStage" type="Label" parent="SafeArea/LoadingView/Center/LoadingContent"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.89, 0.74, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 22
+text = "PREPARING THE FOREST"
+horizontal_alignment = 1
+
+[node name="LoadingDetail" type="Label" parent="SafeArea/LoadingView/Center/LoadingContent"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.73, 0.72, 0.71, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 14
+text = "Gathering the road, the trees, and what waits between them."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ProgressRow" type="HBoxContainer" parent="SafeArea/LoadingView/Center/LoadingContent"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LoadingProgress" type="ProgressBar" parent="SafeArea/LoadingView/Center/LoadingContent/ProgressRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 14)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/background = SubResource("Style_progress_bg")
+theme_override_styles/fill = SubResource("Style_progress_fill")
+show_percentage = false
+
+[node name="LoadingPercent" type="Label" parent="SafeArea/LoadingView/Center/LoadingContent/ProgressRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.8, 0.56, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 13
+text = "0%"
+horizontal_alignment = 2
+
+[node name="LoadingReturnButton" type="Button" parent="SafeArea/LoadingView/Center/LoadingContent"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(240, 46)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.9, 0.87, 0.82, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+theme_override_styles/focus = SubResource("Style_button_hover")
+text = "RETURN TO MENU"
+
+[node name="ModalOverlay" type="ColorRect" parent="SafeArea"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.01, 0.01, 0.015, 0.76)
+
+[node name="Center" type="CenterContainer" parent="SafeArea/ModalOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ModalPanel" type="PanelContainer" parent="SafeArea/ModalOverlay/Center"]
+custom_minimum_size = Vector2(720, 440)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Style_modal")
+
+[node name="Margin" type="MarginContainer" parent="SafeArea/ModalOverlay/Center/ModalPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 26
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 24
+
+[node name="Content" type="VBoxContainer" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="ModalTitle" type="Label" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.82, 0.56, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 25
+text = "HOW TO PLAY"
+
+[node name="Rule" type="ColorRect" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.55, 0.18, 0.19, 1)
+
+[node name="HowToPlayText" type="RichTextLabel" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 284)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.86, 0.84, 0.81, 1)
+theme_override_colors/font_selected_color = Color(0.86, 0.84, 0.81, 1)
+theme_override_fonts/normal_font = ExtResource("4_font")
+theme_override_fonts/bold_font = ExtResource("4_font")
+theme_override_font_sizes/normal_font_size = 16
+theme_override_font_sizes/bold_font_size = 16
+bbcode_enabled = true
+text = "[color=#f1c27d][b]YOUR TASK[/b][/color]\nRecover all six memory fragments. Each object reveals part of the truth and changes the forest.\n\n[color=#f1c27d][b]SURVIVE[/b][/color]\nWolves pause before a straight lunge. Move sideways and use trees, stones, and walls as cover. Damage reduces both health and sanity.\n\n[color=#f1c27d][b]FIND THE ROAD[/b][/color]\nThe safe-looking front door is a trap. When the truth is restored, return to the Broken Signpost and follow the red thread.\n\n[color=#928b88]Touch controls appear inside the game. Open BAG to review every collected memory.[/color]"
+fit_content = true
+
+[node name="SettingsBox" type="VBoxContainer" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 284)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+
+[node name="VolumeLabel" type="Label" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content/SettingsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.83, 0.64, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 15
+text = "MASTER VOLUME"
+
+[node name="VolumeRow" type="HBoxContainer" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content/SettingsBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MasterVolumeSlider" type="HSlider" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content/SettingsBox/VolumeRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(440, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/slider = SubResource("Style_slider")
+theme_override_styles/grabber_area = SubResource("Style_slider_fill")
+theme_override_styles/grabber_area_highlight = SubResource("Style_slider_fill")
+value = 82.0
+
+[node name="MasterVolumeValue" type="Label" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content/SettingsBox/VolumeRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(62, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.93, 0.9, 0.84, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 15
+text = "82%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ReduceMotionCheck" type="CheckButton" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content/SettingsBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.85, 0.81, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 15
+text = "REDUCE UI MOTION"
+
+[node name="MotionDescription" type="Label" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content/SettingsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.58, 0.56, 0.56, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 13
+text = "Stops decorative motion on loading and menu screens."
+
+[node name="CreditsText" type="RichTextLabel" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 284)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.84, 0.82, 0.8, 1)
+theme_override_fonts/normal_font = ExtResource("4_font")
+theme_override_fonts/bold_font = ExtResource("4_font")
+theme_override_font_sizes/normal_font_size = 16
+theme_override_font_sizes/bold_font_size = 16
+bbcode_enabled = true
+text = "[color=#f1c27d][b]LE PETIT CHAPERON ROUGE[/b][/color]\nA story-driven survival prototype created as an app course project.\n\n[b]Engine[/b]  Godot 4.7\n[b]Format[/b]  Landscape mobile game\n[b]Theme[/b]  Memory, obedience, and the structures that define safety\n\n[color=#928b88]Music: Witch Fantasia\nThird-party assets remain credited with their source packages inside the project.[/color]"
+fit_content = true
+
+[node name="NewJourneyConfirm" type="VBoxContainer" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 284)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 14
+
+[node name="Message" type="Label" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content/NewJourneyConfirm"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.83, 0.79, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 17
+text = "Starting again will erase the current journey.\nRecovered memories and checkpoint progress cannot be restored."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Spacer" type="Control" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content/NewJourneyConfirm"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ConfirmNewJourneyButton" type="Button" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content/NewJourneyConfirm"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.94, 0.85, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("Style_primary")
+theme_override_styles/hover = SubResource("Style_primary_hover")
+theme_override_styles/pressed = SubResource("Style_primary_hover")
+theme_override_styles/focus = SubResource("Style_primary_hover")
+text = "ERASE AND BEGIN"
+
+[node name="CancelNewJourneyButton" type="Button" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content/NewJourneyConfirm"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+theme_override_styles/focus = SubResource("Style_button_hover")
+text = "KEEP CURRENT JOURNEY"
+
+[node name="ModalBackButton" type="Button" parent="SafeArea/ModalOverlay/Center/ModalPanel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 46)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0.9, 0.87, 0.82, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+theme_override_styles/focus = SubResource("Style_button_hover")
+text = "BACK"

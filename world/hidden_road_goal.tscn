@@ -1,0 +1,166 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://world/hidden_road_goal.gd" id="1_script"]
+[ext_resource type="FontFile" path="res://assets/fonts/NotoSansCJKsc-Regular.otf" id="2_font"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_marker"]
+albedo_color = Color(1, 0.78, 0.08, 0.82)
+transparency = 1
+emission_enabled = true
+emission = Color(1, 0.62, 0.03, 1)
+emission_energy_multiplier = 1.9
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_beacon"]
+albedo_color = Color(1, 0.72, 0.08, 0.5)
+transparency = 1
+emission_enabled = true
+emission = Color(1, 0.62, 0.03, 1)
+emission_energy_multiplier = 2.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wave"]
+albedo_color = Color(1, 0.76, 0.08, 0.42)
+transparency = 1
+emission_enabled = true
+emission = Color(1, 0.58, 0.03, 1)
+emission_energy_multiplier = 3.2
+roughness = 0.35
+
+[sub_resource type="Shader" id="Shader_safe_filter"]
+code = "shader_type canvas_item;
+
+uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_linear;
+uniform float intensity : hint_range(0.0, 1.0) = 0.0;
+
+void fragment() {
+	vec4 scene = texture(screen_texture, SCREEN_UV);
+	float luminance = dot(scene.rgb, vec3(0.299, 0.587, 0.114));
+	vec3 softened = mix(scene.rgb, vec3(luminance), 0.24);
+	vec3 warm = softened * vec3(1.12, 1.035, 0.86) + vec3(0.025, 0.012, 0.0);
+	float edge = smoothstep(0.28, 0.76, distance(SCREEN_UV, vec2(0.5)));
+	warm *= 1.0 - edge * 0.34;
+	COLOR = vec4(mix(scene.rgb, warm, intensity), scene.a);
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_safe_filter"]
+shader = SubResource("Shader_safe_filter")
+shader_parameter/intensity = 0.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_marker"]
+top_radius = 1.45
+bottom_radius = 1.45
+height = 0.055
+radial_segments = 32
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_wave"]
+top_radius = 1.5
+bottom_radius = 1.5
+height = 0.025
+radial_segments = 48
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_beacon"]
+top_radius = 0.08
+bottom_radius = 0.16
+height = 2.0
+radial_segments = 24
+rings = 1
+
+[sub_resource type="SphereMesh" id="SphereMesh_beacon_core"]
+radius = 0.28
+height = 0.56
+radial_segments = 16
+rings = 8
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_goal"]
+radius = 0.85
+
+[node name="HiddenRoadGoal" type="Area3D"]
+collision_layer = 0
+collision_mask = 1
+monitorable = false
+script = ExtResource("1_script")
+
+[node name="Marker" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+mesh = SubResource("CylinderMesh_marker")
+surface_material_override/0 = SubResource("StandardMaterial3D_marker")
+
+[node name="BeaconBeam" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
+mesh = SubResource("CylinderMesh_beacon")
+surface_material_override/0 = SubResource("StandardMaterial3D_beacon")
+
+[node name="BeaconCore" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+mesh = SubResource("SphereMesh_beacon_core")
+surface_material_override/0 = SubResource("StandardMaterial3D_beacon")
+
+[node name="CompletionWave" type="MeshInstance3D" parent="."]
+visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.075, 0)
+mesh = SubResource("CylinderMesh_wave")
+surface_material_override/0 = SubResource("StandardMaterial3D_wave")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("SphereShape3D_goal")
+
+[node name="GoalLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+light_color = Color(1, 0.72, 0.08, 1)
+light_energy = 1.5
+omni_range = 5.8
+
+[node name="SafetyOverlay" type="CanvasLayer" parent="."]
+layer = 20
+visible = false
+
+[node name="Filter" type="ColorRect" parent="SafetyOverlay"]
+material = SubResource("ShaderMaterial_safe_filter")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 1)
+
+[node name="SafetyMessage" type="VBoxContainer" parent="SafetyOverlay"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -54.0
+offset_right = 300.0
+offset_bottom = 54.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="SafetyOverlay/SafetyMessage"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.42, 1)
+theme_override_colors/font_shadow_color = Color(0.06, 0.025, 0.01, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 30
+text = "THE THRESHOLD"
+horizontal_alignment = 1
+
+[node name="Line" type="Label" parent="SafetyOverlay/SafetyMessage"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.96, 0.82, 1)
+theme_override_colors/font_shadow_color = Color(0.06, 0.025, 0.01, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+text = "You found the house. You no longer mistake obedience for safety."
+horizontal_alignment = 1
+autowrap_mode = 3

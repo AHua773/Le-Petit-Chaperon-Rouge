@@ -1,0 +1,341 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/player_status_ui.gd" id="1_script"]
+[ext_resource type="FontFile" path="res://assets/fonts/NotoSansCJKsc-Regular.otf" id="2_chinese_font"]
+
+[sub_resource type="Shader" id="Shader_screen_blur"]
+code = "shader_type canvas_item;
+
+uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_linear_mipmap;
+uniform float blur_strength = 0.0;
+
+void fragment() {
+	vec2 offset = SCREEN_PIXEL_SIZE * blur_strength;
+	vec4 center = texture(screen_texture, SCREEN_UV);
+	vec4 blur = center * 0.227027;
+	blur += texture(screen_texture, SCREEN_UV + vec2(offset.x, 0.0)) * 0.1945946;
+	blur += texture(screen_texture, SCREEN_UV - vec2(offset.x, 0.0)) * 0.1945946;
+	blur += texture(screen_texture, SCREEN_UV + vec2(0.0, offset.y)) * 0.1945946;
+	blur += texture(screen_texture, SCREEN_UV - vec2(0.0, offset.y)) * 0.1945946;
+	COLOR = mix(center, blur, clamp(blur_strength / 6.0, 0.0, 1.0));
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_screen_blur"]
+shader = SubResource("Shader_screen_blur")
+shader_parameter/blur_strength = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_bg"]
+bg_color = Color(0.025, 0.02, 0.03, 0.78)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.18, 0.16, 0.2, 0.9)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health_fill"]
+bg_color = Color(0.78, 0.02, 0.02, 0.92)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sanity_fill"]
+bg_color = Color(0.22, 0.42, 0.95, 0.9)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_memory_panel"]
+bg_color = Color(0.018, 0.016, 0.024, 0.84)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0.7, 0.42, 0.5)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 18.0
+content_margin_top = 12.0
+content_margin_right = 18.0
+content_margin_bottom = 14.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_objective_panel"]
+bg_color = Color(0.018, 0.016, 0.024, 0.78)
+border_width_left = 2
+border_color = Color(0.95, 0.12, 0.12, 0.82)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+content_margin_left = 14.0
+content_margin_top = 9.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_game_over_panel"]
+bg_color = Color(0.035, 0.031, 0.038, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.62, 0.15, 0.18, 0.58)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_game_over_button"]
+bg_color = Color(0.68, 0.11, 0.15, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.96, 0.45, 0.37, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 18.0
+content_margin_right = 18.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_game_over_button_hover"]
+bg_color = Color(0.82, 0.16, 0.18, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.69, 0.46, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 18.0
+content_margin_right = 18.0
+
+[node name="PlayerStatusUI" type="CanvasLayer" groups=["player_status_ui"]]
+script = ExtResource("1_script")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BlurOverlay" type="ColorRect" parent="Root"]
+material = SubResource("ShaderMaterial_screen_blur")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 1)
+
+[node name="SanityOverlay" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.02, 0, 0.045, 0)
+
+[node name="DamageOverlay" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.72, 0.02, 0.01, 0)
+
+[node name="Meters" type="VBoxContainer" parent="Root"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 20.0
+offset_right = 282.0
+offset_bottom = 98.0
+theme_override_constants/separation = 4
+
+[node name="HealthLabel" type="Label" parent="Root/Meters"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.84, 1)
+theme_override_font_sizes/font_size = 13
+text = "HEALTH 100 / 100"
+
+[node name="HealthBar" type="ProgressBar" parent="Root/Meters"]
+custom_minimum_size = Vector2(260, 14)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_health_fill")
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="SanityLabel" type="Label" parent="Root/Meters"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 13
+text = "SAN 100 / 100"
+
+[node name="SanityBar" type="ProgressBar" parent="Root/Meters"]
+custom_minimum_size = Vector2(260, 12)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_sanity_fill")
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="ObjectivePanel" type="PanelContainer" parent="Root"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 112.0
+offset_right = 390.0
+offset_bottom = 184.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_objective_panel")
+
+[node name="Margin" type="MarginContainer" parent="Root/ObjectivePanel"]
+layout_mode = 2
+
+[node name="Text" type="VBoxContainer" parent="Root/ObjectivePanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Title" type="Label" parent="Root/ObjectivePanel/Margin/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.42, 0.38, 1)
+theme_override_fonts/font = ExtResource("2_chinese_font")
+theme_override_font_sizes/font_size = 12
+text = "CURRENT OBJECTIVE"
+
+[node name="Line" type="Label" parent="Root/ObjectivePanel/Margin/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_fonts/font = ExtResource("2_chinese_font")
+theme_override_font_sizes/font_size = 16
+text = "Recover the six forgotten objects.  0/6"
+autowrap_mode = 3
+
+[node name="MemoryPanel" type="PanelContainer" parent="Root"]
+visible = false
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -360.0
+offset_top = -136.0
+offset_right = 360.0
+offset_bottom = -34.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_memory_panel")
+
+[node name="Margin" type="MarginContainer" parent="Root/MemoryPanel"]
+layout_mode = 2
+
+[node name="Text" type="VBoxContainer" parent="Root/MemoryPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="Root/MemoryPanel/Margin/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.52, 1)
+theme_override_fonts/font = ExtResource("2_chinese_font")
+theme_override_font_sizes/font_size = 14
+text = "MEMORY FRAGMENT"
+
+[node name="Line" type="Label" parent="Root/MemoryPanel/Margin/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_fonts/font = ExtResource("2_chinese_font")
+theme_override_font_sizes/font_size = 20
+text = "Follow the path. Don't ask where it leads."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="GameOverOverlay" type="ColorRect" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.01, 0.005, 0.008, 0.84)
+
+[node name="Center" type="CenterContainer" parent="GameOverOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="GameOverOverlay/Center"]
+custom_minimum_size = Vector2(560, 310)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_game_over_panel")
+
+[node name="Margin" type="MarginContainer" parent="GameOverOverlay/Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 42
+theme_override_constants/margin_top = 34
+theme_override_constants/margin_right = 42
+theme_override_constants/margin_bottom = 34
+
+[node name="Content" type="VBoxContainer" parent="GameOverOverlay/Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="Title" type="Label" parent="GameOverOverlay/Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.97, 0.92, 0.84, 1)
+theme_override_fonts/font = ExtResource("2_chinese_font")
+theme_override_font_sizes/font_size = 34
+text = "JOURNEY ENDED"
+horizontal_alignment = 1
+
+[node name="Message" type="Label" parent="GameOverOverlay/Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.7, 0.68, 1)
+theme_override_fonts/font = ExtResource("2_chinese_font")
+theme_override_font_sizes/font_size = 15
+text = "The forest has claimed Little Red Riding Hood."
+horizontal_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="GameOverOverlay/Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="RetryButton" type="Button" parent="GameOverOverlay/Center/Panel/Margin/Content/Buttons"]
+custom_minimum_size = Vector2(200, 64)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.94, 0.9, 1)
+theme_override_fonts/font = ExtResource("2_chinese_font")
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_game_over_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_game_over_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_game_over_button_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_game_over_button_hover")
+text = "TRY AGAIN"
+
+[node name="MenuButton" type="Button" parent="GameOverOverlay/Center/Panel/Margin/Content/Buttons"]
+custom_minimum_size = Vector2(200, 64)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.94, 0.9, 1)
+theme_override_fonts/font = ExtResource("2_chinese_font")
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_game_over_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_game_over_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_game_over_button_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_game_over_button_hover")
+text = "RETURN TO MENU"
